@@ -3957,20 +3957,28 @@ function exportarPDF(sub) {
 <meta charset="UTF-8">
 <title>Reporte TT — ${NOMBRE_SUB[sub]}</title>
 <style>
-  /* Carta vertical con márgenes generosos para que el contenido respire
-     y no toque las orillas al imprimir. */
-  @page { size: letter portrait; margin: 18mm 16mm 16mm 16mm; }
+  /* Carta vertical con márgenes amplios. Defensa en profundidad:
+     1) @page margin (los navegadores Chrome/Edge respetan esto)
+     2) padding interno del wrapper en print (por si el navegador ignora
+        @page o el driver de impresora añade área no imprimible)
+     3) html/body sin padding propio (cero) para no acumular más */
+  @page { size: letter portrait; margin: 22mm 20mm 20mm 20mm; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: white; }
   body { font-family: 'Inter', -apple-system, Segoe UI, sans-serif; color: #1A1A1A; font-size: 10.5px; line-height: 1.4; padding: 0; }
 
-  /* Contenedor en pantalla: simula la hoja con padding interno */
+  /* En pantalla simulamos la hoja con un wrapper centrado y padding interno */
   .rep-pagina {
     max-width: 760px;
     margin: 0 auto;
-    padding: 22px 26px 26px;
+    padding: 26px 32px 32px;
   }
-  @media print { .rep-pagina { max-width: none; padding: 0; margin: 0; } }
+  /* En print conservamos algo de padding interno (6mm/5mm) además del
+     @page margin — algunas impresoras tienen 5-7mm de área no imprimible y
+     sin este colchón el contenido del borde se pierde. */
+  @media print {
+    .rep-pagina { max-width: none; padding: 5mm 6mm 6mm; margin: 0; }
+  }
 
   .rep-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; border-bottom: 2px solid #691C32; padding-bottom: 12px; margin-bottom: 14px; }
   .rep-marca { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
