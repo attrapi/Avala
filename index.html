@@ -278,7 +278,435 @@
 
   /* === APP === */
   .app { display: none; min-height: 100vh; }
-  .app.activa { display: block; }
+  .app.activa { display: flex; flex-direction: column; }
+
+  /* === LAYOUT CON SIDEBAR ===
+     Sidebar fija a la izquierda, contenido principal a la derecha.
+     El nav superior y el banner demo van full-width arriba del grid. */
+  .app-body {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    align-items: start;
+    flex: 1;
+  }
+  .app-main {
+    min-width: 0; /* permite que el contenido haga shrink dentro del grid */
+  }
+
+  /* === SIDEBAR === */
+  .sidebar {
+    background: white;
+    border-right: 1px solid var(--linea);
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 24px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .sidebar-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sidebar-grupo-titulo {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tinta-tenue);
+    padding: 0 14px 6px;
+  }
+  .sidebar-item {
+    background: none;
+    border: none;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--tinta-suave);
+    transition: background 0.14s, color 0.14s;
+    position: relative;
+  }
+  .sidebar-item svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.78;
+  }
+  .sidebar-item:hover {
+    background: var(--crema);
+    color: var(--tinta);
+  }
+  .sidebar-item.activa {
+    background: var(--guinda-tenue);
+    color: var(--guinda);
+    font-weight: 600;
+  }
+  .sidebar-item.activa svg { opacity: 1; }
+  .sidebar-item.activa::before {
+    content: '';
+    position: absolute;
+    left: -14px;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    background: var(--guinda);
+    border-radius: 0 3px 3px 0;
+  }
+  .sidebar-conteo {
+    margin-left: auto;
+    background: var(--grafito-tenue);
+    color: var(--tinta-tenue);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+    line-height: 1.4;
+  }
+  .sidebar-item.activa .sidebar-conteo {
+    background: rgba(105,28,50,0.15);
+    color: var(--guinda);
+  }
+  /* Marcador circular de color para cada subdirección. */
+  .sub-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.12);
+  }
+  /* En items de subdirección activos, el dot conserva su color y agregamos
+     una franja izquierda con el color de la sub en lugar del guinda genérico. */
+  .sidebar-sub.activa[data-sub="SA"]::before   { background: var(--sub-sa); }
+  .sidebar-sub.activa[data-sub="SGOI"]::before { background: var(--sub-sgoi); }
+  .sidebar-sub.activa[data-sub="SPAC"]::before { background: var(--sub-spac); }
+  .sidebar-sub.activa[data-sub="SA"]   { background: var(--sub-sa-tenue);   color: var(--sub-sa); }
+  .sidebar-sub.activa[data-sub="SGOI"] { background: var(--sub-sgoi-tenue); color: var(--sub-sgoi); }
+  .sidebar-sub.activa[data-sub="SPAC"] { background: var(--sub-spac-tenue); color: var(--sub-spac); }
+  .sidebar-sub.activa[data-sub="SA"]   .sidebar-conteo { background: rgba(93,64,55,0.15);  color: var(--sub-sa); }
+  .sidebar-sub.activa[data-sub="SGOI"] .sidebar-conteo { background: rgba(22,101,52,0.15); color: var(--sub-sgoi); }
+  .sidebar-sub.activa[data-sub="SPAC"] .sidebar-conteo { background: rgba(30,58,138,0.15); color: var(--sub-spac); }
+
+  /* === CONTROL DE VISIBILIDAD POR VISTA ===
+     Cada vista alterna oculta/muestra los bloques que le corresponden. */
+  .app-main[data-vista="tablero"]   #calendarioWrap,
+  .app-main[data-vista="tablero"]   #bitacoraWrap,
+  .app-main[data-vista="tablero"]   #cargaWrap,
+  .app-main[data-vista="tablero"]   #reportesWrap { display: none; }
+
+  .app-main[data-vista="calendario"] .kpis,
+  .app-main[data-vista="calendario"] #tablero,
+  .app-main[data-vista="calendario"] #bitacoraWrap,
+  .app-main[data-vista="calendario"] #cargaWrap,
+  .app-main[data-vista="calendario"] #reportesWrap { display: none; }
+  .app-main[data-vista="calendario"] #calendarioWrap { display: block; }
+
+  .app-main[data-vista="bitacora"] .kpis,
+  .app-main[data-vista="bitacora"] .tabs-wrap,
+  .app-main[data-vista="bitacora"] .filtros,
+  .app-main[data-vista="bitacora"] #tablero,
+  .app-main[data-vista="bitacora"] #calendarioWrap,
+  .app-main[data-vista="bitacora"] #cargaWrap,
+  .app-main[data-vista="bitacora"] #reportesWrap { display: none; }
+  .app-main[data-vista="bitacora"] #bitacoraWrap { display: block; }
+
+  .app-main[data-vista="carga"] .kpis,
+  .app-main[data-vista="carga"] .tabs-wrap,
+  .app-main[data-vista="carga"] .filtros,
+  .app-main[data-vista="carga"] #tablero,
+  .app-main[data-vista="carga"] #calendarioWrap,
+  .app-main[data-vista="carga"] #bitacoraWrap,
+  .app-main[data-vista="carga"] #reportesWrap { display: none; }
+  .app-main[data-vista="carga"] #cargaWrap { display: block; }
+
+  .app-main[data-vista="reportes"] .kpis,
+  .app-main[data-vista="reportes"] .tabs-wrap,
+  .app-main[data-vista="reportes"] .filtros,
+  .app-main[data-vista="reportes"] #tablero,
+  .app-main[data-vista="reportes"] #calendarioWrap,
+  .app-main[data-vista="reportes"] #bitacoraWrap,
+  .app-main[data-vista="reportes"] #cargaWrap { display: none; }
+  .app-main[data-vista="reportes"] #reportesWrap { display: block; }
+
+  /* === BITÁCORA (auditoría) === */
+  .bitacora-wrap {
+    max-width: 1200px;
+    margin: 24px auto 48px;
+    padding: 0 32px;
+    display: none;
+  }
+  .bitacora-titulo-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .bitacora-titulo-fila h2 {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--tinta);
+  }
+  .bitacora-meta {
+    font-size: 12px;
+    color: var(--tinta-tenue);
+  }
+  .bitacora-card {
+    background: white;
+    border: 1px solid var(--linea);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .bitacora-row {
+    display: grid;
+    grid-template-columns: 170px 110px 1.4fr 1fr;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--linea);
+    font-size: 13px;
+  }
+  .bitacora-row:last-child { border-bottom: none; }
+  .bitacora-row.cabecera {
+    background: var(--crema);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--tinta-tenue);
+    padding: 10px 20px;
+  }
+  .bitacora-fecha-cell {
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 12px;
+    color: var(--tinta-suave);
+  }
+  .bitacora-accion {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: center;
+  }
+  .bitacora-accion.validar  { background: var(--ambar-tenue); color: var(--ambar); }
+  .bitacora-accion.liberar  { background: var(--verde-tenue); color: var(--verde); }
+  .bitacora-accion.devolver { background: #FEE2E2; color: var(--rojo); }
+  .bitacora-accion.crear    { background: var(--azul-tenue); color: var(--azul); }
+  .bitacora-tarea {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .bitacora-tarea-id {
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--grafito-tenue);
+    color: var(--tinta-suave);
+    flex-shrink: 0;
+  }
+  .bitacora-tarea[data-sub="SA"]   .bitacora-tarea-id { background: var(--sub-sa-tenue);   color: var(--sub-sa); }
+  .bitacora-tarea[data-sub="SGOI"] .bitacora-tarea-id { background: var(--sub-sgoi-tenue); color: var(--sub-sgoi); }
+  .bitacora-tarea[data-sub="SPAC"] .bitacora-tarea-id { background: var(--sub-spac-tenue); color: var(--sub-spac); }
+  .bitacora-tarea-titulo {
+    color: var(--tinta);
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bitacora-cambio {
+    font-size: 11px;
+    color: var(--tinta-suave);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .bitacora-cambio-arrow {
+    color: var(--tinta-tenue);
+  }
+  .bitacora-usuario {
+    font-size: 11px;
+    color: var(--tinta-tenue);
+    margin-top: 2px;
+  }
+  .bitacora-vacio {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--tinta-tenue);
+    font-size: 13px;
+  }
+
+  /* === CARGA POR RESPONSABLE === */
+  .carga-wrap {
+    max-width: 1300px;
+    margin: 24px auto 48px;
+    padding: 0 32px;
+    display: none;
+  }
+  .carga-titulo {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--tinta);
+    margin-bottom: 14px;
+  }
+  .carga-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+  .carga-card {
+    background: white;
+    border: 1px solid var(--linea);
+    border-radius: 6px;
+    padding: 18px;
+  }
+  .carga-card[data-sub="SA"]   { border-top: 3px solid var(--sub-sa); }
+  .carga-card[data-sub="SGOI"] { border-top: 3px solid var(--sub-sgoi); }
+  .carga-card[data-sub="SPAC"] { border-top: 3px solid var(--sub-spac); }
+  .carga-resp {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .carga-resp-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--guinda);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .carga-card[data-sub="SA"]   .carga-resp-avatar { background: var(--sub-sa); }
+  .carga-card[data-sub="SGOI"] .carga-resp-avatar { background: var(--sub-sgoi); }
+  .carga-card[data-sub="SPAC"] .carga-resp-avatar { background: var(--sub-spac); }
+  .carga-resp-info { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+  .carga-resp-nombre { font-weight: 600; font-size: 14px; color: var(--tinta); }
+  .carga-resp-sub { font-size: 10px; color: var(--tinta-tenue); text-transform: uppercase; letter-spacing: 0.08em; }
+  .carga-total {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--tinta);
+    line-height: 1;
+  }
+  .carga-bar {
+    display: flex;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--linea);
+    margin: 6px 0 12px;
+  }
+  .carga-bar-seg { transition: flex 0.3s; min-width: 0; }
+  .carga-bar-reportada { background: var(--azul); }
+  .carga-bar-revision  { background: var(--ambar); }
+  .carga-bar-validada  { background: var(--verde); }
+  .carga-bar-liberada  { background: var(--grafito); }
+  .carga-detalle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 16px;
+    font-size: 12px;
+  }
+  .carga-detalle-row {
+    display: flex;
+    justify-content: space-between;
+    color: var(--tinta-suave);
+  }
+  .carga-detalle-val { font-weight: 700; color: var(--tinta); }
+  .carga-detalle-vencidas .carga-detalle-val { color: var(--rojo); }
+
+  /* === REPORTES === */
+  .reportes-wrap {
+    max-width: 1100px;
+    margin: 24px auto 48px;
+    padding: 0 32px;
+    display: none;
+  }
+  .reportes-titulo {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--tinta);
+    margin-bottom: 14px;
+  }
+  .reportes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .reporte-card {
+    background: white;
+    border: 1px solid var(--linea);
+    border-radius: 6px;
+    padding: 22px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .reporte-card:hover {
+    border-color: var(--guinda);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    transform: translateY(-1px);
+  }
+  .reporte-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    background: var(--guinda-tenue);
+    color: var(--guinda);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+  .reporte-icon svg { width: 22px; height: 22px; }
+  .reporte-titulo { font-size: 15px; font-weight: 600; color: var(--tinta); margin-bottom: 6px; }
+  .reporte-desc { font-size: 12px; color: var(--tinta-suave); line-height: 1.55; }
+
+  /* En móviles colapsamos el sidebar a una fila horizontal arriba */
+  @media (max-width: 860px) {
+    .app-body { grid-template-columns: 1fr; }
+    .sidebar {
+      position: static;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--linea);
+      padding: 12px;
+      flex-direction: row;
+      gap: 8px;
+      overflow-x: auto;
+    }
+    .sidebar-grupo { flex-direction: row; flex-wrap: nowrap; gap: 6px; }
+    .sidebar-grupo-titulo { display: none; }
+    .sidebar-item { padding: 8px 12px; white-space: nowrap; }
+    .sidebar-item.activa::before { display: none; }
+    .sidebar-conteo { display: none; }
+  }
 
   /* === NAV === */
   .nav {
@@ -784,8 +1212,8 @@
     margin: 24px auto 48px;
     padding: 0 32px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 
   .columna {
@@ -837,37 +1265,21 @@
   }
 
   /* === Colores por estado === */
-  .col-reportada .col-header {
-    background: var(--azul-tenue);
-    border-bottom-color: var(--azul);
-  }
-  .col-reportada .col-marca   { background: var(--azul); }
-  .col-reportada .col-titulo  { color: var(--azul); }
-  .col-reportada .col-conteo  { color: var(--azul); }
-
-  .col-revision .col-header {
+  .col-procesos .col-header {
     background: var(--ambar-tenue);
     border-bottom-color: var(--ambar);
   }
-  .col-revision .col-marca   { background: var(--ambar); }
-  .col-revision .col-titulo  { color: var(--ambar); }
-  .col-revision .col-conteo  { color: var(--ambar); }
+  .col-procesos .col-marca   { background: var(--ambar); }
+  .col-procesos .col-titulo  { color: var(--ambar); }
+  .col-procesos .col-conteo  { color: var(--ambar); }
 
-  .col-validada .col-header {
+  .col-atendida .col-header {
     background: var(--verde-tenue);
     border-bottom-color: var(--verde);
   }
-  .col-validada .col-marca   { background: var(--verde); }
-  .col-validada .col-titulo  { color: var(--verde); }
-  .col-validada .col-conteo  { color: var(--verde); }
-
-  .col-liberada .col-header {
-    background: var(--grafito-tenue);
-    border-bottom-color: var(--grafito);
-  }
-  .col-liberada .col-marca   { background: var(--grafito); }
-  .col-liberada .col-titulo  { color: var(--grafito); }
-  .col-liberada .col-conteo  { color: var(--grafito); }
+  .col-atendida .col-marca   { background: var(--verde); }
+  .col-atendida .col-titulo  { color: var(--verde); }
+  .col-atendida .col-conteo  { color: var(--verde); }
 
   .col-cuerpo {
     padding: 12px;
@@ -882,7 +1294,7 @@
   .tarjeta {
     background: white;
     border: 1px solid var(--linea);
-    border-left: 3px solid var(--linea);
+    border-left: 3px solid var(--tinta);
     padding: 14px;
     border-radius: 2px;
     cursor: pointer;
@@ -891,13 +1303,10 @@
 
   .tarjeta:hover {
     border-color: var(--linea-fuerte);
+    border-left-color: var(--tinta);
     box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     transform: translateY(-1px);
   }
-
-  .tarjeta.alta { border-left-color: var(--rojo); }
-  .tarjeta.media { border-left-color: var(--ambar); }
-  .tarjeta.baja { border-left-color: var(--verde); }
 
   /* ID de tarjeta como pastilla coloreada por subdirección — así en la
      vista consolidada (TODAS) Adrián distingue de un vistazo de qué
@@ -1743,17 +2152,14 @@
 
 <!-- ========== APP ========== -->
 <div class="app" id="app">
-  <div class="banner-demo">
-    <strong>VERSIÓN DEMO</strong> · Datos ficticios para presentación · La validación es funcional pero no persiste al recargar
-  </div>
 
   <nav class="nav">
     <div class="nav-inner">
       <div class="nav-marca">
-        <div class="nav-marca-titulo">Avala</div>
-        <div class="nav-marca-sub">ATTRAPI · DPAC</div>
+        <div class="nav-marca-titulo">ATTRAPI · SPAC</div>
+        <div class="nav-marca-sub">Dirección de Procesos Administrativos de Construcción</div>
       </div>
-      <div class="nav-titulo" id="navTitulo">Dirección de Procesos Administrativos de Construcción</div>
+      <div class="nav-titulo" id="navTitulo">Tablero de Tareas</div>
       <div class="nav-usuario">
         <div class="nav-usuario-avatar" id="userAvatar">AT</div>
         <div class="nav-usuario-info">
@@ -1765,33 +2171,83 @@
     </div>
   </nav>
 
-  <div class="subheader">
-    <div class="subheader-inner">
-      <div class="breadcrumb">ATTRAPI / Dirección de Procesos Administrativos de Construcción</div>
-      <h1>Tablero de Tareas</h1>
-      <p class="subheader-desc" id="bienvenida">Bienvenido. Desde esta pantalla puede consultar y validar las tareas reportadas por las tres subdirecciones.</p>
-    </div>
-  </div>
+  <div class="app-body">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-grupo">
+        <div class="sidebar-grupo-titulo">Vistas</div>
+        <button class="sidebar-item activa" data-vista="tablero" onclick="cambiarVista('tablero')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Tablero
+        </button>
+        <button class="sidebar-item" data-vista="calendario" onclick="cambiarVista('calendario')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Calendario
+        </button>
+      </div>
+
+      <div class="sidebar-grupo" id="sidebarGrupoDirector">
+        <div class="sidebar-grupo-titulo">Gestión</div>
+        <button class="sidebar-item" data-vista="bitacora" onclick="cambiarVista('bitacora')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+          Bitácora
+          <span class="sidebar-conteo" id="sidebarConteoBitacora">0</span>
+        </button>
+        <button class="sidebar-item" data-vista="carga" onclick="cambiarVista('carga')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Carga
+        </button>
+        <button class="sidebar-item" data-vista="reportes" onclick="cambiarVista('reportes')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8"  y2="13"/><line x1="16" y1="17" x2="8"  y2="17"/><line x1="10" y1="9"  x2="8"  y2="9"/></svg>
+          Reportes
+        </button>
+      </div>
+
+      <div class="sidebar-grupo" id="sidebarGrupoSubs">
+        <div class="sidebar-grupo-titulo">Subdirecciones</div>
+        <button class="sidebar-item sidebar-sub activa" data-sub="TODAS" onclick="cambiarTab('TODAS')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          Vista Consolidada
+          <span class="sidebar-conteo" id="contTODAS">0</span>
+        </button>
+        <button class="sidebar-item sidebar-sub" data-sub="SA" onclick="cambiarTab('SA')">
+          <span class="sub-dot" style="background: var(--sub-sa)"></span>
+          Subdirección de Archivo
+          <span class="sidebar-conteo" id="contSA">0</span>
+        </button>
+        <button class="sidebar-item sidebar-sub" data-sub="SGOI" onclick="cambiarTab('SGOI')">
+          <span class="sub-dot" style="background: var(--sub-sgoi)"></span>
+          Gestión de Obras Inducidas
+          <span class="sidebar-conteo" id="contSGOI">0</span>
+        </button>
+        <button class="sidebar-item sidebar-sub" data-sub="SPAC" onclick="cambiarTab('SPAC')">
+          <span class="sub-dot" style="background: var(--sub-spac)"></span>
+          Procesos Adm. de Construcción
+          <span class="sidebar-conteo" id="contSPAC">0</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="app-main" id="appMain" data-vista="tablero">
 
   <div class="kpis" id="kpisPanel">
     <div class="kpi-card">
       <div class="kpis-grupo-titulo" id="kpisGrupoTitulo">Resumen general</div>
       <div class="kpis-fila">
-        <div class="kpi kpi-azul">
-          <div class="kpi-valor" id="kpiActivas">0</div>
-          <div class="kpi-label">Activas</div>
-        </div>
         <div class="kpi kpi-ambar">
-          <div class="kpi-valor" id="kpiPendientes">0</div>
-          <div class="kpi-label">Por validar</div>
+          <div class="kpi-valor" id="kpiActivas">0</div>
+          <div class="kpi-label">En Procesos</div>
         </div>
         <div class="kpi kpi-verde">
+          <div class="kpi-valor" id="kpiPendientes">0</div>
+          <div class="kpi-label">Atendidas hoy</div>
+        </div>
+        <div class="kpi kpi-rojo">
           <div class="kpi-valor" id="kpiHoy">0</div>
-          <div class="kpi-label">Hoy</div>
+          <div class="kpi-label">Vencidas</div>
         </div>
         <div class="kpi kpi-grafito">
           <div class="kpi-valor" id="kpiSemana">0</div>
-          <div class="kpi-label">Liberadas</div>
+          <div class="kpi-label">Atendidas</div>
         </div>
       </div>
     </div>
@@ -1818,54 +2274,12 @@
     </div>
   </div>
 
-  <div class="tabs-wrap">
-    <div class="tabs-label">Subdirecciones</div>
-    <div class="tabs">
-      <button class="tab activa" data-sub="TODAS" onclick="cambiarTab('TODAS')">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
-          <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
-          <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
-          <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
-        </svg>
-        Vista Consolidada
-        <span class="tab-conteo" id="contTODAS">0</span>
-      </button>
-      <button class="tab" data-sub="SA" onclick="cambiarTab('SA')">
-        <span class="tab-clave">SA</span>
-        Subdirección de Archivo
-        <span class="tab-conteo" id="contSA">0</span>
-      </button>
-      <button class="tab" data-sub="SGOI" onclick="cambiarTab('SGOI')">
-        <span class="tab-clave">SGOI</span>
-        Gestión de Obras Inducidas
-        <span class="tab-conteo" id="contSGOI">0</span>
-      </button>
-      <button class="tab" data-sub="SPAC" onclick="cambiarTab('SPAC')">
-        <span class="tab-clave">SPAC</span>
-        Procesos Adm. de Construcción
-        <span class="tab-conteo" id="contSPAC">0</span>
-      </button>
-    </div>
-  </div>
-
   <div class="filtros">
     <span class="filtros-label">Prioridad</span>
     <button class="chip activo" data-prio="TODAS" onclick="filtrarPrioridad('TODAS')">Todas</button>
     <button class="chip" data-prio="Alta" onclick="filtrarPrioridad('Alta')">Alta</button>
     <button class="chip" data-prio="Media" onclick="filtrarPrioridad('Media')">Media</button>
     <button class="chip" data-prio="Baja" onclick="filtrarPrioridad('Baja')">Baja</button>
-
-    <div class="vista-toggle" id="vistaToggle">
-      <button class="vista-btn activa" data-vista="tablero" onclick="cambiarVista('tablero')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-        Tablero
-      </button>
-      <button class="vista-btn" data-vista="calendario" onclick="cambiarVista('calendario')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Calendario
-      </button>
-    </div>
 
     <div class="filtros-spacer"></div>
     <button class="btn-secundario" id="btnExcel" onclick="abrirCargarExcel()">
@@ -1897,6 +2311,52 @@
     </div>
     <div class="cal-grid" id="calGrid"></div>
   </div>
+
+  <!-- Vista: Bitácora -->
+  <div class="bitacora-wrap" id="bitacoraWrap">
+    <div class="bitacora-titulo-fila">
+      <h2>Bitácora de Validaciones</h2>
+      <span class="bitacora-meta" id="bitacoraMeta">0 movimientos</span>
+    </div>
+    <div class="bitacora-card" id="bitacoraLista"></div>
+  </div>
+
+  <!-- Vista: Carga por responsable -->
+  <div class="carga-wrap" id="cargaWrap">
+    <div class="carga-titulo">Carga por Responsable</div>
+    <div class="carga-grid" id="cargaGrid"></div>
+  </div>
+
+  <!-- Vista: Reportes -->
+  <div class="reportes-wrap" id="reportesWrap">
+    <div class="reportes-titulo">Reportes</div>
+    <div class="reportes-grid">
+      <div class="reporte-card" onclick="modoPresentacion()">
+        <div class="reporte-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="reporte-titulo">Modo presentación</div>
+        <div class="reporte-desc">Vista limpia para reunión con Director General. KPIs y tareas críticas en pantalla completa.</div>
+      </div>
+      <div class="reporte-card" onclick="exportarPDF()">
+        <div class="reporte-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="reporte-titulo">Exportar a PDF</div>
+        <div class="reporte-desc">Reporte imprimible del estado actual de tareas, agrupado por subdirección.</div>
+      </div>
+      <div class="reporte-card" onclick="exportarExcel()">
+        <div class="reporte-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <div class="reporte-titulo">Exportar a Excel</div>
+        <div class="reporte-desc">Descarga la matriz completa de tareas con todos los campos para análisis externo.</div>
+      </div>
+    </div>
+  </div>
+
+    </main>
+  </div>
 </div>
 
 <!-- ========== MODAL ========== -->
@@ -1922,119 +2382,118 @@ let TAREAS = [
   { id:'SA-001', subdireccion:'SA', responsable:'M. Hernández', titulo:'Transferencia primaria expediente 2024 obras inducidas',
     descripcion:'Coordinar la transferencia primaria al Archivo de Concentración de los expedientes correspondientes a obras inducidas del ejercicio 2024, incluyendo la elaboración de inventario, foliación y cotejo.',
     tipo:'Trámite', proyecto:'Archivo institucional', prioridad:'Alta',
-    fecha_reporte:'2026-05-02', fecha_limite:'2026-05-15', avance:35, estatus:'Reportada',
+    fecha_reporte:'2026-05-02', fecha_limite:'2026-05-15', avance:35, estatus:'En Procesos',
     observaciones:'Pendiente confirmación de bodega para resguardo intermedio.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'SA-002', subdireccion:'SA', responsable:'M. Hernández', titulo:'Inventario bodega central abril 2026',
     descripcion:'Levantamiento de inventario físico de las cajas resguardadas en la bodega central, con captura en sistema HSC.',
     tipo:'Documento', proyecto:'Archivo institucional', prioridad:'Media',
-    fecha_reporte:'2026-04-28', fecha_limite:'2026-05-05', avance:100, estatus:'Liberada',
+    fecha_reporte:'2026-04-28', fecha_limite:'2026-05-05', avance:100, estatus:'Atendida',
     observaciones:'Concluida. Inventario subido a HSC.', validado_por:'Ing. Adrián Tavares', fecha_validacion:'2026-05-02 10:15', comentarios_director:'Excelente trabajo, sigan con el ritmo.' },
 
   { id:'SA-003', subdireccion:'SA', responsable:'P. Martínez', titulo:'Solicitud de baja documental ejercicios 2018-2019',
     descripcion:'Elaborar dictamen de valoración para baja documental de expedientes administrativos correspondientes a los ejercicios 2018 y 2019, conforme a Ley General de Archivos.',
     tipo:'Trámite', proyecto:'Archivo institucional', prioridad:'Media',
-    fecha_reporte:'2026-04-30', fecha_limite:'2026-06-30', avance:60, estatus:'En revisión',
+    fecha_reporte:'2026-04-30', fecha_limite:'2026-06-30', avance:60, estatus:'En Procesos',
     observaciones:'Dictamen elaborado, pendiente revisión jurídica.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'SA-004', subdireccion:'SA', responsable:'L. Ramírez', titulo:'Capacitación servidores públicos en ordenación documental',
     descripcion:'Programar y ejecutar capacitación al personal de la DPAC en materia de ordenación documental conforme al Cuadro General de Clasificación Archivística.',
     tipo:'Reunión', proyecto:'Archivo institucional', prioridad:'Baja',
-    fecha_reporte:'2026-05-04', fecha_limite:'2026-05-30', avance:20, estatus:'Reportada',
+    fecha_reporte:'2026-05-04', fecha_limite:'2026-05-30', avance:20, estatus:'En Procesos',
     observaciones:'Material en preparación.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'SA-005', subdireccion:'SA', responsable:'M. Hernández', titulo:'Cuadro de clasificación archivística 2026',
     descripcion:'Revisión y actualización del Cuadro General de Clasificación Archivística para incorporar series documentales nuevas.',
     tipo:'Documento', proyecto:'Archivo institucional', prioridad:'Alta',
-    fecha_reporte:'2026-05-05', fecha_limite:'2026-05-12', avance:80, estatus:'En revisión',
+    fecha_reporte:'2026-05-05', fecha_limite:'2026-05-12', avance:80, estatus:'En Procesos',
     observaciones:'Listo para validación. Se agregaron 12 nuevas series.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   // SGOI - Subdirección de Gestión de Obras Inducidas
   { id:'SGOI-001', subdireccion:'SGOI', responsable:'J. López', titulo:'Reubicación líneas CFE km 42+300 Tramo II Querétaro-Irapuato',
     descripcion:'Coordinar con CFE División Bajío la reubicación de líneas de transmisión de 115 kV en el km 42+300, antes del inicio de obra civil.',
     tipo:'Liberación', proyecto:'Querétaro–Irapuato', prioridad:'Alta',
-    fecha_reporte:'2026-04-25', fecha_limite:'2026-05-22', avance:55, estatus:'En revisión',
+    fecha_reporte:'2026-04-25', fecha_limite:'2026-05-22', avance:55, estatus:'En Procesos',
     observaciones:'CFE confirma viabilidad. Falta firma de convenio.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'SGOI-002', subdireccion:'SGOI', responsable:'R. Domínguez', titulo:'Liberación derecho de vía Salinas Victoria, NL',
     descripcion:'Gestión de liberación de derecho de vía en zona urbana de Salinas Victoria para construcción de la estación ferroviaria del Tren Saltillo–Nuevo Laredo.',
     tipo:'Liberación', proyecto:'Saltillo–N. Laredo', prioridad:'Alta',
-    fecha_reporte:'2026-04-20', fecha_limite:'2026-05-10', avance:90, estatus:'En revisión',
+    fecha_reporte:'2026-04-20', fecha_limite:'2026-05-10', avance:90, estatus:'En Procesos',
     observaciones:'Pendiente firma del último predio (3 de 47 totales).', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'SGOI-003', subdireccion:'SGOI', responsable:'J. López', titulo:'Coordinación con INAH Anáhuac Coahuila',
     descripcion:'Atender solicitud del INAH para inspección arqueológica preventiva en zona de obra próxima a estación Anáhuac.',
     tipo:'Reunión', proyecto:'Saltillo–N. Laredo', prioridad:'Media',
-    fecha_reporte:'2026-05-01', fecha_limite:'2026-05-25', avance:40, estatus:'Reportada',
+    fecha_reporte:'2026-05-01', fecha_limite:'2026-05-25', avance:40, estatus:'En Procesos',
     observaciones:'Visita programada para 18/mayo.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'SGOI-004', subdireccion:'SGOI', responsable:'A. Ortiz', titulo:'Reubicación ductos PEMEX km 78+450',
     descripcion:'Acuerdo con PEMEX Logística para reubicación de ducto de productos refinados.',
     tipo:'Liberación', proyecto:'Querétaro–Irapuato', prioridad:'Alta',
-    fecha_reporte:'2026-05-03', fecha_limite:'2026-06-15', avance:25, estatus:'Reportada',
+    fecha_reporte:'2026-05-03', fecha_limite:'2026-06-15', avance:25, estatus:'En Procesos',
     observaciones:'En espera de propuesta técnica de PEMEX.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'SGOI-005', subdireccion:'SGOI', responsable:'R. Domínguez', titulo:'Convenio municipal General Escobedo',
     descripcion:'Suscripción de convenio de colaboración con el Municipio de General Escobedo para uso de vialidades durante obra.',
     tipo:'Documento', proyecto:'Saltillo–N. Laredo', prioridad:'Media',
-    fecha_reporte:'2026-05-05', fecha_limite:'2026-05-20', avance:75, estatus:'En revisión',
+    fecha_reporte:'2026-05-05', fecha_limite:'2026-05-20', avance:75, estatus:'En Procesos',
     observaciones:'Revisión final por área jurídica del municipio.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'SGOI-006', subdireccion:'SGOI', responsable:'A. Ortiz', titulo:'Reporte mensual obras inducidas abril 2026',
     descripcion:'Informe consolidado mensual de avance en gestión de obras inducidas para los dos tramos.',
     tipo:'Documento', proyecto:'Otro', prioridad:'Baja',
-    fecha_reporte:'2026-04-29', fecha_limite:'2026-05-05', avance:100, estatus:'Validada',
+    fecha_reporte:'2026-04-29', fecha_limite:'2026-05-05', avance:100, estatus:'Atendida',
     observaciones:'Reporte entregado.', validado_por:'Ing. Adrián Tavares', fecha_validacion:'2026-05-06 09:30', comentarios_director:'Buen reporte. Considerar incluir gráfica de avance comparativo.' },
 
   // SPAC - Subdirección de Procesos Administrativos de Construcción
   { id:'SPAC-001', subdireccion:'SPAC', responsable:'R. Sánchez', titulo:'Formalización contrato segmento 15A1 Saltillo–N. Laredo',
     descripcion:'Cierre de formalización del contrato LO-09-D00-009D00999-I-3-2026 correspondiente a 8.854 km del segmento 15 A1, Zona Metropolitana de Monterrey.',
     tipo:'Contratación', proyecto:'Saltillo–N. Laredo', prioridad:'Alta',
-    fecha_reporte:'2026-04-25', fecha_limite:'2026-05-10', avance:85, estatus:'En revisión',
+    fecha_reporte:'2026-04-25', fecha_limite:'2026-05-10', avance:85, estatus:'En Procesos',
     observaciones:'Pendiente firma del contratista. Anexos completos.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'SPAC-002', subdireccion:'SPAC', responsable:'J. R. García', titulo:'Acto de fallo segmento 15A2 Saltillo–N. Laredo',
     descripcion:'Coordinación del acto de fallo de la licitación LO-09-D00-009D00999-I-21-2026 programado para 17/04/2026.',
     tipo:'Contratación', proyecto:'Saltillo–N. Laredo', prioridad:'Alta',
-    fecha_reporte:'2026-04-15', fecha_limite:'2026-04-17', avance:100, estatus:'Validada',
+    fecha_reporte:'2026-04-15', fecha_limite:'2026-04-17', avance:100, estatus:'Atendida',
     observaciones:'Fallo emitido a favor de empresa adjudicada.', validado_por:'Ing. Adrián Tavares', fecha_validacion:'2026-04-17 14:32', comentarios_director:'Proceder con la formalización del contrato en los plazos LOPSRM.' },
 
   { id:'SPAC-003', subdireccion:'SPAC', responsable:'E. A. Hernández', titulo:'Junta de aclaraciones edificios auxiliares Tramo II',
     descripcion:'Atender junta de aclaraciones del procedimiento LO-09-D00-009D00999-I-1-2026 para edificios auxiliares Querétaro-Irapuato.',
     tipo:'Reunión', proyecto:'Querétaro–Irapuato', prioridad:'Media',
-    fecha_reporte:'2026-05-02', fecha_limite:'2026-05-18', avance:50, estatus:'Reportada',
+    fecha_reporte:'2026-05-02', fecha_limite:'2026-05-18', avance:50, estatus:'En Procesos',
     observaciones:'Preguntas recibidas en plataforma CompraNet.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'SPAC-004', subdireccion:'SPAC', responsable:'R. Sánchez', titulo:'Preparación bases licitación segmento 15B',
     descripcion:'Elaboración de bases técnicas y administrativas para licitación de 30.75 km segmento 15B ZMM.',
     tipo:'Documento', proyecto:'Saltillo–N. Laredo', prioridad:'Alta',
-    fecha_reporte:'2026-05-04', fecha_limite:'2026-05-30', avance:30, estatus:'Reportada',
+    fecha_reporte:'2026-05-04', fecha_limite:'2026-05-30', avance:30, estatus:'En Procesos',
     observaciones:'Anteproyecto en revisión técnica.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'SPAC-005', subdireccion:'SPAC', responsable:'J. R. García', titulo:'Visita al sitio licitación Estaciones N. Laredo',
     descripcion:'Coordinar visita al sitio para procedimiento LO-09-D00-009D00999-I-39-2026 (estaciones General Escobedo, Salinas Victoria, Villaldama, Lampazos, Anáhuac, Nuevo Laredo).',
     tipo:'Reunión', proyecto:'Saltillo–N. Laredo', prioridad:'Media',
-    fecha_reporte:'2026-05-01', fecha_limite:'2026-05-15', avance:65, estatus:'En revisión',
+    fecha_reporte:'2026-05-01', fecha_limite:'2026-05-15', avance:65, estatus:'En Procesos',
     observaciones:'Logística confirmada. Lista de asistentes en proceso.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'SPAC-006', subdireccion:'SPAC', responsable:'M. A. Piñón', titulo:'Análisis de costos sistemas ferroviarios Saltillo–N. Laredo',
     descripcion:'Revisión de propuestas económicas del procedimiento de sistemas ferroviarios LO-09-D00-009D00999-I-9-2026.',
     tipo:'Documento', proyecto:'Saltillo–N. Laredo', prioridad:'Alta',
-    fecha_reporte:'2026-05-03', fecha_limite:'2026-05-12', avance:70, estatus:'En revisión',
+    fecha_reporte:'2026-05-03', fecha_limite:'2026-05-12', avance:70, estatus:'En Procesos',
     observaciones:'Tres propuestas en evaluación. Cuadro comparativo en elaboración.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'SPAC-007', subdireccion:'SPAC', responsable:'R. Sánchez', titulo:'Informe semanal procedimientos en proceso',
     descripcion:'Reporte ejecutivo de los 9 procedimientos de contratación actualmente en proceso para Saltillo–N. Laredo y Querétaro–Irapuato.',
     tipo:'Documento', proyecto:'Otro', prioridad:'Baja',
-    fecha_reporte:'2026-05-06', fecha_limite:'2026-05-07', avance:95, estatus:'En revisión',
+    fecha_reporte:'2026-05-06', fecha_limite:'2026-05-07', avance:95, estatus:'En Procesos',
     observaciones:'Listo para entrega.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
 ];
 
 const BITACORA = [
-  { fecha:'2026-05-06 09:30', usuario:'adrian.tavares@attrapi.gob.mx', accion:'validar', id_tarea:'SGOI-006', estatus_anterior:'En revisión', estatus_nuevo:'Validada' },
-  { fecha:'2026-05-02 10:15', usuario:'adrian.tavares@attrapi.gob.mx', accion:'validar', id_tarea:'SA-002', estatus_anterior:'En revisión', estatus_nuevo:'Validada' },
-  { fecha:'2026-05-02 10:16', usuario:'adrian.tavares@attrapi.gob.mx', accion:'liberar', id_tarea:'SA-002', estatus_anterior:'Validada', estatus_nuevo:'Liberada' },
-  { fecha:'2026-04-17 14:32', usuario:'adrian.tavares@attrapi.gob.mx', accion:'validar', id_tarea:'SPAC-002', estatus_anterior:'En revisión', estatus_nuevo:'Validada' },
+  { fecha:'2026-05-06 09:30', usuario:'adrian.tavares@attrapi.gob.mx', accion:'atender', id_tarea:'SGOI-006', estatus_anterior:'En Procesos', estatus_nuevo:'Atendida' },
+  { fecha:'2026-05-02 10:15', usuario:'adrian.tavares@attrapi.gob.mx', accion:'atender', id_tarea:'SA-002', estatus_anterior:'En Procesos', estatus_nuevo:'Atendida' },
+  { fecha:'2026-04-17 14:32', usuario:'adrian.tavares@attrapi.gob.mx', accion:'atender', id_tarea:'SPAC-002', estatus_anterior:'En Procesos', estatus_nuevo:'Atendida' },
 ];
 
 // ============== ESTADO ==============
@@ -2059,45 +2518,36 @@ function ingresar(rol) {
 
   // === CONTROL DE VISTAS POR ROL ===
   // El Director ve TODO. Los Capturistas SOLO ven su subdirección.
-  const todasLasTabs = document.querySelectorAll('.tab');
+  const subItems = document.querySelectorAll('.sidebar-sub');
+  const grupoDir = document.getElementById('sidebarGrupoDirector');
 
   if (usuarioActual.rol === 'Director') {
-    // Director: mostrar todas las pestañas y KPIs consolidados
-    todasLasTabs.forEach(t => t.style.display = '');
+    subItems.forEach(b => b.style.display = '');
+    grupoDir.style.display = '';
     document.getElementById('kpisSubGrupo').style.display = '';
     document.getElementById('kpisGrupoTitulo').textContent = 'Resumen general';
-    document.querySelector('.subheader h1').textContent = 'Tablero de Tareas';
-    document.querySelector('.breadcrumb').textContent = 'ATTRAPI / Dirección de Procesos Administrativos de Construcción';
-    document.getElementById('bienvenida').textContent = 'Bienvenido, Ing. Tavares. Las tareas marcadas en amarillo "En revisión" están listas para su validación. Un solo clic en el botón verde aprueba la tarea y registra su nombre, fecha y hora.';
     document.getElementById('btnNuevo').style.display = '';
     document.getElementById('btnExcel').style.display = '';
+    document.getElementById('navTitulo').textContent = 'Tablero de Tareas';
     tabActiva = 'TODAS';
 
   } else {
-    // Capturista: ocultar pestañas de otras subdirecciones y la vista consolidada
-    todasLasTabs.forEach(t => {
-      const sub = t.dataset.sub;
-      // Ocultar 'TODAS' (vista consolidada) y las subdirecciones que no son la suya
-      if (sub === 'TODAS' || sub !== usuarioActual.subdireccion) {
-        t.style.display = 'none';
-      } else {
-        t.style.display = '';
-      }
+    // Capturista: solo su subdirección, sin Vista Consolidada ni vistas de gestión
+    subItems.forEach(b => {
+      const sub = b.dataset.sub;
+      b.style.display = (sub === 'TODAS' || sub !== usuarioActual.subdireccion) ? 'none' : '';
     });
+    grupoDir.style.display = 'none';
 
-    // El capturista no ve la fila por subdirección (solo ve la suya)
     document.getElementById('kpisSubGrupo').style.display = 'none';
     document.getElementById('kpisGrupoTitulo').textContent = 'Mis tareas';
 
-    // Personalizar encabezado para que sea claro qué subdirección ve
     const nombresSubs = {
       'SA': 'Subdirección de Archivo',
       'SGOI': 'Subdirección de Gestión de Obras Inducidas',
       'SPAC': 'Subdirección de Procesos Administrativos de Construcción'
     };
-    document.querySelector('.subheader h1').textContent = nombresSubs[usuarioActual.subdireccion];
-    document.querySelector('.breadcrumb').textContent = 'ATTRAPI / DPAC / ' + usuarioActual.subdireccion;
-    document.getElementById('bienvenida').textContent = 'Desde aquí puede consultar y reportar las tareas de su subdirección. Solo el Director puede validar las tareas.';
+    document.getElementById('navTitulo').textContent = nombresSubs[usuarioActual.subdireccion];
 
     tabActiva = usuarioActual.subdireccion;
   }
@@ -2156,43 +2606,43 @@ function actualizarKPIs() {
   };
 
   if (usuarioActual.rol === 'Capturista') {
-    const activas = visible.filter(t => t.estatus !== 'Liberada').length;
-    const enRevision = visible.filter(t => t.estatus === 'En revisión').length;
-    const validadas = visible.filter(t => t.estatus === 'Validada').length;
-    const liberadas = visible.filter(t => t.estatus === 'Liberada').length;
+    const enProcesos = visible.filter(t => t.estatus === 'En Procesos').length;
+    const atendidas = visible.filter(t => t.estatus === 'Atendida').length;
+    const total = visible.length;
+    const atendidasHoy = visible.filter(t => t.estatus === 'Atendida' && t.fecha_validacion && t.fecha_validacion.startsWith(hoy)).length;
 
-    setLabel('kpiActivas', 'Activas');
-    setLabel('kpiPendientes', 'Por validar');
-    setLabel('kpiHoy', 'Validadas');
-    setLabel('kpiSemana', 'Liberadas');
+    setLabel('kpiActivas', 'Total');
+    setLabel('kpiPendientes', 'En Procesos');
+    setLabel('kpiHoy', 'Atendidas hoy');
+    setLabel('kpiSemana', 'Atendidas');
 
-    document.getElementById('kpiActivas').textContent = activas;
-    document.getElementById('kpiPendientes').textContent = enRevision;
-    document.getElementById('kpiHoy').textContent = validadas;
-    document.getElementById('kpiSemana').textContent = liberadas;
+    document.getElementById('kpiActivas').textContent = total;
+    document.getElementById('kpiPendientes').textContent = enProcesos;
+    document.getElementById('kpiHoy').textContent = atendidasHoy;
+    document.getElementById('kpiSemana').textContent = atendidas;
     return;
   }
 
   // KPIs del Director
-  setLabel('kpiActivas', 'Activas');
-  setLabel('kpiPendientes', 'Por validar');
-  setLabel('kpiHoy', 'Hoy');
-  setLabel('kpiSemana', 'Liberadas');
+  setLabel('kpiActivas', 'En Procesos');
+  setLabel('kpiPendientes', 'Atendidas hoy');
+  setLabel('kpiHoy', 'Vencidas');
+  setLabel('kpiSemana', 'Atendidas');
 
-  const activas = visible.filter(t => t.estatus !== 'Liberada').length;
-  const pendientes = visible.filter(t => t.estatus === 'En revisión').length;
-  const validadasHoy = visible.filter(t => t.fecha_validacion && t.fecha_validacion.startsWith(hoy)).length;
-  const liberadas = visible.filter(t => t.estatus === 'Liberada').length;
+  const enProcesos = visible.filter(t => t.estatus === 'En Procesos').length;
+  const atendidasHoy = visible.filter(t => t.estatus === 'Atendida' && t.fecha_validacion && t.fecha_validacion.startsWith(hoy)).length;
+  const vencidas = visible.filter(t => t.estatus === 'En Procesos' && esVencida(t.fecha_limite)).length;
+  const atendidas = visible.filter(t => t.estatus === 'Atendida').length;
 
-  document.getElementById('kpiActivas').textContent = activas;
-  document.getElementById('kpiPendientes').textContent = pendientes;
-  document.getElementById('kpiHoy').textContent = validadasHoy;
-  document.getElementById('kpiSemana').textContent = liberadas;
+  document.getElementById('kpiActivas').textContent = enProcesos;
+  document.getElementById('kpiPendientes').textContent = atendidasHoy;
+  document.getElementById('kpiHoy').textContent = vencidas;
+  document.getElementById('kpiSemana').textContent = atendidas;
 
-  // Pendientes "En revisión" por subdirección (siempre sobre el universo total, ignorando filtros)
-  const pendSA   = TAREAS.filter(t => t.subdireccion === 'SA'   && t.estatus === 'En revisión').length;
-  const pendSGOI = TAREAS.filter(t => t.subdireccion === 'SGOI' && t.estatus === 'En revisión').length;
-  const pendSPAC = TAREAS.filter(t => t.subdireccion === 'SPAC' && t.estatus === 'En revisión').length;
+  // Pendientes "En Procesos" por subdirección (siempre sobre el universo total, ignorando filtros)
+  const pendSA   = TAREAS.filter(t => t.subdireccion === 'SA'   && t.estatus === 'En Procesos').length;
+  const pendSGOI = TAREAS.filter(t => t.subdireccion === 'SGOI' && t.estatus === 'En Procesos').length;
+  const pendSPAC = TAREAS.filter(t => t.subdireccion === 'SPAC' && t.estatus === 'En Procesos').length;
   document.getElementById('kpiPendSA').textContent = pendSA;
   document.getElementById('kpiPendSGOI').textContent = pendSGOI;
   document.getElementById('kpiPendSPAC').textContent = pendSPAC;
@@ -2221,8 +2671,8 @@ function actualizarConteosTabs() {
 
 function renderizarTablero() {
   const lista = obtenerTareasFiltradas();
-  const cols = ['Reportada', 'En revisión', 'Validada', 'Liberada'];
-  const slugs = { 'Reportada':'reportada', 'En revisión':'revision', 'Validada':'validada', 'Liberada':'liberada' };
+  const cols = ['En Procesos', 'Atendida'];
+  const slugs = { 'En Procesos':'procesos', 'Atendida':'atendida' };
   const tablero = document.getElementById('tablero');
   tablero.innerHTML = '';
 
@@ -2256,7 +2706,7 @@ function crearTarjeta(t) {
   card.setAttribute('data-sub', t.subdireccion);
   card.onclick = () => abrirDetalle(t);
 
-  const vencida = esVencida(t.fecha_limite) && t.estatus !== 'Validada' && t.estatus !== 'Liberada';
+  const vencida = esVencida(t.fecha_limite) && t.estatus !== 'Atendida';
 
   let html = `
     <div class="tarjeta-id">${t.id} · ${t.subdireccion}</div>
@@ -2287,19 +2737,15 @@ function crearTarjeta(t) {
     </div>
   `;
 
-  if (t.estatus === 'Validada' && t.fecha_validacion) {
-    html += `<div class="tarjeta-validada-info">✓ Validada por ${t.validado_por}<br>${t.fecha_validacion}</div>`;
+  if (t.estatus === 'Atendida' && t.fecha_validacion) {
+    html += `<div class="tarjeta-validada-info">✓ Atendida por ${t.validado_por}<br>${t.fecha_validacion}</div>`;
   }
 
-  if (usuarioActual.rol === 'Director' && t.estatus === 'En revisión') {
+  if (usuarioActual.rol === 'Director' && t.estatus === 'En Procesos') {
     html += `<button class="btn-validar" onclick="event.stopPropagation(); validar('${t.id}')">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-      Validar
+      Marcar como Atendida
     </button>`;
-  }
-
-  if (usuarioActual.rol === 'Director' && t.estatus === 'Validada') {
-    html += `<button class="btn-liberar" onclick="event.stopPropagation(); liberar('${t.id}')">Liberar tarea</button>`;
   }
 
   card.innerHTML = html;
@@ -2310,7 +2756,7 @@ function crearTarjeta(t) {
 
 function cambiarTab(sub) {
   tabActiva = sub;
-  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('activa', t.dataset.sub === sub));
+  document.querySelectorAll('.sidebar-sub').forEach(b => b.classList.toggle('activa', b.dataset.sub === sub));
   renderizar();
   if (vistaActiva === 'calendario') renderizarCalendario();
 }
@@ -2327,7 +2773,7 @@ function validar(idTarea, comentarios) {
   if (!t) return;
 
   if (!comentarios) {
-    if (!confirm('¿Confirma la validación de la tarea ' + idTarea + '?\n\n"' + t.titulo + '"\n\nEsta acción quedará registrada con su nombre, fecha y hora.')) return;
+    if (!confirm('¿Marcar como Atendida la tarea ' + idTarea + '?\n\n"' + t.titulo + '"\n\nEsta acción quedará registrada con su nombre, fecha y hora.')) return;
   }
 
   const ahora = new Date();
@@ -2337,7 +2783,7 @@ function validar(idTarea, comentarios) {
     String(ahora.getHours()).padStart(2,'0') + ':' +
     String(ahora.getMinutes()).padStart(2,'0');
 
-  t.estatus = 'Validada';
+  t.estatus = 'Atendida';
   t.validado_por = usuarioActual.nombre;
   t.fecha_validacion = stamp;
   if (comentarios) t.comentarios_director = comentarios;
@@ -2345,37 +2791,15 @@ function validar(idTarea, comentarios) {
   BITACORA.unshift({
     fecha: stamp,
     usuario: usuarioActual.email,
-    accion: 'validar',
+    accion: 'atender',
     id_tarea: idTarea,
-    estatus_anterior: 'En revisión',
-    estatus_nuevo: 'Validada'
+    estatus_anterior: 'En Procesos',
+    estatus_nuevo: 'Atendida'
   });
 
   cerrarModal();
   renderizar();
-  toast('Tarea ' + idTarea + ' validada correctamente', 'ok');
-}
-
-function liberar(idTarea) {
-  const t = TAREAS.find(x => x.id === idTarea);
-  if (!t) return;
-  if (!confirm('¿Liberar la tarea ' + idTarea + '?\n\n"' + t.titulo + '"\n\nLa tarea pasará a archivo de concluidas.')) return;
-
-  const ahora = new Date();
-  const stamp = ahora.getFullYear() + '-' +
-    String(ahora.getMonth()+1).padStart(2,'0') + '-' +
-    String(ahora.getDate()).padStart(2,'0') + ' ' +
-    String(ahora.getHours()).padStart(2,'0') + ':' +
-    String(ahora.getMinutes()).padStart(2,'0');
-
-  t.estatus = 'Liberada';
-  BITACORA.unshift({
-    fecha: stamp, usuario: usuarioActual.email, accion: 'liberar',
-    id_tarea: idTarea, estatus_anterior: 'Validada', estatus_nuevo: 'Liberada'
-  });
-  cerrarModal();
-  renderizar();
-  toast('Tarea ' + idTarea + ' liberada', 'ok');
+  toast('Tarea ' + idTarea + ' marcada como Atendida', 'ok');
 }
 
 // ============== MODAL ==============
@@ -2389,29 +2813,16 @@ function abrirDetalle(t) {
   const btnIcs = t.fecha_limite ? `<button class="btn-ics" onclick="exportarICS('${t.id}')" title="Descarga un archivo .ics compatible con Google Calendar, Outlook y Apple Calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Agregar a mi calendario</button>` : '';
 
   let acciones = '';
-  if (usuarioActual.rol === 'Director') {
-    if (t.estatus === 'En revisión') {
-      acciones = `
-        <textarea class="modal-comentar" id="comentariosDirector" placeholder="Comentarios u observaciones (opcional)"></textarea>
-        <div class="modal-acciones">
-          ${btnIcs}
-          <div style="flex:1"></div>
-          <button class="btn-modal" onclick="cerrarModal()">Cerrar</button>
-          <button class="btn-modal btn-modal-primario" onclick="validarConComentarios()">✓ Validar Tarea</button>
-        </div>
-      `;
-    } else if (t.estatus === 'Validada') {
-      acciones = `
-        <div class="modal-acciones">
-          ${btnIcs}
-          <div style="flex:1"></div>
-          <button class="btn-modal" onclick="cerrarModal()">Cerrar</button>
-          <button class="btn-modal btn-modal-liberar" onclick="liberar('${t.id}')">Liberar tarea</button>
-        </div>
-      `;
-    } else {
-      acciones = `<div class="modal-acciones">${btnIcs}<div style="flex:1"></div><button class="btn-modal" onclick="cerrarModal()">Cerrar</button></div>`;
-    }
+  if (usuarioActual.rol === 'Director' && t.estatus === 'En Procesos') {
+    acciones = `
+      <textarea class="modal-comentar" id="comentariosDirector" placeholder="Comentarios u observaciones (opcional)"></textarea>
+      <div class="modal-acciones">
+        ${btnIcs}
+        <div style="flex:1"></div>
+        <button class="btn-modal" onclick="cerrarModal()">Cerrar</button>
+        <button class="btn-modal btn-modal-primario" onclick="validarConComentarios()">✓ Marcar como Atendida</button>
+      </div>
+    `;
   } else {
     acciones = `<div class="modal-acciones">${btnIcs}<div style="flex:1"></div><button class="btn-modal" onclick="cerrarModal()">Cerrar</button></div>`;
   }
@@ -2448,7 +2859,7 @@ function abrirDetalle(t) {
         </div>
         <div class="modal-campo">
           <span class="modal-campo-label">Fecha límite</span>
-          <span class="modal-campo-valor ${esVencida(t.fecha_limite) && t.estatus !== 'Validada' && t.estatus !== 'Liberada' ? 'tarjeta-fecha-vencida' : ''}">${formatearFechaLarga(t.fecha_limite)}</span>
+          <span class="modal-campo-valor ${esVencida(t.fecha_limite) && t.estatus !== 'Atendida' ? 'tarjeta-fecha-vencida' : ''}">${formatearFechaLarga(t.fecha_limite)}</span>
         </div>
         <div class="modal-campo">
           <span class="modal-campo-label">Avance</span>
@@ -2546,17 +2957,35 @@ function toast(mensaje, tipo) {
 
 function cambiarVista(v) {
   vistaActiva = v;
-  document.querySelectorAll('.vista-btn').forEach(b => b.classList.toggle('activa', b.dataset.vista === v));
-  const tab = document.getElementById('tablero');
-  const cal = document.getElementById('calendarioWrap');
-  if (v === 'calendario') {
-    tab.classList.add('oculto');
-    cal.classList.add('activo');
-    renderizarCalendario();
-  } else {
-    tab.classList.remove('oculto');
-    cal.classList.remove('activo');
-  }
+  // Marca el item activo del sidebar (solo entre los que tienen data-vista)
+  document.querySelectorAll('.sidebar-item[data-vista]').forEach(b => b.classList.toggle('activa', b.dataset.vista === v));
+  // Cambia el atributo en el main para que el CSS muestre/oculte secciones
+  document.getElementById('appMain').setAttribute('data-vista', v);
+
+  // Actualiza el título del nav según la vista
+  const tituloPorVista = {
+    tablero:    usuarioActual && usuarioActual.rol === 'Director' ? 'Tablero de Tareas' : tituloCapturista(),
+    calendario: 'Calendario',
+    bitacora:   'Bitácora de Validaciones',
+    carga:      'Carga por Responsable',
+    reportes:   'Reportes'
+  };
+  document.getElementById('navTitulo').textContent = tituloPorVista[v] || '';
+
+  // Render lazy de las vistas que lo necesitan
+  if (v === 'calendario') renderizarCalendario();
+  if (v === 'bitacora')   renderizarBitacora();
+  if (v === 'carga')      renderizarCarga();
+}
+
+function tituloCapturista() {
+  if (!usuarioActual) return 'Tablero de Tareas';
+  const nombres = {
+    'SA': 'Subdirección de Archivo',
+    'SGOI': 'Subdirección de Gestión de Obras Inducidas',
+    'SPAC': 'Subdirección de Procesos Administrativos de Construcción'
+  };
+  return nombres[usuarioActual.subdireccion] || 'Tablero de Tareas';
 }
 
 function navegarMes(delta) {
@@ -2616,7 +3045,7 @@ function renderizarCalendario() {
     let eventosHtml = '';
     const visibles = eventos.slice(0, 3);
     visibles.forEach(t => {
-      const vencida = esVencida(t.fecha_limite) && t.estatus !== 'Validada' && t.estatus !== 'Liberada';
+      const vencida = esVencida(t.fecha_limite) && t.estatus !== 'Atendida';
       const claseEv = 'cal-evento sub-' + t.subdireccion + (vencida ? ' vencida' : '');
       const titulo = (t.id + ' · ' + t.titulo).replace(/"/g, '&quot;');
       eventosHtml += `<div class="${claseEv}" onclick="abrirDetalle(TAREAS.find(x=>x.id==='${t.id}'))" title="${titulo}">${t.titulo}</div>`;
@@ -2637,7 +3066,7 @@ function mostrarDiaCompleto(iso) {
   const fechaTxt = fecha.getDate() + ' de ' + MESES_LARGOS[fecha.getMonth()] + ' de ' + fecha.getFullYear();
 
   let items = lista.map(t => {
-    const vencida = esVencida(t.fecha_limite) && t.estatus !== 'Validada' && t.estatus !== 'Liberada';
+    const vencida = esVencida(t.fecha_limite) && t.estatus !== 'Atendida';
     return `<div class="cal-evento sub-${t.subdireccion}${vencida ? ' vencida' : ''}" style="margin-bottom:6px;padding:8px 10px;font-size:12px;" onclick="cerrarModal();abrirDetalle(TAREAS.find(x=>x.id==='${t.id}'))"><strong>${t.id}</strong> · ${t.titulo}</div>`;
   }).join('');
 
@@ -2847,7 +3276,7 @@ function guardarNuevaTarea() {
     fecha_reporte: hoyStr,
     fecha_limite: fecha,
     avance: 0,
-    estatus: 'Reportada',
+    estatus: 'En Procesos',
     observaciones,
     validado_por: '',
     fecha_validacion: '',
@@ -2861,7 +3290,7 @@ function guardarNuevaTarea() {
     accion: 'crear',
     id_tarea: nueva.id,
     estatus_anterior: '—',
-    estatus_nuevo: 'Reportada'
+    estatus_nuevo: 'En Procesos'
   });
 
   cerrarModal();
@@ -2961,6 +3390,135 @@ function procesarExcel(input) {
   setTimeout(() => {
     toast('Demo: archivo recibido. En producción se validan filas y se cargan las tareas.', 'ok');
   }, 400);
+}
+
+// ============== VISTA: BITÁCORA ==============
+
+const ACCION_LABEL = {
+  crear:    'Creada',
+  atender:  'Atendida',
+  validar:  'Validada',  // legado
+  liberar:  'Liberada',  // legado
+  devolver: 'Devuelta'
+};
+
+function renderizarBitacora() {
+  const lista = document.getElementById('bitacoraLista');
+  document.getElementById('bitacoraMeta').textContent = BITACORA.length + ' movimiento' + (BITACORA.length === 1 ? '' : 's');
+
+  if (BITACORA.length === 0) {
+    lista.innerHTML = '<div class="bitacora-vacio">Sin movimientos registrados todavía.</div>';
+    return;
+  }
+
+  let html = `
+    <div class="bitacora-row cabecera">
+      <div>Fecha y hora</div>
+      <div>Acción</div>
+      <div>Tarea</div>
+      <div>Cambio</div>
+    </div>
+  `;
+  BITACORA.forEach(b => {
+    const tarea = TAREAS.find(t => t.id === b.id_tarea);
+    const sub = tarea ? tarea.subdireccion : '';
+    const titulo = tarea ? tarea.titulo : '(tarea eliminada)';
+    const accionKey = (b.accion || '').toLowerCase();
+    html += `
+      <div class="bitacora-row">
+        <div class="bitacora-fecha-cell">${b.fecha}</div>
+        <div><span class="bitacora-accion ${accionKey}">${ACCION_LABEL[accionKey] || b.accion}</span></div>
+        <div class="bitacora-tarea" data-sub="${sub}">
+          <span class="bitacora-tarea-id">${b.id_tarea}</span>
+          <span class="bitacora-tarea-titulo">${titulo}</span>
+        </div>
+        <div>
+          <div class="bitacora-cambio">
+            <span>${b.estatus_anterior}</span>
+            <span class="bitacora-cambio-arrow">→</span>
+            <span>${b.estatus_nuevo}</span>
+          </div>
+          <div class="bitacora-usuario">${b.usuario}</div>
+        </div>
+      </div>
+    `;
+  });
+  lista.innerHTML = html;
+
+  const conteo = document.getElementById('sidebarConteoBitacora');
+  if (conteo) conteo.textContent = BITACORA.length;
+}
+
+// ============== VISTA: CARGA POR RESPONSABLE ==============
+
+function renderizarCarga() {
+  const grid = document.getElementById('cargaGrid');
+  // Universo: todas las tareas del usuario actual (Director ve todo, capturista solo las suyas)
+  let universo = TAREAS;
+  if (usuarioActual.rol === 'Capturista') {
+    universo = TAREAS.filter(t => t.subdireccion === usuarioActual.subdireccion);
+  }
+
+  // Agrupar por responsable
+  const porResponsable = {};
+  universo.forEach(t => {
+    const key = t.responsable + '||' + t.subdireccion;
+    if (!porResponsable[key]) {
+      porResponsable[key] = { responsable: t.responsable, sub: t.subdireccion, tareas: [] };
+    }
+    porResponsable[key].tareas.push(t);
+  });
+
+  const filas = Object.values(porResponsable).sort((a, b) => b.tareas.length - a.tareas.length);
+
+  if (filas.length === 0) {
+    grid.innerHTML = '<div class="bitacora-vacio">Sin tareas para mostrar.</div>';
+    return;
+  }
+
+  grid.innerHTML = filas.map(f => {
+    const total = f.tareas.length;
+    const enProcesos = f.tareas.filter(t => t.estatus === 'En Procesos').length;
+    const atendidas  = f.tareas.filter(t => t.estatus === 'Atendida').length;
+    const vencidas   = f.tareas.filter(t => t.estatus === 'En Procesos' && esVencida(t.fecha_limite)).length;
+
+    const iniciales = f.responsable.split(' ').filter(p => p.length > 0).slice(0, 2).map(p => p[0]).join('').toUpperCase();
+
+    return `
+      <div class="carga-card" data-sub="${f.sub}">
+        <div class="carga-resp">
+          <div class="carga-resp-avatar">${iniciales}</div>
+          <div class="carga-resp-info">
+            <span class="carga-resp-nombre">${f.responsable}</span>
+            <span class="carga-resp-sub">${f.sub}</span>
+          </div>
+          <div class="carga-total">${total}</div>
+        </div>
+        <div class="carga-bar">
+          ${enProcesos > 0 ? `<div class="carga-bar-seg carga-bar-revision" style="flex:${enProcesos}"></div>` : ''}
+          ${atendidas  > 0 ? `<div class="carga-bar-seg carga-bar-validada" style="flex:${atendidas}"></div>` : ''}
+        </div>
+        <div class="carga-detalle">
+          <div class="carga-detalle-row"><span>En Procesos</span><span class="carga-detalle-val">${enProcesos}</span></div>
+          <div class="carga-detalle-row"><span>Atendidas</span><span class="carga-detalle-val">${atendidas}</span></div>
+          <div class="carga-detalle-row carga-detalle-vencidas"><span>Vencidas</span><span class="carga-detalle-val">${vencidas}</span></div>
+          <div class="carga-detalle-row"><span>Total</span><span class="carga-detalle-val">${total}</span></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ============== VISTA: REPORTES (placeholders) ==============
+
+function modoPresentacion() {
+  toast('Próximamente: vista limpia para reuniones con Director General.', 'ok');
+}
+function exportarPDF() {
+  toast('Próximamente: exportar el estado actual a PDF.', 'ok');
+}
+function exportarExcel() {
+  toast('Próximamente: descargar la matriz completa de tareas en Excel.', 'ok');
 }
 
 // Cerrar modal con ESC
