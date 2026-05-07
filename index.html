@@ -1362,6 +1362,15 @@
 
   .chip:hover { border-color: var(--guinda); color: var(--guinda); }
   .chip.activo { background: var(--guinda); border-color: var(--guinda); color: white; }
+  /* Aclaración del rango de días en cada chip de prioridad. */
+  .chip-dias {
+    font-size: 10.5px;
+    font-weight: 500;
+    margin-left: 4px;
+    opacity: 0.7;
+    letter-spacing: 0.02em;
+  }
+  .chip.activo .chip-dias { opacity: 0.85; }
 
   .filtros-spacer { flex: 1; }
 
@@ -2615,9 +2624,9 @@
   <div class="filtros">
     <span class="filtros-label">Prioridad</span>
     <button class="chip activo" data-prio="TODAS" onclick="filtrarPrioridad('TODAS')">Todas</button>
-    <button class="chip" data-prio="Alta" onclick="filtrarPrioridad('Alta')">Alta</button>
-    <button class="chip" data-prio="Media" onclick="filtrarPrioridad('Media')">Media</button>
-    <button class="chip" data-prio="Baja" onclick="filtrarPrioridad('Baja')">Baja</button>
+    <button class="chip" data-prio="Alta" onclick="filtrarPrioridad('Alta')">Alta <span class="chip-dias">≤ 3 días</span></button>
+    <button class="chip" data-prio="Media" onclick="filtrarPrioridad('Media')">Media <span class="chip-dias">4 – 7 días</span></button>
+    <button class="chip" data-prio="Baja" onclick="filtrarPrioridad('Baja')">Baja <span class="chip-dias">&gt; 7 días</span></button>
 
     <div class="filtros-spacer"></div>
     <button class="btn-nuevo" id="btnNuevo" onclick="abrirNuevaTarea()">+ Nueva Tarea</button>
@@ -3121,7 +3130,10 @@ function crearTarjeta(t) {
       <dt>Acción a tomar</dt>
       <dd>${escapeHtml(accion)}</dd>
       <dt>Fecha de atención</dt>
-      <dd class="${vencida ? 'campo-fecha-vencida' : ''}">${fechaTxt}${vencida ? ' · vencida' : ''}</dd>
+      <dd class="${vencida ? 'campo-fecha-vencida' : ''}">
+        ${fechaTxt}${vencida ? ' · vencida' : ''}
+        <span class="tarjeta-prioridad prioridad-${prioridadDe(t).toLowerCase()}" style="margin-left: 6px;">${prioridadDe(t)}</span>
+      </dd>
     </dl>
   `;
 
@@ -3270,7 +3282,10 @@ function abrirDetalle(t) {
         <dt>Acción a tomar</dt>
         <dd>${escapeHtml(accion)}</dd>
         <dt>Fecha de atención</dt>
-        <dd class="${vencida ? 'modal-campo-fecha-vencida' : ''}">${formatearFechaLarga(fechaAt)}${vencida ? ' · vencida' : ''}</dd>
+        <dd class="${vencida ? 'modal-campo-fecha-vencida' : ''}">
+          ${formatearFechaLarga(fechaAt)}${vencida ? ' · vencida' : ''}
+          <span class="tarjeta-prioridad prioridad-${prioridadDe(t).toLowerCase()}" style="margin-left: 8px;">${prioridadDe(t)}</span>
+        </dd>
       </dl>
 
       ${t.validado_por ? `
@@ -3356,6 +3371,14 @@ function prioridadDe(t) {
 
 const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 const MESES_LARGOS = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+// Formato corto DD/MM/YYYY — usado en los reportes para que la columna
+// "Fecha límite" empiece por día y termine en año.
+function formatearFechaCorta(f) {
+  if (!f) return '';
+  const d = new Date(f + 'T00:00:00');
+  return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear();
+}
 
 function formatearFecha(f) {
   if (!f) return '—';
@@ -3979,7 +4002,8 @@ const COLOR_SUB = {
 function exportarPDF(sub) {
   const lista = (sub === 'TODAS') ? TAREAS : TAREAS.filter(t => t.subdireccion === sub);
   const ahora = new Date();
-  const fechaTxt = ahora.getFullYear() + '-' + String(ahora.getMonth()+1).padStart(2,'0') + '-' + String(ahora.getDate()).padStart(2,'0');
+  // DD/MM/YYYY — formato del cliente, día primero.
+  const fechaTxt = String(ahora.getDate()).padStart(2,'0') + '/' + String(ahora.getMonth()+1).padStart(2,'0') + '/' + ahora.getFullYear();
   const horaTxt = String(ahora.getHours()).padStart(2,'0') + ':' + String(ahora.getMinutes()).padStart(2,'0');
 
   const total = lista.length;
@@ -4008,7 +4032,7 @@ function exportarPDF(sub) {
         <td class="col-titulo">${escapeHtml(t.titulo)}</td>
         <td><span class="prio prio-${prioridadDe(t).toLowerCase()}">${prioridadDe(t)}</span></td>
         <td><span class="estatus ${estatusClase}">${t.estatus}${vencida ? ' (vencida)' : ''}</span></td>
-        <td class="col-fecha">${t.fecha_limite || '—'}</td>
+        <td class="col-fecha">${formatearFechaCorta(t.fecha_atencion || t.fecha_limite) || '—'}</td>
         <td class="col-avance">${t.avance}%</td>
       </tr>
     `;
