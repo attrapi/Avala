@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Avala · Sistema de Gestión y Validación de Tareas</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'%3E%3Crect x='2' y='2' width='48' height='48' rx='10' fill='%23691C32'/%3E%3Cpath d='M14 38 L26 12 L38 38 M19 30 L33 30' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<title>TT · Sistema de Gestión y Validación de Tareas</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'%3E%3Crect x='2' y='2' width='48' height='48' rx='10' fill='%23691C32'/%3E%3Cpath d='M9 14 H43' stroke='white' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpath d='M19 14 V42' stroke='white' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpath d='M33 14 V42' stroke='white' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -751,9 +751,31 @@
 
   .nav-titulo {
     font-family: var(--serif);
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
     flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  /* Badge "TT" — pequeño cuadro guinda invertido con dos T entrelazadas, va a la
+     derecha del título principal del nav. */
+  .nav-tt-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: white;
+    color: var(--guinda);
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: -0.04em;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.18);
   }
 
   .nav-usuario {
@@ -2095,18 +2117,15 @@
     <div class="acceso-brand">
       <div class="acceso-logo-wrap">
         <svg class="acceso-logo-mark" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="2" y="2" width="48" height="48" rx="8" fill="currentColor"/>
-          <path d="M14 38 L26 12 L38 38 M19 30 L33 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <circle cx="40" cy="12" r="6" fill="white"/>
-          <path d="M37 12 L39.2 14.2 L43 10.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <rect x="2" y="2" width="48" height="48" rx="10" fill="currentColor"/>
+          <!-- Doble T entrelazada: barra horizontal compartida arriba, dos verticales descendentes -->
+          <path d="M9 14 H43" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M19 14 V42" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M33 14 V42" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
         </svg>
-        <div class="acceso-logo">Avala</div>
+        <div class="acceso-logo">TT</div>
       </div>
       <div class="acceso-logo-tagline">Sistema de Gestión y Validación de Tareas</div>
-      <div class="acceso-marca">ATTRAPI</div>
-      <div class="acceso-marca-sub">Agencia de Trenes y Transporte Público Integrado</div>
-      <h1>Dirección de Procesos Administrativos de Construcción</h1>
-      <p class="acceso-desc">Sistema de gestión y validación de tareas para las tres subdirecciones de la DPAC.</p>
     </div>
 
     <div class="acceso-form">
@@ -2143,8 +2162,7 @@
       </div>
 
       <div class="acceso-nota">
-        Demostración funcional · Datos ficticios.<br>
-        En producción: identificación con cuenta Google institucional.
+        ATTRAPI · Agencia de Trenes y Transporte Público Integrado
       </div>
     </div>
   </div>
@@ -2159,7 +2177,10 @@
         <div class="nav-marca-titulo">ATTRAPI · SPAC</div>
         <div class="nav-marca-sub">Dirección de Procesos Administrativos de Construcción</div>
       </div>
-      <div class="nav-titulo" id="navTitulo">Tablero de Tareas</div>
+      <div class="nav-titulo">
+        <span id="navTitulo">Tablero de Tareas</span>
+        <span class="nav-tt-badge" aria-hidden="true">TT</span>
+      </div>
       <div class="nav-usuario">
         <div class="nav-usuario-avatar" id="userAvatar">AT</div>
         <div class="nav-usuario-info">
@@ -2282,10 +2303,6 @@
     <button class="chip" data-prio="Baja" onclick="filtrarPrioridad('Baja')">Baja</button>
 
     <div class="filtros-spacer"></div>
-    <button class="btn-secundario" id="btnExcel" onclick="abrirCargarExcel()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Cargar Excel
-    </button>
     <button class="btn-nuevo" id="btnNuevo" onclick="abrirNuevaTarea()">+ Nueva Tarea</button>
   </div>
 
@@ -2527,7 +2544,6 @@ function ingresar(rol) {
     document.getElementById('kpisSubGrupo').style.display = '';
     document.getElementById('kpisGrupoTitulo').textContent = 'Resumen general';
     document.getElementById('btnNuevo').style.display = '';
-    document.getElementById('btnExcel').style.display = '';
     document.getElementById('navTitulo').textContent = 'Tablero de Tareas';
     tabActiva = 'TODAS';
 
@@ -3104,7 +3120,7 @@ function exportarICS(idTarea) {
   const ics = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Avala//ATTRAPI//ES',
+    'PRODID:-//TT//ATTRAPI//ES',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
@@ -3125,7 +3141,7 @@ function exportarICS(idTarea) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'Avala-' + t.id + '.ics';
+  a.download = 'TT-' + t.id + '.ics';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -3335,7 +3351,7 @@ function abrirCargarExcel() {
           <div class="excel-paso-num">3</div>
           <div>
             <div class="excel-paso-titulo">Suba el archivo</div>
-            <div class="excel-paso-desc">Acepta archivos .csv y .xlsx. Avala muestra una vista previa antes de cargar.</div>
+            <div class="excel-paso-desc">Acepta archivos .csv y .xlsx. TT muestra una vista previa antes de cargar.</div>
             <label class="excel-zona" id="excelZona">
               <div class="excel-zona-icono">📥</div>
               <div class="excel-zona-titulo">Haga clic o arrastre el archivo aquí</div>
@@ -3372,7 +3388,7 @@ function descargarPlantillaCSV() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'Plantilla-Avala-Tareas.csv';
+  a.download = 'Plantilla-TT-Tareas.csv';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
