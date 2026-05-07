@@ -762,11 +762,13 @@
   }
 
   /* Layout en 3 columnas: título pegado a la izquierda (auto) | marca al
-     centro (1fr, se centra a sí misma) | usuario+salir a la derecha (auto). */
+     centro (1fr, se centra a sí misma) | usuario+salir a la derecha (auto).
+     El nav usa todo el ancho del dispositivo (sin max-width) para que el
+     título toque la orilla izquierda y Salir la orilla derecha. El padding
+     lateral mantiene una pequeña respiración. */
   .nav-inner {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 32px;
+    width: 100%;
+    padding: 0 24px;
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
