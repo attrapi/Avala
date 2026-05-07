@@ -382,7 +382,13 @@
   .subheader-inner {
     max-width: 1400px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr minmax(0, auto);
+    gap: 36px;
+    align-items: start;
   }
+
+  .subheader-titulo { min-width: 0; }
 
   .breadcrumb {
     font-size: 12px;
@@ -395,7 +401,7 @@
   .subheader h1 {
     font-family: var(--serif);
     font-weight: 600;
-    font-size: 36px;
+    font-size: 32px;
     line-height: 1.2;
     margin-bottom: 8px;
     color: var(--tinta);
@@ -404,67 +410,107 @@
   .subheader-desc {
     color: var(--tinta-suave);
     font-size: 14px;
-    max-width: 800px;
+    max-width: 720px;
+    line-height: 1.55;
   }
 
-  /* === KPIs === */
+  /* === KPIs CIRCULARES (en sidebar del subheader) === */
   .kpis {
-    max-width: 1400px;
-    margin: 32px auto 0;
-    padding: 0 32px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    border-left: 1px solid var(--linea);
+    padding-left: 28px;
+    min-width: 380px;
+  }
+
+  .kpis-grupo-titulo {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--tinta-tenue);
+    margin-bottom: 10px;
+  }
+
+  .kpis-fila {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
   }
 
   .kpi {
-    background: white;
-    border: 1px solid var(--linea);
-    padding: 24px;
-    border-radius: 2px;
-    position: relative;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    background: none;
+    border: none;
+    padding: 0;
+    min-width: 70px;
+    flex: 1;
   }
-
-  .kpi::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; bottom: 0;
-    width: 3px;
-    background: var(--guinda);
-  }
-
-  .kpi-azul::before { background: var(--azul); }
-  .kpi-ambar::before { background: var(--ambar); }
-  .kpi-verde::before { background: var(--verde); }
-  .kpi-grafito::before { background: var(--grafito); }
 
   .kpi-label {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.06em;
     color: var(--tinta-tenue);
-    margin-bottom: 12px;
+    text-align: center;
+    line-height: 1.2;
+    min-height: 24px;
+    display: flex;
+    align-items: flex-end;
   }
 
   .kpi-valor {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: white;
+    border: 2.5px solid var(--guinda);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: var(--serif);
-    font-weight: 600;
-    font-size: 48px;
+    font-weight: 700;
+    font-size: 22px;
     line-height: 1;
-    color: var(--tinta);
+    color: var(--guinda);
+    transition: transform 0.15s;
   }
+  .kpi:hover .kpi-valor { transform: scale(1.06); }
 
-  .kpi-azul .kpi-valor { color: var(--azul); }
-  .kpi-ambar .kpi-valor { color: var(--ambar); }
-  .kpi-verde .kpi-valor { color: var(--verde); }
+  .kpi-azul   .kpi-valor { border-color: var(--azul);    color: var(--azul);    background: var(--azul-tenue); }
+  .kpi-ambar  .kpi-valor { border-color: var(--ambar);   color: var(--ambar);   background: var(--ambar-tenue); }
+  .kpi-verde  .kpi-valor { border-color: var(--verde);   color: var(--verde);   background: var(--verde-tenue); }
+  .kpi-grafito .kpi-valor{ border-color: var(--grafito); color: var(--grafito); background: var(--grafito-tenue); }
+  .kpi-rojo   .kpi-valor { border-color: var(--rojo);    color: var(--rojo);    background: #FEE2E2; }
 
-  .kpi-meta {
-    margin-top: 8px;
-    font-size: 12px;
-    color: var(--tinta-tenue);
+  /* Oculta la meta — el rediseño usa solo label + número */
+  .kpi-meta { display: none; }
+
+  /* === KPIs por subdirección (segunda fila) === */
+  .kpi-sub .kpi-valor {
+    font-size: 20px;
+    width: 54px;
+    height: 54px;
   }
+  .kpi-sub .kpi-clave {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 2px;
+  }
+  .kpi-sub[data-sub="SA"]   .kpi-valor { border-color: var(--azul);  color: var(--azul);  background: var(--azul-tenue); }
+  .kpi-sub[data-sub="SGOI"] .kpi-valor { border-color: var(--ambar); color: var(--ambar); background: var(--ambar-tenue); }
+  .kpi-sub[data-sub="SPAC"] .kpi-valor { border-color: var(--verde); color: var(--verde); background: var(--verde-tenue); }
+  .kpi-sub[data-sub="SA"]   .kpi-clave { background: rgba(21,101,192,0.14); color: var(--azul); }
+  .kpi-sub[data-sub="SGOI"] .kpi-clave { background: rgba(180,83,9,0.14);   color: var(--ambar); }
+  .kpi-sub[data-sub="SPAC"] .kpi-clave { background: rgba(21,128,61,0.14);  color: var(--verde); }
 
   /* === TABS SUBDIRECCIONES (PÍLDORAS) === */
   .tabs-wrap {
@@ -1507,7 +1553,17 @@
   /* === RESPONSIVE === */
   @media (max-width: 1100px) {
     .tablero { grid-template-columns: repeat(2, 1fr); }
-    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .subheader-inner {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .kpis {
+      border-left: none;
+      border-top: 1px solid var(--linea);
+      padding-left: 0;
+      padding-top: 20px;
+      min-width: 0;
+    }
   }
 
   @media (max-width: 760px) {
@@ -1518,7 +1574,6 @@
 
   @media (max-width: 700px) {
     .tablero { grid-template-columns: 1fr; }
-    .kpis { grid-template-columns: 1fr; }
     .nav-inner { padding: 0 16px; gap: 12px; flex-wrap: wrap; height: auto; padding-top: 12px; padding-bottom: 12px; }
     .nav-marca { border-right: none; padding-right: 0; }
     .subheader { padding: 16px; }
@@ -1526,7 +1581,6 @@
     .filtros { padding: 0 16px; }
     .tablero { padding: 0 16px; }
     .calendario-wrap { padding: 0 16px; }
-    .kpis { padding: 0 16px; }
     .tabs-wrap { padding: 0 16px; }
     .tabs { overflow-x: auto; }
     .tab { white-space: nowrap; }
@@ -1535,6 +1589,9 @@
     .cal-header { flex-wrap: wrap; gap: 10px; }
     .cal-titulo { font-size: 18px; }
     .cal-dia-cab { font-size: 9px; padding: 6px 2px; }
+    .kpis-fila { gap: 8px; }
+    .kpi { min-width: 60px; }
+    .kpi-valor { width: 48px; height: 48px; font-size: 18px; }
   }
 </style>
 </head>
@@ -1627,32 +1684,56 @@
 
   <div class="subheader">
     <div class="subheader-inner">
-      <div class="breadcrumb">ATTRAPI / Dirección de Procesos Administrativos de Construcción</div>
-      <h1>Tablero de Tareas</h1>
-      <p class="subheader-desc" id="bienvenida">Bienvenido. Desde esta pantalla puede consultar y validar las tareas reportadas por las tres subdirecciones.</p>
-    </div>
-  </div>
+      <div class="subheader-titulo">
+        <div class="breadcrumb">ATTRAPI / Dirección de Procesos Administrativos de Construcción</div>
+        <h1>Tablero de Tareas</h1>
+        <p class="subheader-desc" id="bienvenida">Bienvenido. Desde esta pantalla puede consultar y validar las tareas reportadas por las tres subdirecciones.</p>
+      </div>
 
-  <div class="kpis">
-    <div class="kpi kpi-azul">
-      <div class="kpi-label">Tareas Activas</div>
-      <div class="kpi-valor" id="kpiActivas">0</div>
-      <div class="kpi-meta">Total en seguimiento</div>
-    </div>
-    <div class="kpi kpi-ambar">
-      <div class="kpi-label">Pendientes de Validar</div>
-      <div class="kpi-valor" id="kpiPendientes">0</div>
-      <div class="kpi-meta">Requieren su atención</div>
-    </div>
-    <div class="kpi kpi-verde">
-      <div class="kpi-label">Validadas Hoy</div>
-      <div class="kpi-valor" id="kpiHoy">0</div>
-      <div class="kpi-meta">Aprobadas en el día</div>
-    </div>
-    <div class="kpi kpi-grafito">
-      <div class="kpi-label">Validadas en la Semana</div>
-      <div class="kpi-valor" id="kpiSemana">0</div>
-      <div class="kpi-meta">Últimos 7 días</div>
+      <div class="kpis" id="kpisPanel">
+        <div>
+          <div class="kpis-grupo-titulo" id="kpisGrupoTitulo">Resumen general</div>
+          <div class="kpis-fila">
+            <div class="kpi kpi-azul">
+              <div class="kpi-label">Activas</div>
+              <div class="kpi-valor" id="kpiActivas">0</div>
+            </div>
+            <div class="kpi kpi-ambar">
+              <div class="kpi-label">Por validar</div>
+              <div class="kpi-valor" id="kpiPendientes">0</div>
+            </div>
+            <div class="kpi kpi-verde">
+              <div class="kpi-label">Hoy</div>
+              <div class="kpi-valor" id="kpiHoy">0</div>
+            </div>
+            <div class="kpi kpi-grafito">
+              <div class="kpi-label">Semana</div>
+              <div class="kpi-valor" id="kpiSemana">0</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="kpisSubGrupo">
+          <div class="kpis-grupo-titulo">Pendientes por subdirección</div>
+          <div class="kpis-fila">
+            <div class="kpi kpi-sub" data-sub="SA" onclick="cambiarTab('SA')" style="cursor:pointer">
+              <div class="kpi-label">Archivo</div>
+              <div class="kpi-valor" id="kpiPendSA">0</div>
+              <div class="kpi-clave">SA</div>
+            </div>
+            <div class="kpi kpi-sub" data-sub="SGOI" onclick="cambiarTab('SGOI')" style="cursor:pointer">
+              <div class="kpi-label">Obras Inducidas</div>
+              <div class="kpi-valor" id="kpiPendSGOI">0</div>
+              <div class="kpi-clave">SGOI</div>
+            </div>
+            <div class="kpi kpi-sub" data-sub="SPAC" onclick="cambiarTab('SPAC')" style="cursor:pointer">
+              <div class="kpi-label">Procesos Construcción</div>
+              <div class="kpi-valor" id="kpiPendSPAC">0</div>
+              <div class="kpi-clave">SPAC</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1902,7 +1983,8 @@ function ingresar(rol) {
   if (usuarioActual.rol === 'Director') {
     // Director: mostrar todas las pestañas y KPIs consolidados
     todasLasTabs.forEach(t => t.style.display = '');
-    document.querySelector('.kpis').style.display = '';
+    document.getElementById('kpisSubGrupo').style.display = '';
+    document.getElementById('kpisGrupoTitulo').textContent = 'Resumen general';
     document.querySelector('.subheader h1').textContent = 'Tablero de Tareas';
     document.querySelector('.breadcrumb').textContent = 'ATTRAPI / Dirección de Procesos Administrativos de Construcción';
     document.getElementById('bienvenida').textContent = 'Bienvenido, Ing. Tavares. Las tareas marcadas en amarillo "En revisión" están listas para su validación. Un solo clic en el botón verde aprueba la tarea y registra su nombre, fecha y hora.';
@@ -1921,6 +2003,10 @@ function ingresar(rol) {
         t.style.display = '';
       }
     });
+
+    // El capturista no ve la fila por subdirección (solo ve la suya)
+    document.getElementById('kpisSubGrupo').style.display = 'none';
+    document.getElementById('kpisGrupoTitulo').textContent = 'Mis tareas';
 
     // Personalizar encabezado para que sea claro qué subdirección ve
     const nombresSubs = {
@@ -1980,8 +2066,22 @@ function actualizarKPIs() {
   const hoy = new Date().toISOString().split('T')[0];
   const hace7 = new Date(); hace7.setDate(hace7.getDate() - 7);
 
+  // Helper para localizar el .kpi-label asociado a un valor (sube al .kpi padre)
+  const setLabel = (valorId, texto) => {
+    const valor = document.getElementById(valorId);
+    if (!valor) return;
+    const lbl = valor.parentElement.querySelector('.kpi-label');
+    if (lbl) lbl.textContent = texto;
+  };
+
+  // Reset del círculo de "Semana/Vencidas" a su clase base por si se cambió de rol
+  const kpiSemanaParent = document.getElementById('kpiSemana').parentElement;
+  kpiSemanaParent.classList.remove('kpi-rojo');
+  if (!kpiSemanaParent.classList.contains('kpi-grafito')) {
+    kpiSemanaParent.classList.add('kpi-grafito');
+  }
+
   if (usuarioActual.rol === 'Capturista') {
-    // KPIs orientados al trabajo del capturista
     const activas = visible.filter(t => t.estatus !== 'Liberada').length;
     const enRevision = visible.filter(t => t.estatus === 'En revisión').length;
     const validadas = visible.filter(t => t.estatus === 'Validada').length;
@@ -1989,46 +2089,29 @@ function actualizarKPIs() {
       esVencida(t.fecha_limite) && t.estatus !== 'Validada' && t.estatus !== 'Liberada'
     ).length;
 
-    // Cambiar etiquetas
-    const labels = document.querySelectorAll('.kpi-label');
-    labels[0].textContent = 'Mis Tareas Activas';
-    labels[1].textContent = 'Esperando Validación';
-    labels[2].textContent = 'Ya Validadas';
-    labels[3].textContent = 'Vencidas';
-
-    const metas = document.querySelectorAll('.kpi-meta');
-    metas[0].textContent = 'En seguimiento';
-    metas[1].textContent = 'Enviadas al Director';
-    metas[2].textContent = 'Aprobadas por Director';
-    metas[3].textContent = 'Requieren atención';
+    setLabel('kpiActivas', 'Activas');
+    setLabel('kpiPendientes', 'Por validar');
+    setLabel('kpiHoy', 'Validadas');
+    setLabel('kpiSemana', 'Vencidas');
 
     document.getElementById('kpiActivas').textContent = activas;
     document.getElementById('kpiPendientes').textContent = enRevision;
     document.getElementById('kpiHoy').textContent = validadas;
     document.getElementById('kpiSemana').textContent = vencidas;
 
-    // Cambiar color del último KPI a rojo si hay vencidas
-    const ultimoKpi = document.querySelectorAll('.kpi')[3];
-    if (vencidas > 0) {
-      ultimoKpi.classList.remove('kpi-grafito');
-      ultimoKpi.classList.add('kpi-azul');
-      document.getElementById('kpiSemana').style.color = 'var(--rojo)';
-    }
+    // Resaltar el círculo de vencidas en rojo si hay alguna
+    const kpiVenc = document.getElementById('kpiSemana').parentElement;
+    kpiVenc.classList.remove('kpi-grafito');
+    kpiVenc.classList.toggle('kpi-rojo', vencidas > 0);
+    if (vencidas === 0) kpiVenc.classList.add('kpi-grafito');
     return;
   }
 
   // KPIs del Director
-  const labels = document.querySelectorAll('.kpi-label');
-  labels[0].textContent = 'Tareas Activas';
-  labels[1].textContent = 'Pendientes de Validar';
-  labels[2].textContent = 'Validadas Hoy';
-  labels[3].textContent = 'Validadas en la Semana';
-
-  const metas = document.querySelectorAll('.kpi-meta');
-  metas[0].textContent = 'Total en seguimiento';
-  metas[1].textContent = 'Requieren su atención';
-  metas[2].textContent = 'Aprobadas en el día';
-  metas[3].textContent = 'Últimos 7 días';
+  setLabel('kpiActivas', 'Activas');
+  setLabel('kpiPendientes', 'Por validar');
+  setLabel('kpiHoy', 'Hoy');
+  setLabel('kpiSemana', 'Semana');
 
   const activas = visible.filter(t => t.estatus !== 'Liberada').length;
   const pendientes = visible.filter(t => t.estatus === 'En revisión').length;
@@ -2042,6 +2125,14 @@ function actualizarKPIs() {
   document.getElementById('kpiPendientes').textContent = pendientes;
   document.getElementById('kpiHoy').textContent = validadasHoy;
   document.getElementById('kpiSemana').textContent = validadasSemana;
+
+  // Pendientes "En revisión" por subdirección (siempre sobre el universo total, ignorando filtros)
+  const pendSA   = TAREAS.filter(t => t.subdireccion === 'SA'   && t.estatus === 'En revisión').length;
+  const pendSGOI = TAREAS.filter(t => t.subdireccion === 'SGOI' && t.estatus === 'En revisión').length;
+  const pendSPAC = TAREAS.filter(t => t.subdireccion === 'SPAC' && t.estatus === 'En revisión').length;
+  document.getElementById('kpiPendSA').textContent = pendSA;
+  document.getElementById('kpiPendSGOI').textContent = pendSGOI;
+  document.getElementById('kpiPendSPAC').textContent = pendSPAC;
 }
 
 function actualizarConteosTabs() {
