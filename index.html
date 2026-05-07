@@ -781,7 +781,7 @@
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
-    justify-self: center;
+    justify-self: start;
   }
 
   .nav-marca-titulo {
@@ -814,7 +814,7 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    justify-self: start;
+    justify-self: center;
   }
   /* Badge "TT" — pequeño cuadro guinda invertido con dos T entrelazadas, va a la
      derecha del título principal del nav. */
@@ -2396,13 +2396,13 @@
 
   <nav class="nav">
     <div class="nav-inner">
-      <div class="nav-titulo">
-        <span id="navTitulo">Tablero de Tareas</span>
-        <span class="nav-tt-badge" aria-hidden="true">TT</span>
-      </div>
       <div class="nav-marca">
         <div class="nav-marca-titulo">ATTRAPI · SPAC</div>
         <div class="nav-marca-sub">Dirección de Procesos Administrativos de Construcción</div>
+      </div>
+      <div class="nav-titulo">
+        <span class="nav-tt-badge" aria-hidden="true">TT</span>
+        <span id="navTitulo">Tablero de Tareas</span>
       </div>
       <div class="nav-right">
         <div class="nav-usuario">
