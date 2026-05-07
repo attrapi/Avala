@@ -30,18 +30,19 @@
     --grafito-tenue: #F3F4F6;
     --rojo: #B91C1C;
 
-    /* === Paleta de subdirecciones (tonos tierra) ===
-       Distintos del flujo de trabajo (azul/ámbar/verde/gris) para evitar
-       confusión entre filtro de subdirección y estado de tarea. En la
-       vista consolidada (TODAS) las tarjetas usan estos colores como
-       identificador de subdirección, así Adrián distingue de un
-       vistazo de qué subdirección viene cada tarea. */
-    --sub-sa: #92400E;          /* Mostaza-marrón cálido */
-    --sub-sa-tenue: #F5E8D3;
-    --sub-sgoi: #C2410C;        /* Terracota */
-    --sub-sgoi-tenue: #FFD6BC;
-    --sub-spac: #365314;        /* Olivo profundo */
-    --sub-spac-tenue: #DCEAB7;
+    /* === Paleta de subdirecciones ===
+       En la vista consolidada (TODAS) las tarjetas usan estos colores
+       como identificador de subdirección, así Adrián distingue de un
+       vistazo de qué subdirección viene cada tarea. SPAC (azul navy)
+       y SGOI (verde bosque) usan tonos distintos del flujo de trabajo
+       (--azul Reportada / --verde Validada) para no confundir filtro
+       de subdirección con estado de tarea. */
+    --sub-sa: #5D4037;          /* Café */
+    --sub-sa-tenue: #EFEBE9;
+    --sub-sgoi: #166534;        /* Verde bosque */
+    --sub-sgoi-tenue: #D1FAE5;
+    --sub-spac: #1E3A8A;        /* Azul navy */
+    --sub-spac-tenue: #DBEAFE;
 
     --serif: 'Fraunces', Georgia, serif;
     --sans: 'Inter', -apple-system, sans-serif;
@@ -550,12 +551,12 @@
     display: inline-block;
   }
 
-  .kpi-sub[data-sub="SA"]   .kpi-valor { border-color: var(--sub-sa);   color: var(--sub-sa);   background: linear-gradient(135deg, white 0%, var(--sub-sa-tenue) 100%);   box-shadow: 0 4px 14px rgba(146,64,14,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
-  .kpi-sub[data-sub="SGOI"] .kpi-valor { border-color: var(--sub-sgoi); color: var(--sub-sgoi); background: linear-gradient(135deg, white 0%, var(--sub-sgoi-tenue) 100%); box-shadow: 0 4px 14px rgba(194,65,12,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
-  .kpi-sub[data-sub="SPAC"] .kpi-valor { border-color: var(--sub-spac); color: var(--sub-spac); background: linear-gradient(135deg, white 0%, var(--sub-spac-tenue) 100%); box-shadow: 0 4px 14px rgba(54,83,20,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
-  .kpi-sub[data-sub="SA"]   .kpi-clave { background: rgba(146,64,14,0.16); color: var(--sub-sa); }
-  .kpi-sub[data-sub="SGOI"] .kpi-clave { background: rgba(194,65,12,0.16); color: var(--sub-sgoi); }
-  .kpi-sub[data-sub="SPAC"] .kpi-clave { background: rgba(54,83,20,0.16);  color: var(--sub-spac); }
+  .kpi-sub[data-sub="SA"]   .kpi-valor { border-color: var(--sub-sa);   color: var(--sub-sa);   background: linear-gradient(135deg, white 0%, var(--sub-sa-tenue) 100%);   box-shadow: 0 4px 14px rgba(93,64,55,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SGOI"] .kpi-valor { border-color: var(--sub-sgoi); color: var(--sub-sgoi); background: linear-gradient(135deg, white 0%, var(--sub-sgoi-tenue) 100%); box-shadow: 0 4px 14px rgba(22,101,52,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SPAC"] .kpi-valor { border-color: var(--sub-spac); color: var(--sub-spac); background: linear-gradient(135deg, white 0%, var(--sub-spac-tenue) 100%); box-shadow: 0 4px 14px rgba(30,58,138,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SA"]   .kpi-clave { background: rgba(93,64,55,0.16); color: var(--sub-sa); }
+  .kpi-sub[data-sub="SGOI"] .kpi-clave { background: rgba(22,101,52,0.16); color: var(--sub-sgoi); }
+  .kpi-sub[data-sub="SPAC"] .kpi-clave { background: rgba(30,58,138,0.16);  color: var(--sub-spac); }
   .kpi-sub .kpi-label { font-size: 11px; color: var(--tinta-suave); font-weight: 600; }
 
   /* === TABS SUBDIRECCIONES (PÍLDORAS) === */
@@ -650,51 +651,51 @@
   }
   .tab[data-sub="TODAS"].activa .tab-icon { color: white; }
 
-  /* --- Píldora SA (Archivo) - MOSTAZA --- */
+  /* --- Píldora SA (Archivo) - CAFÉ --- */
   .tab[data-sub="SA"] {
     background: var(--sub-sa-tenue);
-    border-color: rgba(146,64,14,0.28);
+    border-color: rgba(93,64,55,0.28);
     color: var(--sub-sa);
   }
-  .tab[data-sub="SA"] .tab-clave { background: rgba(146,64,14,0.18); color: var(--sub-sa); }
-  .tab[data-sub="SA"]:hover { border-color: var(--sub-sa); background: #ECDCBF; }
+  .tab[data-sub="SA"] .tab-clave { background: rgba(93,64,55,0.18); color: var(--sub-sa); }
+  .tab[data-sub="SA"]:hover { border-color: var(--sub-sa); background: #D7CCC8; }
   .tab[data-sub="SA"].activa {
     background: var(--sub-sa);
     border-color: var(--sub-sa);
     color: white;
-    box-shadow: 0 6px 18px rgba(146,64,14,0.35), 0 0 0 3px rgba(146,64,14,0.18);
+    box-shadow: 0 6px 18px rgba(93,64,55,0.35), 0 0 0 3px rgba(93,64,55,0.18);
     transform: translateY(-1px);
   }
 
-  /* --- Píldora SGOI (Obras Inducidas) - TERRACOTA --- */
+  /* --- Píldora SGOI (Obras Inducidas) - VERDE --- */
   .tab[data-sub="SGOI"] {
     background: var(--sub-sgoi-tenue);
-    border-color: rgba(194,65,12,0.28);
+    border-color: rgba(22,101,52,0.28);
     color: var(--sub-sgoi);
   }
-  .tab[data-sub="SGOI"] .tab-clave { background: rgba(194,65,12,0.18); color: var(--sub-sgoi); }
-  .tab[data-sub="SGOI"]:hover { border-color: var(--sub-sgoi); background: #FFC4A4; }
+  .tab[data-sub="SGOI"] .tab-clave { background: rgba(22,101,52,0.18); color: var(--sub-sgoi); }
+  .tab[data-sub="SGOI"]:hover { border-color: var(--sub-sgoi); background: #A7F3D0; }
   .tab[data-sub="SGOI"].activa {
     background: var(--sub-sgoi);
     border-color: var(--sub-sgoi);
     color: white;
-    box-shadow: 0 6px 18px rgba(194,65,12,0.35), 0 0 0 3px rgba(194,65,12,0.18);
+    box-shadow: 0 6px 18px rgba(22,101,52,0.35), 0 0 0 3px rgba(22,101,52,0.18);
     transform: translateY(-1px);
   }
 
-  /* --- Píldora SPAC (Procesos Construcción) - OLIVO --- */
+  /* --- Píldora SPAC (Procesos Construcción) - AZUL NAVY --- */
   .tab[data-sub="SPAC"] {
     background: var(--sub-spac-tenue);
-    border-color: rgba(54,83,20,0.28);
+    border-color: rgba(30,58,138,0.28);
     color: var(--sub-spac);
   }
-  .tab[data-sub="SPAC"] .tab-clave { background: rgba(54,83,20,0.18); color: var(--sub-spac); }
-  .tab[data-sub="SPAC"]:hover { border-color: var(--sub-spac); background: #CADBA1; }
+  .tab[data-sub="SPAC"] .tab-clave { background: rgba(30,58,138,0.18); color: var(--sub-spac); }
+  .tab[data-sub="SPAC"]:hover { border-color: var(--sub-spac); background: #BFDBFE; }
   .tab[data-sub="SPAC"].activa {
     background: var(--sub-spac);
     border-color: var(--sub-spac);
     color: white;
-    box-shadow: 0 6px 18px rgba(54,83,20,0.35), 0 0 0 3px rgba(54,83,20,0.18);
+    box-shadow: 0 6px 18px rgba(30,58,138,0.35), 0 0 0 3px rgba(30,58,138,0.18);
     transform: translateY(-1px);
   }
 
