@@ -285,7 +285,7 @@
      El nav superior y el banner demo van full-width arriba del grid. */
   .app-body {
     display: grid;
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 248px 1fr;
     align-items: start;
     flex: 1;
   }
@@ -327,17 +327,27 @@
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
+    gap: 10px;
+    padding: 9px 12px;
     border-radius: 6px;
     cursor: pointer;
     font-family: var(--sans);
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 500;
+    line-height: 1.3;
     color: var(--tinta-suave);
     transition: background 0.14s, color 0.14s;
     position: relative;
+    /* Permite que las etiquetas largas hagan wrap en 2 líneas. La etiqueta
+       (texto) es el único hijo flex que crece y se queda con el espacio
+       restante después del icono y el conteo. */
+    text-wrap: pretty;
   }
+  /* La etiqueta de texto va entre icono y conteo. La envolvemos en un
+     contenedor implícito vía un wrapper para forzar el flex-grow correcto. */
+  .sidebar-item > svg + .sidebar-label,
+  .sidebar-item > .sub-dot + .sidebar-label { flex: 1; min-width: 0; }
+  .sidebar-label { word-break: break-word; }
   .sidebar-item svg {
     width: 18px;
     height: 18px;
@@ -378,6 +388,19 @@
     background: rgba(105,28,50,0.15);
     color: var(--guinda);
   }
+  /* Botón Inicio: un toque más sólido que un item normal, color guinda
+     pleno para que sirva de "regreso a casa" siempre visible. */
+  .sidebar-inicio {
+    background: var(--guinda);
+    color: white;
+    font-weight: 600;
+  }
+  .sidebar-inicio svg { opacity: 1; }
+  .sidebar-inicio:hover {
+    background: var(--guinda-oscuro);
+    color: white;
+  }
+
   /* Marcador circular de color para cada subdirección. */
   .sub-dot {
     width: 10px;
@@ -2213,26 +2236,33 @@
 
   <div class="app-body">
     <aside class="sidebar" id="sidebar">
+      <div class="sidebar-grupo">
+        <button class="sidebar-item sidebar-inicio" onclick="irInicio()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12 L12 3 L21 12"/><path d="M5 10 V21 H10 V14 H14 V21 H19 V10"/></svg>
+          <span class="sidebar-label">Inicio</span>
+        </button>
+      </div>
+
       <div class="sidebar-grupo" id="sidebarGrupoSubs">
         <div class="sidebar-grupo-titulo">Subdirecciones</div>
         <button class="sidebar-item sidebar-sub activa" data-sub="TODAS" onclick="cambiarTab('TODAS')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-          Vista Consolidada
+          <span class="sidebar-label">Vista Consolidada</span>
           <span class="sidebar-conteo" id="contTODAS">0</span>
         </button>
         <button class="sidebar-item sidebar-sub" data-sub="SA" onclick="cambiarTab('SA')">
           <span class="sub-dot" style="background: var(--sub-sa)"></span>
-          Subdirección de Archivo
+          <span class="sidebar-label">Subdirección de Archivo</span>
           <span class="sidebar-conteo" id="contSA">0</span>
         </button>
         <button class="sidebar-item sidebar-sub" data-sub="SGOI" onclick="cambiarTab('SGOI')">
           <span class="sub-dot" style="background: var(--sub-sgoi)"></span>
-          Gestión de Obras Inducidas
+          <span class="sidebar-label">Subdirección de Gestión de Obras Inducidas</span>
           <span class="sidebar-conteo" id="contSGOI">0</span>
         </button>
         <button class="sidebar-item sidebar-sub" data-sub="SPAC" onclick="cambiarTab('SPAC')">
           <span class="sub-dot" style="background: var(--sub-spac)"></span>
-          Procesos Adm. de Construcción
+          <span class="sidebar-label">Subdirección de Procesos Administrativos de Construcción</span>
           <span class="sidebar-conteo" id="contSPAC">0</span>
         </button>
       </div>
@@ -2241,11 +2271,11 @@
         <div class="sidebar-grupo-titulo">Vistas</div>
         <button class="sidebar-item activa" data-vista="tablero" onclick="cambiarVista('tablero')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-          Tablero
+          <span class="sidebar-label">Tablero</span>
         </button>
         <button class="sidebar-item" data-vista="calendario" onclick="cambiarVista('calendario')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Calendario
+          <span class="sidebar-label">Calendario</span>
         </button>
       </div>
 
@@ -2253,16 +2283,16 @@
         <div class="sidebar-grupo-titulo">Gestión</div>
         <button class="sidebar-item" data-vista="bitacora" onclick="cambiarVista('bitacora')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
-          Bitácora
+          <span class="sidebar-label">Bitácora</span>
           <span class="sidebar-conteo" id="sidebarConteoBitacora">0</span>
         </button>
         <button class="sidebar-item" data-vista="carga" onclick="cambiarVista('carga')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Carga
+          <span class="sidebar-label">Carga</span>
         </button>
         <button class="sidebar-item" data-vista="reportes" onclick="cambiarVista('reportes')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8"  y2="13"/><line x1="16" y1="17" x2="8"  y2="17"/><line x1="10" y1="9"  x2="8"  y2="9"/></svg>
-          Reportes
+          <span class="sidebar-label">Reportes</span>
         </button>
       </div>
     </aside>
@@ -2998,6 +3028,12 @@ function toast(mensaje, tipo) {
 
 // ============== VISTA TABLERO / CALENDARIO ==============
 
+// Botón Inicio: regresa a Tablero + Vista Consolidada en un solo click.
+function irInicio() {
+  cambiarTab('TODAS');
+  cambiarVista('tablero');
+}
+
 function cambiarVista(v) {
   vistaActiva = v;
   // Marca el item activo del sidebar (solo entre los que tienen data-vista)
@@ -3620,60 +3656,76 @@ function exportarPDF(sub) {
 <meta charset="UTF-8">
 <title>Reporte TT — ${NOMBRE_SUB[sub]}</title>
 <style>
-  @page { size: letter landscape; margin: 14mm 12mm; }
+  /* Carta vertical con márgenes generosos para que el contenido respire
+     y no toque las orillas al imprimir. */
+  @page { size: letter portrait; margin: 18mm 16mm 16mm 16mm; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Inter', -apple-system, Segoe UI, sans-serif; color: #1A1A1A; font-size: 11px; line-height: 1.4; }
+  html, body { background: white; }
+  body { font-family: 'Inter', -apple-system, Segoe UI, sans-serif; color: #1A1A1A; font-size: 10.5px; line-height: 1.4; padding: 0; }
 
-  .rep-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #691C32; padding-bottom: 10px; margin-bottom: 14px; }
-  .rep-marca { display: flex; align-items: center; gap: 12px; }
-  .rep-mark-svg { width: 38px; height: 38px; }
+  /* Contenedor en pantalla: simula la hoja con padding interno */
+  .rep-pagina {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 22px 26px 26px;
+  }
+  @media print { .rep-pagina { max-width: none; padding: 0; margin: 0; } }
+
+  .rep-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; border-bottom: 2px solid #691C32; padding-bottom: 12px; margin-bottom: 14px; }
+  .rep-marca { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .rep-mark-svg { width: 40px; height: 40px; flex-shrink: 0; }
   .rep-marca-info { display: flex; flex-direction: column; }
   .rep-marca-titulo { font-family: Georgia, serif; font-size: 17px; font-weight: 700; color: #691C32; line-height: 1.1; }
-  .rep-marca-sub { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #6A6A6A; margin-top: 2px; }
-  .rep-info { text-align: right; }
-  .rep-info-titulo { font-family: Georgia, serif; font-size: 14px; font-weight: 600; color: #1A1A1A; }
-  .rep-info-sub { font-size: 10px; color: #6A6A6A; margin-top: 3px; }
+  .rep-marca-sub { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #6A6A6A; margin-top: 3px; }
+  .rep-info { text-align: right; min-width: 0; }
+  .rep-info-titulo { font-family: Georgia, serif; font-size: 13px; font-weight: 600; color: #1A1A1A; line-height: 1.25; }
+  .rep-info-sub { font-size: 9.5px; color: #6A6A6A; margin-top: 4px; line-height: 1.35; }
   .rep-sub-pill { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
 
-  .rep-resumen { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
-  .rep-kpi { border: 1px solid #E5DFD7; border-radius: 4px; padding: 8px 12px; }
-  .rep-kpi-valor { font-family: Georgia, serif; font-size: 22px; font-weight: 700; line-height: 1; }
-  .rep-kpi-label { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: #6A6A6A; margin-top: 4px; }
+  .rep-resumen { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+  .rep-kpi { border: 1px solid #E5DFD7; border-radius: 4px; padding: 7px 10px; }
+  .rep-kpi-valor { font-family: Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1; }
+  .rep-kpi-label { font-size: 8.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #6A6A6A; margin-top: 4px; }
   .rep-kpi.proceso .rep-kpi-valor { color: #B45309; }
   .rep-kpi.atendida .rep-kpi-valor { color: #15803D; }
   .rep-kpi.vencida .rep-kpi-valor { color: #B91C1C; }
 
-  table { width: 100%; border-collapse: collapse; }
+  /* Tabla más compacta para que quepa en carta vertical */
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
   thead { display: table-header-group; }
-  thead th { background: #691C32; color: white; padding: 7px 8px; text-align: left; font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
-  thead th.col-fecha, thead th.col-avance { text-align: center; }
-  tbody td { padding: 7px 8px; border-bottom: 1px solid #ECEAE5; vertical-align: top; }
+  thead th { background: #691C32; color: white; padding: 6px 6px; text-align: left; font-size: 8.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+  thead th.col-fecha, thead th.col-avance, thead th.col-prio, thead th.col-estatus { text-align: center; }
+  tbody td { padding: 6px 6px; border-bottom: 1px solid #ECEAE5; vertical-align: top; word-wrap: break-word; }
   tbody tr:nth-child(even) td { background: #FAF7F2; }
-  td.col-id { font-family: 'SF Mono', Consolas, monospace; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
-  td.col-titulo { line-height: 1.35; }
-  td.col-fecha { font-family: 'SF Mono', Consolas, monospace; font-size: 10.5px; white-space: nowrap; text-align: center; }
+  td.col-id { font-family: 'SF Mono', Consolas, monospace; font-size: 9.5px; font-weight: 700; white-space: nowrap; }
+  td.col-titulo { line-height: 1.32; font-size: 10px; }
+  td.col-fecha { font-family: 'SF Mono', Consolas, monospace; font-size: 9.5px; white-space: nowrap; text-align: center; }
   td.col-avance { font-weight: 700; text-align: center; white-space: nowrap; }
-  .sub-pill { display: inline-block; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 3px; }
+  td.col-prio, td.col-estatus { text-align: center; }
+  .sub-pill { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px; }
 
-  .prio { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .prio { display: inline-block; font-size: 8.5px; font-weight: 700; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.04em; }
   .prio-alta { background: #FEE2E2; color: #B91C1C; }
   .prio-media { background: #FEF3C7; color: #B45309; }
   .prio-baja { background: #DCFCE7; color: #15803D; }
 
-  .estatus { display: inline-block; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+  .estatus { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 999px; white-space: nowrap; }
   .estatus-proceso { background: #FEF3C7; color: #B45309; }
   .estatus-atendida { background: #DCFCE7; color: #15803D; }
   .estatus-vencida { background: #FEE2E2; color: #B91C1C; }
 
+  /* Evitar que una fila se corte entre páginas */
+  tbody tr { break-inside: avoid; page-break-inside: avoid; }
+
   .rep-vacio { padding: 40px 20px; text-align: center; color: #6A6A6A; font-style: italic; }
 
-  .rep-pie { margin-top: 18px; padding-top: 10px; border-top: 1px solid #E5DFD7; display: flex; justify-content: space-between; font-size: 9px; color: #6A6A6A; }
+  .rep-pie { margin-top: 18px; padding-top: 10px; border-top: 1px solid #E5DFD7; display: flex; justify-content: space-between; gap: 12px; font-size: 8.5px; color: #6A6A6A; }
 
   /* Botón de imprimir solo visible en pantalla */
-  .rep-toolbar { position: sticky; top: 0; background: white; padding: 8px 0; margin-bottom: 6px; display: flex; gap: 8px; }
+  .rep-toolbar { position: sticky; top: 0; background: white; padding: 10px 26px; display: flex; gap: 8px; max-width: 760px; margin: 0 auto; border-bottom: 1px solid #E5DFD7; z-index: 10; }
   .rep-btn { background: #691C32; color: white; border: none; padding: 8px 16px; border-radius: 3px; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
   .rep-btn-sec { background: white; color: #1A1A1A; border: 1px solid #E5DFD7; }
-  @media print { .rep-toolbar { display: none; } body { font-size: 10px; } }
+  @media print { .rep-toolbar { display: none; } }
 </style>
 </head>
 <body>
@@ -3681,6 +3733,8 @@ function exportarPDF(sub) {
     <button class="rep-btn" onclick="window.print()">Imprimir / Guardar como PDF</button>
     <button class="rep-btn rep-btn-sec" onclick="window.close()">Cerrar</button>
   </div>
+
+  <div class="rep-pagina">
 
   <div class="rep-header">
     <div class="rep-marca">
@@ -3710,14 +3764,24 @@ function exportarPDF(sub) {
 
   ${total === 0 ? '<div class="rep-vacio">No hay tareas que mostrar para este filtro.</div>' : `
     <table>
+      <colgroup>
+        <col style="width: 8%">
+        ${mostrarSub ? '<col style="width: 7%">' : ''}
+        <col style="width: ${mostrarSub ? '12%' : '14%'}">
+        <col style="width: ${mostrarSub ? '37%' : '42%'}">
+        <col style="width: 8%" class="col-prio">
+        <col style="width: 11%" class="col-estatus">
+        <col style="width: 11%" class="col-fecha">
+        <col style="width: 6%" class="col-avance">
+      </colgroup>
       <thead>
         <tr>
           <th>ID</th>
           ${mostrarSub ? '<th>Sub</th>' : ''}
           <th>Responsable</th>
           <th>Tarea</th>
-          <th>Prioridad</th>
-          <th>Estatus</th>
+          <th class="col-prio">Prioridad</th>
+          <th class="col-estatus">Estatus</th>
           <th class="col-fecha">Fecha límite</th>
           <th class="col-avance">Avance</th>
         </tr>
@@ -3730,6 +3794,8 @@ function exportarPDF(sub) {
     <div>ATTRAPI · Agencia de Trenes y Transporte Público Integrado</div>
     <div>${NOMBRE_SUB[sub]} · ${fechaTxt}</div>
   </div>
+
+  </div><!-- /rep-pagina -->
 </body>
 </html>`;
 
