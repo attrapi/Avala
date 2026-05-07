@@ -294,23 +294,31 @@
   }
 
   /* === SIDEBAR === */
+  /* Fondo crema para que los grupos (cards blancas) se distingan. */
   .sidebar {
-    background: white;
+    background: var(--crema);
     border-right: 1px solid var(--linea);
     position: sticky;
     top: 0;
     align-self: start;
     height: 100vh;
     overflow-y: auto;
-    padding: 24px 14px;
+    padding: 16px 12px;
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: 14px;
   }
+  /* Cada grupo es una card blanca con su título arriba — así se ven las
+     divisiones entre Subdirecciones / Vistas / Gestión. */
   .sidebar-grupo {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
+    background: white;
+    border: 1px solid var(--linea);
+    border-radius: 8px;
+    padding: 8px 8px 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
   }
   .sidebar-grupo-titulo {
     font-size: 10px;
@@ -318,7 +326,9 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--tinta-tenue);
-    padding: 0 14px 6px;
+    padding: 6px 10px 8px;
+    border-bottom: 1px solid var(--linea);
+    margin-bottom: 6px;
   }
   .sidebar-item {
     background: none;
@@ -364,12 +374,13 @@
     font-weight: 600;
   }
   .sidebar-item.activa svg { opacity: 1; }
+  /* Indicador activo: barrita izquierda dentro del card. */
   .sidebar-item.activa::before {
     content: '';
     position: absolute;
-    left: -14px;
-    top: 8px;
-    bottom: 8px;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
     width: 3px;
     background: var(--guinda);
     border-radius: 0 3px 3px 0;
@@ -762,8 +773,8 @@
   .nav-marca {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
     justify-self: center;
   }
 
@@ -961,22 +972,121 @@
     background: var(--linea);
   }
 
-  .kpis-fila {
+  /* Cuerpo del card de KPIs: KPIs a la izquierda, gráfica de queso a la
+     derecha (cuando la hay). En móvil pasa a stack vertical. */
+  .kpi-cuerpo {
     display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  /* Cada KPI ocupa el mismo ancho dentro del card y su label se alinea
+     debajo del círculo, no al borde izquierdo del card. */
+  .kpis-fila {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 12px;
+    flex: 1;
+  }
+
+  /* === Gráfica de queso (donut) === */
+  .kpi-pie-wrap {
+    display: flex;
+    align-items: center;
     gap: 18px;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    border-left: 1px solid var(--linea);
+    padding-left: 24px;
+    flex-shrink: 0;
+  }
+  .kpi-pie {
+    --p1: 0;   /* % en proceso (no vencidas) */
+    --p2: 0;   /* % vencidas */
+    --p3: 0;   /* % atendidas */
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background:
+      conic-gradient(
+        var(--ambar) 0% calc(var(--p1) * 1%),
+        var(--rojo)  calc(var(--p1) * 1%) calc((var(--p1) + var(--p2)) * 1%),
+        var(--verde) calc((var(--p1) + var(--p2)) * 1%) 100%
+      );
+    position: relative;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+  /* Cuando no hay tareas, el donut se ve como un círculo gris. */
+  .kpi-pie.vacio {
+    background: var(--grafito-tenue);
+  }
+  .kpi-pie::before {
+    content: '';
+    position: absolute;
+    inset: 18%;
+    background: white;
+    border-radius: 50%;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .kpi-pie-centro {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    pointer-events: none;
+  }
+  .kpi-pie-total {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--tinta);
+    line-height: 1;
+  }
+  .kpi-pie-total-label {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--tinta-tenue);
+    margin-top: 3px;
+  }
+  .kpi-pie-leyenda {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--tinta-suave);
+  }
+  .kpi-pie-fila {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 8px;
+    min-width: 130px;
+  }
+  .kpi-pie-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .kpi-pie-val { font-weight: 700; color: var(--tinta); }
+
+  @media (max-width: 980px) {
+    .kpi-cuerpo { flex-direction: column; align-items: stretch; gap: 16px; }
+    .kpi-pie-wrap { border-left: none; border-top: 1px solid var(--linea); padding-left: 0; padding-top: 16px; justify-content: center; }
   }
 
   .kpi {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 8px;
     background: none;
     border: none;
     padding: 0;
-    flex: 0 0 auto;
+    text-align: center;
     min-width: 0;
   }
 
@@ -1008,8 +1118,7 @@
     font-weight: 700;
     color: var(--tinta);
     line-height: 1.25;
-    text-align: left;
-    max-width: 100px;
+    text-align: center;
     letter-spacing: 0.01em;
   }
 
@@ -1368,6 +1477,69 @@
     border-left-color: var(--tinta);
     box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     transform: translateY(-1px);
+  }
+
+  /* Tarjetas que vencen HOY: borde rojo y un pulso sutil para llamar la
+     atención. Si el usuario abre la app el día del vencimiento, los pendientes
+     palpitan. La animación se desactiva cuando la tarea está Atendida. */
+  @keyframes pulso-hoy {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(185,28,28,0); }
+    50%      { box-shadow: 0 0 0 6px rgba(185,28,28,0.18); }
+  }
+  .tarjeta.vence-hoy {
+    border-color: var(--rojo);
+    border-left-color: var(--rojo);
+    animation: pulso-hoy 1.6s ease-in-out infinite;
+  }
+  .tarjeta.vence-hoy:hover {
+    border-color: var(--rojo);
+    border-left-color: var(--rojo);
+  }
+  .vence-hoy-chip {
+    display: inline-block;
+    background: var(--rojo);
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    animation: pulso-hoy 1.6s ease-in-out infinite;
+  }
+
+  /* === Lista de campos en la tarjeta ===
+     Reemplaza el viejo layout (título + meta-fila + barra avance) con una
+     lista clave/valor de los 6 campos pedidos: Responsable, Tema, Áreas
+     involucradas, Acuerdos realizados, Acción a tomar, Fecha de atención. */
+  .tarjeta-campos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin: 4px 0 8px;
+  }
+  .tarjeta-campos dt {
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--tinta-tenue);
+    margin-top: 4px;
+  }
+  .tarjeta-campos dt:first-child { margin-top: 0; }
+  .tarjeta-campos dd {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--tinta);
+  }
+  .tarjeta-campos dd.campo-tema {
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .tarjeta-campos dd.campo-fecha-vencida {
+    color: var(--rojo);
+    font-weight: 600;
   }
 
   /* ID de tarjeta como pastilla coloreada por subdirección — así en la
@@ -2094,6 +2266,11 @@
   }
   .btn-ics:hover { border-color: var(--guinda); color: var(--guinda); }
   .btn-ics svg { width: 14px; height: 14px; }
+  /* Acentos por canal: WhatsApp en verde, Correo en azul. */
+  .btn-ics.btn-wa { color: #25D366; }
+  .btn-ics.btn-wa:hover { border-color: #25D366; background: rgba(37,211,102,0.06); }
+  .btn-ics.btn-mail { color: #1D4ED8; }
+  .btn-ics.btn-mail:hover { border-color: #1D4ED8; background: rgba(29,78,216,0.05); }
 
   /* Botón secundario para "Cargar Excel" */
   .btn-secundario {
@@ -2236,12 +2413,10 @@
 
   <div class="app-body">
     <aside class="sidebar" id="sidebar">
-      <div class="sidebar-grupo">
-        <button class="sidebar-item sidebar-inicio" onclick="irInicio()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12 L12 3 L21 12"/><path d="M5 10 V21 H10 V14 H14 V21 H19 V10"/></svg>
-          <span class="sidebar-label">Inicio</span>
-        </button>
-      </div>
+      <button class="sidebar-item sidebar-inicio" onclick="irInicio()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12 L12 3 L21 12"/><path d="M5 10 V21 H10 V14 H14 V21 H19 V10"/></svg>
+        <span class="sidebar-label">Inicio</span>
+      </button>
 
       <div class="sidebar-grupo" id="sidebarGrupoSubs">
         <div class="sidebar-grupo-titulo">Subdirecciones</div>
@@ -2302,22 +2477,39 @@
   <div class="kpis" id="kpisPanel">
     <div class="kpi-card">
       <div class="kpis-grupo-titulo" id="kpisGrupoTitulo">Resumen general</div>
-      <div class="kpis-fila">
-        <div class="kpi kpi-ambar">
-          <div class="kpi-valor" id="kpiActivas">0</div>
-          <div class="kpi-label">En Proceso</div>
+      <div class="kpi-cuerpo">
+        <div class="kpis-fila">
+          <div class="kpi kpi-ambar">
+            <div class="kpi-valor" id="kpiActivas">0</div>
+            <div class="kpi-label">En Proceso</div>
+          </div>
+          <div class="kpi kpi-verde">
+            <div class="kpi-valor" id="kpiPendientes">0</div>
+            <div class="kpi-label">Atendidas hoy</div>
+          </div>
+          <div class="kpi kpi-rojo">
+            <div class="kpi-valor" id="kpiHoy">0</div>
+            <div class="kpi-label">Vencidas</div>
+          </div>
+          <div class="kpi kpi-grafito">
+            <div class="kpi-valor" id="kpiSemana">0</div>
+            <div class="kpi-label">Atendidas</div>
+          </div>
         </div>
-        <div class="kpi kpi-verde">
-          <div class="kpi-valor" id="kpiPendientes">0</div>
-          <div class="kpi-label">Atendidas hoy</div>
-        </div>
-        <div class="kpi kpi-rojo">
-          <div class="kpi-valor" id="kpiHoy">0</div>
-          <div class="kpi-label">Vencidas</div>
-        </div>
-        <div class="kpi kpi-grafito">
-          <div class="kpi-valor" id="kpiSemana">0</div>
-          <div class="kpi-label">Atendidas</div>
+        <!-- Gráfica de queso (donut) — solo Director. Distribución de tareas
+             entre En Proceso (sin vencer), Vencidas y Atendidas. -->
+        <div class="kpi-pie-wrap" id="kpiPieWrap">
+          <div class="kpi-pie" id="kpiPie">
+            <div class="kpi-pie-centro">
+              <span class="kpi-pie-total" id="kpiPieTotal">0</span>
+              <span class="kpi-pie-total-label">Tareas</span>
+            </div>
+          </div>
+          <div class="kpi-pie-leyenda">
+            <div class="kpi-pie-fila"><span class="kpi-pie-dot" style="background: var(--ambar)"></span><span>En Proceso</span><span class="kpi-pie-val" id="kpiPieProceso">0</span></div>
+            <div class="kpi-pie-fila"><span class="kpi-pie-dot" style="background: var(--rojo)"></span><span>Vencidas</span><span class="kpi-pie-val" id="kpiPieVencidas">0</span></div>
+            <div class="kpi-pie-fila"><span class="kpi-pie-dot" style="background: var(--verde)"></span><span>Atendidas</span><span class="kpi-pie-val" id="kpiPieAtendidas">0</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -2653,10 +2845,21 @@ function obtenerTareasFiltradas() {
   // Director con tab 'TODAS': ve todo
 
   if (prioridadActiva !== 'TODAS') {
-    lista = lista.filter(t => t.prioridad === prioridadActiva);
+    // Prioridad calculada por proximidad de fecha (no por el campo estático).
+    lista = lista.filter(t => prioridadDe(t) === prioridadActiva);
   }
 
   return lista;
+}
+
+// Ordena tareas por fecha de atención ascendente (la más próxima arriba).
+// Las que no tienen fecha caen al final.
+function ordenarPorFecha(lista) {
+  return [...lista].sort((a, b) => {
+    const fa = a.fecha_atencion || a.fecha_limite || '9999-12-31';
+    const fb = b.fecha_atencion || b.fecha_limite || '9999-12-31';
+    return fa.localeCompare(fb);
+  });
 }
 
 function renderizar() {
@@ -2678,6 +2881,8 @@ function actualizarKPIs() {
     if (lbl) lbl.textContent = texto;
   };
 
+  const pieWrap = document.getElementById('kpiPieWrap');
+
   if (usuarioActual.rol === 'Capturista') {
     const enProcesos = visible.filter(t => t.estatus === 'En Proceso').length;
     const atendidas = visible.filter(t => t.estatus === 'Atendida').length;
@@ -2693,6 +2898,7 @@ function actualizarKPIs() {
     document.getElementById('kpiPendientes').textContent = enProcesos;
     document.getElementById('kpiHoy').textContent = atendidasHoy;
     document.getElementById('kpiSemana').textContent = atendidas;
+    if (pieWrap) pieWrap.style.display = 'none'; // pie solo para Director
     return;
   }
 
@@ -2711,6 +2917,32 @@ function actualizarKPIs() {
   document.getElementById('kpiPendientes').textContent = atendidasHoy;
   document.getElementById('kpiHoy').textContent = vencidas;
   document.getElementById('kpiSemana').textContent = atendidas;
+
+  // Actualiza el queso (donut): En Proceso (no vencidas) | Vencidas | Atendidas
+  if (pieWrap) {
+    pieWrap.style.display = '';
+    const enProcesoNoVencidas = enProcesos - vencidas;
+    const totalDonut = enProcesoNoVencidas + vencidas + atendidas;
+    const pie = document.getElementById('kpiPie');
+    if (totalDonut === 0) {
+      pie.classList.add('vacio');
+      pie.style.setProperty('--p1', 0);
+      pie.style.setProperty('--p2', 0);
+      pie.style.setProperty('--p3', 0);
+    } else {
+      pie.classList.remove('vacio');
+      const p1 = (enProcesoNoVencidas / totalDonut) * 100;
+      const p2 = (vencidas / totalDonut) * 100;
+      const p3 = (atendidas / totalDonut) * 100;
+      pie.style.setProperty('--p1', p1.toFixed(2));
+      pie.style.setProperty('--p2', p2.toFixed(2));
+      pie.style.setProperty('--p3', p3.toFixed(2));
+    }
+    document.getElementById('kpiPieTotal').textContent = totalDonut;
+    document.getElementById('kpiPieProceso').textContent = enProcesoNoVencidas;
+    document.getElementById('kpiPieVencidas').textContent = vencidas;
+    document.getElementById('kpiPieAtendidas').textContent = atendidas;
+  }
 
   // Pendientes "En Proceso" por subdirección (siempre sobre el universo total, ignorando filtros)
   const pendSA   = TAREAS.filter(t => t.subdireccion === 'SA'   && t.estatus === 'En Proceso').length;
@@ -2750,7 +2982,8 @@ function renderizarTablero() {
   tablero.innerHTML = '';
 
   cols.forEach(estatus => {
-    const tareasCol = lista.filter(t => t.estatus === estatus);
+    // Ordenadas por fecha ascendente — las próximas arriba.
+    const tareasCol = ordenarPorFecha(lista.filter(t => t.estatus === estatus));
     const col = document.createElement('div');
     col.className = 'columna col-' + slugs[estatus];
 
@@ -2775,39 +3008,43 @@ function renderizarTablero() {
 
 function crearTarjeta(t) {
   const card = document.createElement('div');
-  card.className = 'tarjeta ' + t.prioridad.toLowerCase();
+  card.className = 'tarjeta';
   card.setAttribute('data-sub', t.subdireccion);
   card.onclick = () => abrirDetalle(t);
 
-  const vencida = esVencida(t.fecha_limite) && t.estatus !== 'Atendida';
+  const vencida   = esVencida(t.fecha_limite) && t.estatus !== 'Atendida';
+  const venceEsteDia = venceHoy(t.fecha_limite) && t.estatus !== 'Atendida';
+  if (venceEsteDia) card.classList.add('vence-hoy');
+
+  // Campos del nuevo modelo de tarjeta. Los datos viven en TAREAS con sus
+  // claves originales (titulo, observaciones, descripcion, fecha_limite);
+  // aquí los exponemos con los nombres que pidió el cliente. Si en el
+  // futuro se capturan campos dedicados (tema, areas_involucradas, etc.)
+  // ya quedan reservados los nombres.
+  const tema   = t.tema || t.titulo;
+  const areas  = t.areas_involucradas || NOMBRE_SUB[t.subdireccion] || '—';
+  const acuerdos = t.acuerdos_realizados || t.observaciones || '—';
+  const accion = t.accion_a_tomar || (t.descripcion ? t.descripcion.split('.').slice(0, 1).join('.') + '.' : '—');
+  const fechaAt = t.fecha_atencion || t.fecha_limite;
+  const fechaTxt = formatearFecha(fechaAt);
 
   let html = `
+    ${venceEsteDia ? '<div class="vence-hoy-chip">⏰ Vence hoy</div>' : ''}
     <div class="tarjeta-id">${t.id} · ${t.subdireccion}</div>
-    <div class="tarjeta-titulo">${t.titulo}</div>
-    <div class="tarjeta-meta">
-      <div class="tarjeta-meta-fila">
-        <svg class="tarjeta-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-        </svg>
-        <span>${t.responsable}</span>
-      </div>
-      <div class="tarjeta-meta-fila">
-        <svg class="tarjeta-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-        </svg>
-        <span class="${vencida ? 'tarjeta-fecha-vencida' : ''}">${formatearFecha(t.fecha_limite)}${vencida ? ' (vencida)' : ''}</span>
-      </div>
-    </div>
-    <span class="tarjeta-prioridad prioridad-${t.prioridad.toLowerCase()}">${t.prioridad}</span>
-    <div class="tarjeta-avance">
-      <div class="avance-label">
-        <span>Avance</span>
-        <span>${t.avance}%</span>
-      </div>
-      <div class="avance-barra">
-        <div class="avance-relleno" style="width: ${t.avance}%"></div>
-      </div>
-    </div>
+    <dl class="tarjeta-campos">
+      <dt>Responsable</dt>
+      <dd>${escapeHtml(t.responsable)}</dd>
+      <dt>Tema</dt>
+      <dd class="campo-tema">${escapeHtml(tema)}</dd>
+      <dt>Áreas involucradas</dt>
+      <dd>${escapeHtml(areas)}</dd>
+      <dt>Acuerdos realizados</dt>
+      <dd>${escapeHtml(acuerdos)}</dd>
+      <dt>Acción a tomar</dt>
+      <dd>${escapeHtml(accion)}</dd>
+      <dt>Fecha de atención</dt>
+      <dd class="${vencida ? 'campo-fecha-vencida' : ''}">${fechaTxt}${vencida ? ' · vencida' : ''}</dd>
+    </dl>
   `;
 
   if (t.estatus === 'Atendida' && t.fecha_validacion) {
@@ -2883,7 +3120,16 @@ function abrirDetalle(t) {
 
   const bitacoraTarea = BITACORA.filter(b => b.id_tarea === t.id);
 
-  const btnIcs = t.fecha_limite ? `<button class="btn-ics" onclick="exportarICS('${t.id}')" title="Descarga un archivo .ics compatible con Google Calendar, Outlook y Apple Calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Agregar a mi calendario</button>` : '';
+  const btnIcs = `
+    <button class="btn-ics btn-wa" onclick="enviarRecordatorio('${t.id}', 'whatsapp')" title="Abre WhatsApp con el recordatorio precargado">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.02zm-7.01 15.24h-.01a8.21 8.21 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.23 8.23zm4.52-6.16c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.56.12s-.64.8-.78.97c-.14.16-.29.18-.54.06-.25-.12-1.05-.39-2-1.23a7.5 7.5 0 0 1-1.39-1.72c-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.42l-.48-.01c-.16 0-.43.06-.66.31-.23.25-.86.84-.86 2.04 0 1.2.88 2.36 1 2.52.12.16 1.73 2.65 4.2 3.71.59.25 1.05.4 1.41.51.59.19 1.13.16 1.55.1.47-.07 1.46-.6 1.66-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"/></svg>
+      WhatsApp
+    </button>
+    <button class="btn-ics btn-mail" onclick="enviarRecordatorio('${t.id}', 'correo')" title="Abre el cliente de correo con el recordatorio precargado">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
+      Correo
+    </button>
+  `;
 
   let acciones = '';
   if (usuarioActual.rol === 'Director' && t.estatus === 'En Proceso') {
@@ -2920,7 +3166,7 @@ function abrirDetalle(t) {
         </div>
         <div class="modal-campo">
           <span class="modal-campo-label">Prioridad</span>
-          <span class="modal-campo-valor"><span class="tarjeta-prioridad prioridad-${t.prioridad.toLowerCase()}">${t.prioridad}</span></span>
+          <span class="modal-campo-valor"><span class="tarjeta-prioridad prioridad-${prioridadDe(t).toLowerCase()}">${prioridadDe(t)}</span></span>
         </div>
         <div class="modal-campo">
           <span class="modal-campo-label">Estatus</span>
@@ -2931,8 +3177,8 @@ function abrirDetalle(t) {
           <span class="modal-campo-valor">${formatearFechaLarga(t.fecha_reporte)}</span>
         </div>
         <div class="modal-campo">
-          <span class="modal-campo-label">Fecha límite</span>
-          <span class="modal-campo-valor ${esVencida(t.fecha_limite) && t.estatus !== 'Atendida' ? 'tarjeta-fecha-vencida' : ''}">${formatearFechaLarga(t.fecha_limite)}</span>
+          <span class="modal-campo-label">Fecha de atención</span>
+          <span class="modal-campo-valor ${esVencida(t.fecha_limite) && t.estatus !== 'Atendida' ? 'tarjeta-fecha-vencida' : ''}">${formatearFechaLarga(t.fecha_atencion || t.fecha_limite)}</span>
         </div>
         <div class="modal-campo">
           <span class="modal-campo-label">Avance</span>
@@ -3002,6 +3248,39 @@ function cerrarModal() {
 function esVencida(fecha) {
   if (!fecha) return false;
   return new Date(fecha) < new Date(new Date().toDateString());
+}
+
+// Devuelve true si la fecha límite cae exactamente hoy. Se usa para
+// activar el pulso rojo en las tarjetas pendientes que están en su
+// último día.
+function venceHoy(fecha) {
+  if (!fecha) return false;
+  const hoy = new Date();
+  const hoyISO = hoy.getFullYear() + '-' + String(hoy.getMonth()+1).padStart(2,'0') + '-' + String(hoy.getDate()).padStart(2,'0');
+  return fecha === hoyISO;
+}
+
+// Prioridad calculada por proximidad de la fecha de atención. Sustituye al
+// campo estático t.prioridad — la urgencia ya no se decide manualmente, se
+// deriva del tiempo restante.
+//   - Alta:  3 días o menos (incluye vencidas)
+//   - Media: 4 a 7 días
+//   - Baja:  más de 7 días o sin fecha
+function calcularPrioridad(fecha) {
+  if (!fecha) return 'Baja';
+  const hoy = new Date(new Date().toDateString());
+  const f = new Date(fecha + 'T00:00:00');
+  const dias = Math.round((f - hoy) / (1000 * 60 * 60 * 24));
+  if (dias <= 3) return 'Alta';
+  if (dias <= 7) return 'Media';
+  return 'Baja';
+}
+
+// Conveniencia: prioridad efectiva de una tarea. En tareas Atendidas la
+// prioridad pierde sentido (ya cerró), pero la conservamos por consistencia
+// del filtro.
+function prioridadDe(t) {
+  return calcularPrioridad(t.fecha_atencion || t.fecha_limite);
 }
 
 const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
@@ -3163,53 +3442,69 @@ function mostrarDiaCompleto(iso) {
   document.getElementById('modalFondo').classList.add('activo');
 }
 
-// ============== EXPORTAR .ICS ==============
+// ============== ENVIAR RECORDATORIO ==============
 
-function exportarICS(idTarea) {
+/**
+ * Compone un recordatorio con los datos de la tarea y abre WhatsApp Web o el
+ * cliente de correo, según el canal elegido. WhatsApp deja al usuario elegir
+ * el contacto destino; correo abre con asunto y cuerpo precargados.
+ *
+ * @param {string} idTarea
+ * @param {'whatsapp'|'correo'} canal
+ */
+function enviarRecordatorio(idTarea, canal) {
   const t = TAREAS.find(x => x.id === idTarea);
-  if (!t || !t.fecha_limite) {
-    toast('La tarea no tiene fecha límite', 'error');
+  if (!t) return;
+
+  const fechaAt = t.fecha_atencion || t.fecha_limite;
+  const fechaTxt = fechaAt ? formatearFechaLarga(fechaAt) : 'sin fecha';
+  const tema = t.tema || t.titulo;
+  const areas = t.areas_involucradas || NOMBRE_SUB[t.subdireccion] || '';
+  const acuerdos = t.acuerdos_realizados || t.observaciones || '';
+  const accion = t.accion_a_tomar || (t.descripcion ? t.descripcion.split('.').slice(0, 1).join('.') + '.' : '');
+
+  if (canal === 'whatsapp') {
+    // WhatsApp acepta Markdown ligero (*negritas*).
+    const lineas = [
+      'Recordatorio · ' + t.id,
+      '',
+      '*' + tema + '*',
+      '',
+      'Responsable: ' + t.responsable,
+      'Áreas involucradas: ' + areas,
+      'Fecha de atención: ' + fechaTxt,
+      'Estatus: ' + t.estatus
+    ];
+    if (acuerdos && acuerdos !== '—') lineas.push('', 'Acuerdos: ' + acuerdos);
+    if (accion && accion !== '—') lineas.push('Acción a tomar: ' + accion);
+    const url = 'https://wa.me/?text=' + encodeURIComponent(lineas.join('\n'));
+    window.open(url, '_blank');
+    toast('Abriendo WhatsApp con el recordatorio…', 'ok');
     return;
   }
-  const f = t.fecha_limite.replace(/-/g, '');
-  const fNext = (() => {
-    const d = new Date(t.fecha_limite + 'T00:00:00');
-    d.setDate(d.getDate() + 1);
-    return d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
-  })();
-  const ahora = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-  const escape = s => (s || '').replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
 
-  const ics = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//TT//ATTRAPI//ES',
-    'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
-    'BEGIN:VEVENT',
-    'UID:tarea-' + t.id + '@avala.attrapi.gob.mx',
-    'DTSTAMP:' + ahora,
-    'DTSTART;VALUE=DATE:' + f,
-    'DTEND;VALUE=DATE:' + fNext,
-    'SUMMARY:[' + t.subdireccion + '] ' + escape(t.titulo),
-    'DESCRIPTION:' + escape(t.descripcion + '\n\nResponsable: ' + t.responsable + '\nProyecto: ' + t.proyecto + '\nPrioridad: ' + t.prioridad + '\nEstatus: ' + t.estatus),
-    'LOCATION:ATTRAPI - DPAC',
-    'CATEGORIES:' + t.subdireccion + ',' + t.tipo,
-    'STATUS:CONFIRMED',
-    'END:VEVENT',
-    'END:VCALENDAR'
-  ].join('\r\n');
-
-  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'TT-' + t.id + '.ics';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  toast('Archivo .ics descargado · ábrelo con Google/Outlook/Apple Calendar', 'ok');
+  if (canal === 'correo') {
+    const asunto = '[Recordatorio TT · ' + t.id + '] ' + tema;
+    const cuerpoLineas = [
+      'Estimado(a),',
+      '',
+      'Le comparto el recordatorio de la siguiente tarea:',
+      '',
+      'ID: ' + t.id + ' · ' + t.subdireccion,
+      'Tema: ' + tema,
+      'Responsable: ' + t.responsable,
+      'Áreas involucradas: ' + areas,
+      'Fecha de atención: ' + fechaTxt,
+      'Estatus: ' + t.estatus
+    ];
+    if (acuerdos && acuerdos !== '—') cuerpoLineas.push('', 'Acuerdos realizados:', acuerdos);
+    if (accion && accion !== '—') cuerpoLineas.push('', 'Acción a tomar:', accion);
+    cuerpoLineas.push('', '— Sistema TT · ATTRAPI');
+    const url = 'mailto:?subject=' + encodeURIComponent(asunto) + '&body=' + encodeURIComponent(cuerpoLineas.join('\n'));
+    window.location.href = url;
+    toast('Abriendo cliente de correo…', 'ok');
+    return;
+  }
 }
 
 // ============== FORMULARIO NUEVA TAREA ==============
@@ -3640,7 +3935,7 @@ function exportarPDF(sub) {
         ${mostrarSub ? `<td>${subPill}</td>` : ''}
         <td>${escapeHtml(t.responsable)}</td>
         <td class="col-titulo">${escapeHtml(t.titulo)}</td>
-        <td><span class="prio prio-${t.prioridad.toLowerCase()}">${t.prioridad}</span></td>
+        <td><span class="prio prio-${prioridadDe(t).toLowerCase()}">${prioridadDe(t)}</span></td>
         <td><span class="estatus ${estatusClase}">${t.estatus}${vencida ? ' (vencida)' : ''}</span></td>
         <td class="col-fecha">${t.fecha_limite || '—'}</td>
         <td class="col-avance">${t.avance}%</td>
