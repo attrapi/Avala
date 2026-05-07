@@ -1787,6 +1787,72 @@
     color: var(--tinta);
   }
 
+  /* === Lista clave/valor del modal — refleja el formato de la tarjeta ===
+     Misma estructura que .tarjeta-campos pero con tipografía de detalle:
+     dt label en mayúsculas pequeñas y dd con valor legible. */
+  .modal-campos {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 14px 18px;
+    margin: 4px 0 18px;
+    padding: 16px 18px;
+    background: var(--crema);
+    border: 1px solid var(--linea);
+    border-radius: 6px;
+  }
+  .modal-campos dt {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tinta-tenue);
+    align-self: start;
+    line-height: 1.4;
+  }
+  .modal-campos dd {
+    font-size: 13.5px;
+    color: var(--tinta);
+    line-height: 1.5;
+  }
+  .modal-campos dd.modal-campo-tema {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .modal-campos dd.modal-campo-fecha-vencida {
+    color: var(--rojo);
+    font-weight: 600;
+  }
+  /* Meta del header del modal (estatus + prioridad + chip vence hoy) */
+  .modal-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .modal-estatus {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .modal-estatus-proceso { background: var(--ambar-tenue); color: var(--ambar); }
+  .modal-estatus-atendida { background: var(--verde-tenue); color: var(--verde); }
+  .modal-fecha-mono {
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 12px;
+    color: var(--tinta-suave);
+  }
+
+  @media (max-width: 720px) {
+    .modal-campos { grid-template-columns: 1fr; gap: 4px 0; }
+    .modal-campos dt { margin-top: 8px; }
+    .modal-campos dt:first-child { margin-top: 0; }
+  }
+
   .modal-seccion {
     margin-bottom: 24px;
   }
@@ -2964,24 +3030,26 @@ function actualizarKPIs() {
 }
 
 function actualizarConteosTabs() {
-  // Para Capturistas: solo mostrar el conteo de su subdirección
+  // Los conteos del sidebar muestran tareas EN PROCESO (no total) — para
+  // que coincidan con el círculo "Pendientes por subdirección" del panel
+  // KPI y reflejen carga de trabajo real, no tareas cerradas.
+  const enProc = sub => TAREAS.filter(t => t.subdireccion === sub && t.estatus === 'En Proceso').length;
+  const totalEnProc = TAREAS.filter(t => t.estatus === 'En Proceso').length;
+
   if (usuarioActual.rol === 'Capturista') {
     const subPropia = usuarioActual.subdireccion;
-    const propias = TAREAS.filter(t => t.subdireccion === subPropia).length;
-
-    // Mostrar solo el conteo de su subdirección, ocultar los demás
     document.getElementById('contTODAS').textContent = '';
-    document.getElementById('contSA').textContent = subPropia === 'SA' ? propias : '';
-    document.getElementById('contSGOI').textContent = subPropia === 'SGOI' ? propias : '';
-    document.getElementById('contSPAC').textContent = subPropia === 'SPAC' ? propias : '';
+    document.getElementById('contSA').textContent = subPropia === 'SA' ? enProc('SA') : '';
+    document.getElementById('contSGOI').textContent = subPropia === 'SGOI' ? enProc('SGOI') : '';
+    document.getElementById('contSPAC').textContent = subPropia === 'SPAC' ? enProc('SPAC') : '';
     return;
   }
 
-  // Director: ver todos los conteos
-  document.getElementById('contTODAS').textContent = TAREAS.length;
-  document.getElementById('contSA').textContent = TAREAS.filter(t => t.subdireccion === 'SA').length;
-  document.getElementById('contSGOI').textContent = TAREAS.filter(t => t.subdireccion === 'SGOI').length;
-  document.getElementById('contSPAC').textContent = TAREAS.filter(t => t.subdireccion === 'SPAC').length;
+  // Director: ve todos los conteos
+  document.getElementById('contTODAS').textContent = totalEnProc;
+  document.getElementById('contSA').textContent = enProc('SA');
+  document.getElementById('contSGOI').textContent = enProc('SGOI');
+  document.getElementById('contSPAC').textContent = enProc('SPAC');
 }
 
 function renderizarTablero() {
@@ -3167,69 +3235,51 @@ function abrirDetalle(t) {
     acciones = `<div class="modal-acciones">${btnIcs}<div style="flex:1"></div><button class="btn-modal" onclick="cerrarModal()">Cerrar</button></div>`;
   }
 
+  // Mismos 6 campos que la tarjeta, mismo orden, mismas reglas de fallback.
+  const tema   = t.tema || t.titulo;
+  const areas  = t.areas_involucradas || NOMBRE_SUB[t.subdireccion] || '—';
+  const acuerdos = t.acuerdos_realizados || t.observaciones || '—';
+  const accion = t.accion_a_tomar || (t.descripcion ? t.descripcion.split('.').slice(0, 1).join('.') + '.' : '—');
+  const fechaAt = t.fecha_atencion || t.fecha_limite;
+  const vencida = esVencida(fechaAt) && t.estatus !== 'Atendida';
+  const venceEsteDia = venceHoy(fechaAt) && t.estatus !== 'Atendida';
+
   modal.innerHTML = `
     <div class="modal-header">
       <div class="modal-header-info">
-        <div class="modal-id">${t.id} · ${t.subdireccion} · ${t.tipo}</div>
-        <div class="modal-titulo">${t.titulo}</div>
+        <div class="modal-id">${t.id} · ${t.subdireccion}</div>
+        <div class="modal-titulo">${escapeHtml(tema)}</div>
+        <div class="modal-meta">
+          <span class="modal-estatus modal-estatus-${t.estatus === 'Atendida' ? 'atendida' : 'proceso'}">${t.estatus}</span>
+          <span class="tarjeta-prioridad prioridad-${prioridadDe(t).toLowerCase()}">Prioridad ${prioridadDe(t)}</span>
+          ${venceEsteDia ? '<span class="vence-hoy-chip" style="margin: 0;">⏰ Vence hoy</span>' : ''}
+        </div>
       </div>
       <button class="modal-cerrar" onclick="cerrarModal()">×</button>
     </div>
     <div class="modal-body">
-      <div class="modal-grid">
-        <div class="modal-campo">
-          <span class="modal-campo-label">Responsable</span>
-          <span class="modal-campo-valor">${t.responsable}</span>
-        </div>
-        <div class="modal-campo">
-          <span class="modal-campo-label">Proyecto</span>
-          <span class="modal-campo-valor">${t.proyecto}</span>
-        </div>
-        <div class="modal-campo">
-          <span class="modal-campo-label">Prioridad</span>
-          <span class="modal-campo-valor"><span class="tarjeta-prioridad prioridad-${prioridadDe(t).toLowerCase()}">${prioridadDe(t)}</span></span>
-        </div>
-        <div class="modal-campo">
-          <span class="modal-campo-label">Estatus</span>
-          <span class="modal-campo-valor">${t.estatus}</span>
-        </div>
-        <div class="modal-campo">
-          <span class="modal-campo-label">Fecha de reporte</span>
-          <span class="modal-campo-valor">${formatearFechaLarga(t.fecha_reporte)}</span>
-        </div>
-        <div class="modal-campo">
-          <span class="modal-campo-label">Fecha de atención</span>
-          <span class="modal-campo-valor ${esVencida(t.fecha_limite) && t.estatus !== 'Atendida' ? 'tarjeta-fecha-vencida' : ''}">${formatearFechaLarga(t.fecha_atencion || t.fecha_limite)}</span>
-        </div>
-        <div class="modal-campo">
-          <span class="modal-campo-label">Avance</span>
-          <span class="modal-campo-valor">${t.avance}%</span>
-        </div>
-        <div class="modal-campo">
-          <span class="modal-campo-label">Tipo</span>
-          <span class="modal-campo-valor">${t.tipo}</span>
-        </div>
-      </div>
-
-      <div class="modal-seccion">
-        <div class="modal-seccion-titulo">Descripción</div>
-        <div class="modal-descripcion">${t.descripcion}</div>
-      </div>
-
-      ${t.observaciones ? `
-        <div class="modal-seccion">
-          <div class="modal-seccion-titulo">Observaciones del responsable</div>
-          <div class="modal-descripcion">${t.observaciones}</div>
-        </div>
-      ` : ''}
+      <dl class="modal-campos">
+        <dt>Responsable</dt>
+        <dd>${escapeHtml(t.responsable)}</dd>
+        <dt>Tema</dt>
+        <dd class="modal-campo-tema">${escapeHtml(tema)}</dd>
+        <dt>Áreas involucradas</dt>
+        <dd>${escapeHtml(areas)}</dd>
+        <dt>Acuerdos realizados</dt>
+        <dd>${escapeHtml(acuerdos)}</dd>
+        <dt>Acción a tomar</dt>
+        <dd>${escapeHtml(accion)}</dd>
+        <dt>Fecha de atención</dt>
+        <dd class="${vencida ? 'modal-campo-fecha-vencida' : ''}">${formatearFechaLarga(fechaAt)}${vencida ? ' · vencida' : ''}</dd>
+      </dl>
 
       ${t.validado_por ? `
         <div class="modal-seccion">
-          <div class="modal-seccion-titulo">Validación</div>
+          <div class="modal-seccion-titulo">Atendida por</div>
           <div class="modal-comentarios">
-            <strong>Validado por:</strong> ${t.validado_por}<br>
-            <strong>Fecha:</strong> ${t.fecha_validacion}
-            ${t.comentarios_director ? '<br><br><strong>Comentarios:</strong> ' + t.comentarios_director : ''}
+            <strong>${escapeHtml(t.validado_por)}</strong><br>
+            <span class="modal-fecha-mono">${t.fecha_validacion}</span>
+            ${t.comentarios_director ? '<br><br><strong>Comentarios:</strong> ' + escapeHtml(t.comentarios_director) : ''}
           </div>
         </div>
       ` : ''}
