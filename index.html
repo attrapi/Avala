@@ -548,12 +548,16 @@
     display: inline-block;
   }
 
-  .kpi-sub[data-sub="SA"]   .kpi-valor { border-color: var(--sub-sa);   color: var(--sub-sa);   background: linear-gradient(135deg, white 0%, var(--sub-sa-tenue) 100%);   box-shadow: 0 4px 14px rgba(105,28,50,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
-  .kpi-sub[data-sub="SGOI"] .kpi-valor { border-color: var(--sub-sgoi); color: var(--sub-sgoi); background: linear-gradient(135deg, white 0%, var(--sub-sgoi-tenue) 100%); box-shadow: 0 4px 14px rgba(105,28,50,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
-  .kpi-sub[data-sub="SPAC"] .kpi-valor { border-color: var(--sub-spac); color: var(--sub-spac); background: linear-gradient(135deg, white 0%, var(--sub-spac-tenue) 100%); box-shadow: 0 4px 14px rgba(105,28,50,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
-  .kpi-sub[data-sub="SA"]   .kpi-clave { background: rgba(105,28,50,0.16); color: var(--sub-sa); }
-  .kpi-sub[data-sub="SGOI"] .kpi-clave { background: rgba(105,28,50,0.16); color: var(--sub-sgoi); }
-  .kpi-sub[data-sub="SPAC"] .kpi-clave { background: rgba(105,28,50,0.16);  color: var(--sub-spac); }
+  /* Los KPIs "Pendientes por subdirección" conservan sus tonos tierra
+     originales (mostaza/terracota/olivo) — ahí sí queremos diferenciar
+     visualmente entre subdirecciones. La unificación al guinda solo
+     aplica a las píldoras de pestañas. */
+  .kpi-sub[data-sub="SA"]   .kpi-valor { border-color: #92400E; color: #92400E; background: linear-gradient(135deg, white 0%, #F5E8D3 100%); box-shadow: 0 4px 14px rgba(146,64,14,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SGOI"] .kpi-valor { border-color: #C2410C; color: #C2410C; background: linear-gradient(135deg, white 0%, #FFD6BC 100%); box-shadow: 0 4px 14px rgba(194,65,12,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SPAC"] .kpi-valor { border-color: #365314; color: #365314; background: linear-gradient(135deg, white 0%, #DCEAB7 100%); box-shadow: 0 4px 14px rgba(54,83,20,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SA"]   .kpi-clave { background: rgba(146,64,14,0.16); color: #92400E; }
+  .kpi-sub[data-sub="SGOI"] .kpi-clave { background: rgba(194,65,12,0.16); color: #C2410C; }
+  .kpi-sub[data-sub="SPAC"] .kpi-clave { background: rgba(54,83,20,0.16);  color: #365314; }
   .kpi-sub .kpi-label { font-size: 11px; color: var(--tinta-suave); font-weight: 600; }
 
   /* === TABS SUBDIRECCIONES (PÍLDORAS) === */
