@@ -29,6 +29,17 @@
     --grafito: #374151;
     --grafito-tenue: #F3F4F6;
     --rojo: #B91C1C;
+
+    /* === Paleta de subdirecciones (tonos tierra) ===
+       Distintos del flujo de trabajo (azul/ámbar/verde/gris) para evitar
+       confusión entre filtro de subdirección y estado de tarea. */
+    --sub-sa: #92400E;          /* Mostaza-marrón cálido */
+    --sub-sa-tenue: #F5E8D3;
+    --sub-sgoi: #C2410C;        /* Terracota */
+    --sub-sgoi-tenue: #FFD6BC;
+    --sub-spac: #365314;        /* Olivo profundo */
+    --sub-spac-tenue: #DCEAB7;
+
     --serif: 'Fraunces', Georgia, serif;
     --sans: 'Inter', -apple-system, sans-serif;
   }
@@ -536,12 +547,12 @@
     display: inline-block;
   }
 
-  .kpi-sub[data-sub="SA"]   .kpi-valor { border-color: var(--azul);  color: var(--azul);  background: linear-gradient(135deg, white 0%, var(--azul-tenue) 100%);  box-shadow: 0 4px 14px rgba(21,101,192,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
-  .kpi-sub[data-sub="SGOI"] .kpi-valor { border-color: var(--ambar); color: var(--ambar); background: linear-gradient(135deg, white 0%, var(--ambar-tenue) 100%); box-shadow: 0 4px 14px rgba(180,83,9,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
-  .kpi-sub[data-sub="SPAC"] .kpi-valor { border-color: var(--verde); color: var(--verde); background: linear-gradient(135deg, white 0%, var(--verde-tenue) 100%); box-shadow: 0 4px 14px rgba(21,128,61,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
-  .kpi-sub[data-sub="SA"]   .kpi-clave { background: rgba(21,101,192,0.16); color: var(--azul); }
-  .kpi-sub[data-sub="SGOI"] .kpi-clave { background: rgba(180,83,9,0.16);   color: var(--ambar); }
-  .kpi-sub[data-sub="SPAC"] .kpi-clave { background: rgba(21,128,61,0.16);  color: var(--verde); }
+  .kpi-sub[data-sub="SA"]   .kpi-valor { border-color: var(--sub-sa);   color: var(--sub-sa);   background: linear-gradient(135deg, white 0%, var(--sub-sa-tenue) 100%);   box-shadow: 0 4px 14px rgba(146,64,14,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SGOI"] .kpi-valor { border-color: var(--sub-sgoi); color: var(--sub-sgoi); background: linear-gradient(135deg, white 0%, var(--sub-sgoi-tenue) 100%); box-shadow: 0 4px 14px rgba(194,65,12,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SPAC"] .kpi-valor { border-color: var(--sub-spac); color: var(--sub-spac); background: linear-gradient(135deg, white 0%, var(--sub-spac-tenue) 100%); box-shadow: 0 4px 14px rgba(54,83,20,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SA"]   .kpi-clave { background: rgba(146,64,14,0.16); color: var(--sub-sa); }
+  .kpi-sub[data-sub="SGOI"] .kpi-clave { background: rgba(194,65,12,0.16); color: var(--sub-sgoi); }
+  .kpi-sub[data-sub="SPAC"] .kpi-clave { background: rgba(54,83,20,0.16);  color: var(--sub-spac); }
   .kpi-sub .kpi-label { font-size: 11px; color: var(--tinta-suave); font-weight: 600; }
 
   /* === TABS SUBDIRECCIONES (PÍLDORAS) === */
@@ -636,51 +647,51 @@
   }
   .tab[data-sub="TODAS"].activa .tab-icon { color: white; }
 
-  /* --- Píldora SA (Archivo) - AZUL --- */
+  /* --- Píldora SA (Archivo) - MOSTAZA --- */
   .tab[data-sub="SA"] {
-    background: var(--azul-tenue);
-    border-color: rgba(21,101,192,0.25);
-    color: var(--azul);
+    background: var(--sub-sa-tenue);
+    border-color: rgba(146,64,14,0.28);
+    color: var(--sub-sa);
   }
-  .tab[data-sub="SA"] .tab-clave { background: rgba(21,101,192,0.18); color: var(--azul); }
-  .tab[data-sub="SA"]:hover { border-color: var(--azul); background: #C9E4FB; }
+  .tab[data-sub="SA"] .tab-clave { background: rgba(146,64,14,0.18); color: var(--sub-sa); }
+  .tab[data-sub="SA"]:hover { border-color: var(--sub-sa); background: #ECDCBF; }
   .tab[data-sub="SA"].activa {
-    background: var(--azul);
-    border-color: var(--azul);
+    background: var(--sub-sa);
+    border-color: var(--sub-sa);
     color: white;
-    box-shadow: 0 6px 18px rgba(21,101,192,0.35), 0 0 0 3px rgba(21,101,192,0.18);
+    box-shadow: 0 6px 18px rgba(146,64,14,0.35), 0 0 0 3px rgba(146,64,14,0.18);
     transform: translateY(-1px);
   }
 
-  /* --- Píldora SGOI (Obras Inducidas) - ÁMBAR --- */
+  /* --- Píldora SGOI (Obras Inducidas) - TERRACOTA --- */
   .tab[data-sub="SGOI"] {
-    background: var(--ambar-tenue);
-    border-color: rgba(180,83,9,0.28);
-    color: var(--ambar);
+    background: var(--sub-sgoi-tenue);
+    border-color: rgba(194,65,12,0.28);
+    color: var(--sub-sgoi);
   }
-  .tab[data-sub="SGOI"] .tab-clave { background: rgba(180,83,9,0.18); color: var(--ambar); }
-  .tab[data-sub="SGOI"]:hover { border-color: var(--ambar); background: #FCE7B5; }
+  .tab[data-sub="SGOI"] .tab-clave { background: rgba(194,65,12,0.18); color: var(--sub-sgoi); }
+  .tab[data-sub="SGOI"]:hover { border-color: var(--sub-sgoi); background: #FFC4A4; }
   .tab[data-sub="SGOI"].activa {
-    background: var(--ambar);
-    border-color: var(--ambar);
+    background: var(--sub-sgoi);
+    border-color: var(--sub-sgoi);
     color: white;
-    box-shadow: 0 6px 18px rgba(180,83,9,0.35), 0 0 0 3px rgba(180,83,9,0.18);
+    box-shadow: 0 6px 18px rgba(194,65,12,0.35), 0 0 0 3px rgba(194,65,12,0.18);
     transform: translateY(-1px);
   }
 
-  /* --- Píldora SPAC (Procesos Construcción) - VERDE --- */
+  /* --- Píldora SPAC (Procesos Construcción) - OLIVO --- */
   .tab[data-sub="SPAC"] {
-    background: var(--verde-tenue);
-    border-color: rgba(21,128,61,0.28);
-    color: var(--verde);
+    background: var(--sub-spac-tenue);
+    border-color: rgba(54,83,20,0.28);
+    color: var(--sub-spac);
   }
-  .tab[data-sub="SPAC"] .tab-clave { background: rgba(21,128,61,0.18); color: var(--verde); }
-  .tab[data-sub="SPAC"]:hover { border-color: var(--verde); background: #B7F0C8; }
+  .tab[data-sub="SPAC"] .tab-clave { background: rgba(54,83,20,0.18); color: var(--sub-spac); }
+  .tab[data-sub="SPAC"]:hover { border-color: var(--sub-spac); background: #CADBA1; }
   .tab[data-sub="SPAC"].activa {
-    background: var(--verde);
-    border-color: var(--verde);
+    background: var(--sub-spac);
+    border-color: var(--sub-spac);
     color: white;
-    box-shadow: 0 6px 18px rgba(21,128,61,0.35), 0 0 0 3px rgba(21,128,61,0.18);
+    box-shadow: 0 6px 18px rgba(54,83,20,0.35), 0 0 0 3px rgba(54,83,20,0.18);
     transform: translateY(-1px);
   }
 
@@ -1436,9 +1447,9 @@
     transition: all 0.12s;
   }
   .cal-evento:hover { transform: translateX(2px); filter: brightness(0.95); }
-  .cal-evento.sub-SA   { background: var(--azul-tenue);   color: var(--azul);   border-color: var(--azul); }
-  .cal-evento.sub-SGOI { background: var(--ambar-tenue);  color: var(--ambar);  border-color: var(--ambar); }
-  .cal-evento.sub-SPAC { background: var(--verde-tenue);  color: var(--verde);  border-color: var(--verde); }
+  .cal-evento.sub-SA   { background: var(--sub-sa-tenue);   color: var(--sub-sa);   border-color: var(--sub-sa); }
+  .cal-evento.sub-SGOI { background: var(--sub-sgoi-tenue); color: var(--sub-sgoi); border-color: var(--sub-sgoi); }
+  .cal-evento.sub-SPAC { background: var(--sub-spac-tenue); color: var(--sub-spac); border-color: var(--sub-spac); }
   .cal-evento.vencida { font-weight: 700; }
   .cal-evento.vencida::before { content: '⚠ '; }
   .cal-mas {
@@ -1865,9 +1876,9 @@
       </div>
       <div class="cal-titulo" id="calTitulo">Mayo 2026</div>
       <div class="cal-leyenda">
-        <span class="cal-leyenda-item"><span class="cal-leyenda-punto" style="background:var(--azul)"></span>SA</span>
-        <span class="cal-leyenda-item"><span class="cal-leyenda-punto" style="background:var(--ambar)"></span>SGOI</span>
-        <span class="cal-leyenda-item"><span class="cal-leyenda-punto" style="background:var(--verde)"></span>SPAC</span>
+        <span class="cal-leyenda-item"><span class="cal-leyenda-punto" style="background:var(--sub-sa)"></span>SA</span>
+        <span class="cal-leyenda-item"><span class="cal-leyenda-punto" style="background:var(--sub-sgoi)"></span>SGOI</span>
+        <span class="cal-leyenda-item"><span class="cal-leyenda-punto" style="background:var(--sub-spac)"></span>SPAC</span>
       </div>
     </div>
     <div class="cal-grid" id="calGrid"></div>
