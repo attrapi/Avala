@@ -774,51 +774,85 @@
   }
 
   .columna {
-    background: var(--grafito-tenue);
-    border-radius: 2px;
+    background: white;
+    border: 1px solid var(--linea);
+    border-radius: 10px;
     min-height: 400px;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: box-shadow 0.18s ease;
   }
+  .columna:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
 
   .col-header {
-    padding: 16px;
+    padding: 14px 16px;
     display: flex;
     align-items: center;
     gap: 10px;
-    border-bottom: 1px solid var(--linea);
-    background: white;
-    border-radius: 2px 2px 0 0;
+    border-bottom: 2px solid;
   }
 
   .col-marca {
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.7);
+    flex-shrink: 0;
   }
-
-  .col-reportada .col-marca { background: var(--azul); }
-  .col-revision .col-marca { background: var(--ambar); }
-  .col-validada .col-marca { background: var(--verde); }
-  .col-liberada .col-marca { background: var(--grafito); }
 
   .col-titulo {
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--tinta);
+    letter-spacing: 0.12em;
     flex: 1;
   }
 
   .col-conteo {
-    background: var(--grafito-tenue);
-    color: var(--tinta-suave);
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-size: 11px;
-    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    min-width: 28px;
+    text-align: center;
   }
+
+  /* === Colores por estado === */
+  .col-reportada .col-header {
+    background: var(--azul-tenue);
+    border-bottom-color: var(--azul);
+  }
+  .col-reportada .col-marca   { background: var(--azul); }
+  .col-reportada .col-titulo  { color: var(--azul); }
+  .col-reportada .col-conteo  { color: var(--azul); }
+
+  .col-revision .col-header {
+    background: var(--ambar-tenue);
+    border-bottom-color: var(--ambar);
+  }
+  .col-revision .col-marca   { background: var(--ambar); }
+  .col-revision .col-titulo  { color: var(--ambar); }
+  .col-revision .col-conteo  { color: var(--ambar); }
+
+  .col-validada .col-header {
+    background: var(--verde-tenue);
+    border-bottom-color: var(--verde);
+  }
+  .col-validada .col-marca   { background: var(--verde); }
+  .col-validada .col-titulo  { color: var(--verde); }
+  .col-validada .col-conteo  { color: var(--verde); }
+
+  .col-liberada .col-header {
+    background: var(--grafito-tenue);
+    border-bottom-color: var(--grafito);
+  }
+  .col-liberada .col-marca   { background: var(--grafito); }
+  .col-liberada .col-titulo  { color: var(--grafito); }
+  .col-liberada .col-conteo  { color: var(--grafito); }
 
   .col-cuerpo {
     padding: 12px;
@@ -826,6 +860,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background: #FBFAF7;
   }
 
   /* === TARJETA === */
