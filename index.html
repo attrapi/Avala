@@ -3073,8 +3073,19 @@ function crearTarjeta(t) {
 function cambiarTab(sub) {
   tabActiva = sub;
   document.querySelectorAll('.sidebar-sub').forEach(b => b.classList.toggle('activa', b.dataset.sub === sub));
+
+  // Renderiza el tablero con el nuevo filtro (siempre, aunque no esté
+  // visible — así al regresar a Tablero ya está al día).
   renderizar();
   if (vistaActiva === 'calendario') renderizarCalendario();
+
+  // Si el usuario está en una vista que no responde al filtro de subdirección
+  // (Bitácora, Carga, Reportes) y hace clic en una subdirección, no daría
+  // feedback visible. Lo mandamos al Tablero filtrado para que vea su clic.
+  const vistasSinFiltroSub = ['bitacora', 'carga', 'reportes'];
+  if (vistasSinFiltroSub.includes(vistaActiva)) {
+    cambiarVista('tablero');
+  }
 }
 
 function filtrarPrioridad(prio) {
