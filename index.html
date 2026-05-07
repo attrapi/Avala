@@ -1459,29 +1459,33 @@
   .col-atendida .col-conteo  { color: var(--verde); }
 
   .col-cuerpo {
-    padding: 12px;
+    padding: 14px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 14px; /* más aire entre tarjetas para que se note el brinco */
     background: #FBFAF7;
   }
 
-  /* === TARJETA === */
+  /* === TARJETA ===
+     Borde más sólido (linea-fuerte) en los 4 lados + sombra suave para
+     que el corte entre tarjetas se vea claro. El borde izquierdo negro
+     se conserva como acento de identidad. */
   .tarjeta {
     background: white;
-    border: 1px solid var(--linea);
-    border-left: 3px solid var(--tinta);
+    border: 1.5px solid var(--linea-fuerte);
+    border-left: 4px solid var(--tinta);
     padding: 14px;
-    border-radius: 2px;
+    border-radius: 4px;
     cursor: pointer;
     transition: all 0.15s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   }
 
   .tarjeta:hover {
-    border-color: var(--linea-fuerte);
+    border-color: var(--tinta-tenue);
     border-left-color: var(--tinta);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
     transform: translateY(-1px);
   }
 
