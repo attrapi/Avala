@@ -3116,7 +3116,7 @@ function crearTarjeta(t) {
   const fechaTxt = formatearFecha(fechaAt);
 
   let html = `
-    ${venceEsteDia ? '<div class="vence-hoy-chip">⏰ Vence hoy</div>' : ''}
+    ${venceEsteDia ? '<div class="vence-hoy-chip">⏰ Ocurriendo hoy</div>' : ''}
     <div class="tarjeta-id">${t.id} · ${t.subdireccion}</div>
     <dl class="tarjeta-campos">
       <dt>Responsable</dt>
@@ -3264,7 +3264,7 @@ function abrirDetalle(t) {
         <div class="modal-meta">
           <span class="modal-estatus modal-estatus-${t.estatus === 'Atendida' ? 'atendida' : 'proceso'}">${t.estatus}</span>
           <span class="tarjeta-prioridad prioridad-${prioridadDe(t).toLowerCase()}">Prioridad ${prioridadDe(t)}</span>
-          ${venceEsteDia ? '<span class="vence-hoy-chip" style="margin: 0;">⏰ Vence hoy</span>' : ''}
+          ${venceEsteDia ? '<span class="vence-hoy-chip" style="margin: 0;">⏰ Ocurriendo hoy</span>' : ''}
         </div>
       </div>
       <button class="modal-cerrar" onclick="cerrarModal()">×</button>
