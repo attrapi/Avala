@@ -376,19 +376,13 @@
   .subheader {
     background: white;
     border-bottom: 1px solid var(--linea);
-    padding: 24px 32px;
+    padding: 24px 32px 20px;
   }
 
   .subheader-inner {
     max-width: 1400px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr minmax(0, auto);
-    gap: 36px;
-    align-items: start;
   }
-
-  .subheader-titulo { min-width: 0; }
 
   .breadcrumb {
     font-size: 12px;
@@ -410,107 +404,145 @@
   .subheader-desc {
     color: var(--tinta-suave);
     font-size: 14px;
-    max-width: 720px;
+    max-width: 900px;
     line-height: 1.55;
   }
 
-  /* === KPIs CIRCULARES (en sidebar del subheader) === */
+  /* === KPIs CIRCULARES (debajo del subheader, dos cards) === */
   .kpis {
-    display: flex;
-    flex-direction: column;
+    max-width: 1400px;
+    margin: 24px auto 0;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
     gap: 18px;
-    border-left: 1px solid var(--linea);
-    padding-left: 28px;
-    min-width: 380px;
+  }
+
+  .kpi-card {
+    background: white;
+    border: 1px solid var(--linea);
+    border-radius: 10px;
+    padding: 18px 22px 20px;
+    box-shadow: 0 2px 8px rgba(105,28,50,0.04);
+    position: relative;
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 22px; right: 22px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--guinda), var(--guinda-claro));
+    border-radius: 0 0 3px 3px;
+  }
+  .kpi-card.sub-card::before {
+    background: linear-gradient(90deg, var(--azul), var(--ambar) 50%, var(--verde));
   }
 
   .kpis-grupo-titulo {
-    font-size: 10px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--tinta-tenue);
-    margin-bottom: 10px;
+    letter-spacing: 0.16em;
+    color: var(--guinda);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .kpis-grupo-titulo::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--linea);
   }
 
   .kpis-fila {
     display: flex;
-    gap: 12px;
+    gap: 18px;
     flex-wrap: wrap;
+    justify-content: flex-start;
   }
 
   .kpi {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 7px;
+    align-items: flex-start;
+    gap: 8px;
     background: none;
     border: none;
     padding: 0;
-    min-width: 70px;
-    flex: 1;
-  }
-
-  .kpi-label {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--tinta-tenue);
-    text-align: center;
-    line-height: 1.2;
-    min-height: 24px;
-    display: flex;
-    align-items: flex-end;
+    flex: 0 0 auto;
+    min-width: 0;
   }
 
   .kpi-valor {
-    width: 58px;
-    height: 58px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
     background: white;
-    border: 2.5px solid var(--guinda);
+    border: 3px solid var(--guinda);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--serif);
     font-weight: 700;
-    font-size: 22px;
+    font-size: 28px;
     line-height: 1;
     color: var(--guinda);
-    transition: transform 0.15s;
+    box-shadow: 0 4px 14px rgba(105,28,50,0.12), inset 0 -3px 6px rgba(0,0,0,0.04);
+    transition: all 0.18s ease;
+    position: relative;
   }
-  .kpi:hover .kpi-valor { transform: scale(1.06); }
+  .kpi:hover .kpi-valor {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(105,28,50,0.22), inset 0 -3px 6px rgba(0,0,0,0.04);
+  }
 
-  .kpi-azul   .kpi-valor { border-color: var(--azul);    color: var(--azul);    background: var(--azul-tenue); }
-  .kpi-ambar  .kpi-valor { border-color: var(--ambar);   color: var(--ambar);   background: var(--ambar-tenue); }
-  .kpi-verde  .kpi-valor { border-color: var(--verde);   color: var(--verde);   background: var(--verde-tenue); }
-  .kpi-grafito .kpi-valor{ border-color: var(--grafito); color: var(--grafito); background: var(--grafito-tenue); }
-  .kpi-rojo   .kpi-valor { border-color: var(--rojo);    color: var(--rojo);    background: #FEE2E2; }
+  .kpi-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--tinta);
+    line-height: 1.25;
+    text-align: left;
+    max-width: 100px;
+    letter-spacing: 0.01em;
+  }
 
-  /* Oculta la meta — el rediseño usa solo label + número */
+  .kpi-azul   .kpi-valor { border-color: var(--azul);    color: var(--azul);    background: linear-gradient(135deg, white 0%, var(--azul-tenue) 100%);  box-shadow: 0 4px 14px rgba(21,101,192,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-ambar  .kpi-valor { border-color: var(--ambar);   color: var(--ambar);   background: linear-gradient(135deg, white 0%, var(--ambar-tenue) 100%); box-shadow: 0 4px 14px rgba(180,83,9,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-verde  .kpi-valor { border-color: var(--verde);   color: var(--verde);   background: linear-gradient(135deg, white 0%, var(--verde-tenue) 100%); box-shadow: 0 4px 14px rgba(21,128,61,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-grafito .kpi-valor{ border-color: var(--grafito); color: var(--grafito); background: linear-gradient(135deg, white 0%, var(--grafito-tenue) 100%); }
+  .kpi-rojo   .kpi-valor { border-color: var(--rojo);    color: var(--rojo);    background: linear-gradient(135deg, white 0%, #FEE2E2 100%);             box-shadow: 0 4px 14px rgba(185,28,28,0.22), inset 0 -3px 6px rgba(0,0,0,0.04); }
+
   .kpi-meta { display: none; }
 
-  /* === KPIs por subdirección (segunda fila) === */
-  .kpi-sub .kpi-valor {
-    font-size: 20px;
-    width: 54px;
-    height: 54px;
+  /* === KPIs por subdirección === */
+  .kpi-sub {
+    cursor: pointer;
+    padding: 6px 8px 8px;
+    border-radius: 8px;
+    transition: background 0.15s;
   }
+  .kpi-sub:hover { background: var(--crema); }
+
   .kpi-sub .kpi-clave {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 800;
     letter-spacing: 0.08em;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-top: 2px;
+    padding: 3px 7px;
+    border-radius: 5px;
+    line-height: 1;
+    margin-bottom: 2px;
+    display: inline-block;
   }
-  .kpi-sub[data-sub="SA"]   .kpi-valor { border-color: var(--azul);  color: var(--azul);  background: var(--azul-tenue); }
-  .kpi-sub[data-sub="SGOI"] .kpi-valor { border-color: var(--ambar); color: var(--ambar); background: var(--ambar-tenue); }
-  .kpi-sub[data-sub="SPAC"] .kpi-valor { border-color: var(--verde); color: var(--verde); background: var(--verde-tenue); }
-  .kpi-sub[data-sub="SA"]   .kpi-clave { background: rgba(21,101,192,0.14); color: var(--azul); }
-  .kpi-sub[data-sub="SGOI"] .kpi-clave { background: rgba(180,83,9,0.14);   color: var(--ambar); }
-  .kpi-sub[data-sub="SPAC"] .kpi-clave { background: rgba(21,128,61,0.14);  color: var(--verde); }
+
+  .kpi-sub[data-sub="SA"]   .kpi-valor { border-color: var(--azul);  color: var(--azul);  background: linear-gradient(135deg, white 0%, var(--azul-tenue) 100%);  box-shadow: 0 4px 14px rgba(21,101,192,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SGOI"] .kpi-valor { border-color: var(--ambar); color: var(--ambar); background: linear-gradient(135deg, white 0%, var(--ambar-tenue) 100%); box-shadow: 0 4px 14px rgba(180,83,9,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SPAC"] .kpi-valor { border-color: var(--verde); color: var(--verde); background: linear-gradient(135deg, white 0%, var(--verde-tenue) 100%); box-shadow: 0 4px 14px rgba(21,128,61,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SA"]   .kpi-clave { background: rgba(21,101,192,0.16); color: var(--azul); }
+  .kpi-sub[data-sub="SGOI"] .kpi-clave { background: rgba(180,83,9,0.16);   color: var(--ambar); }
+  .kpi-sub[data-sub="SPAC"] .kpi-clave { background: rgba(21,128,61,0.16);  color: var(--verde); }
+  .kpi-sub .kpi-label { font-size: 11px; color: var(--tinta-suave); font-weight: 600; }
 
   /* === TABS SUBDIRECCIONES (PÍLDORAS) === */
   .tabs-wrap {
@@ -1553,17 +1585,7 @@
   /* === RESPONSIVE === */
   @media (max-width: 1100px) {
     .tablero { grid-template-columns: repeat(2, 1fr); }
-    .subheader-inner {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    .kpis {
-      border-left: none;
-      border-top: 1px solid var(--linea);
-      padding-left: 0;
-      padding-top: 20px;
-      min-width: 0;
-    }
+    .kpis { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 760px) {
@@ -1582,6 +1604,8 @@
     .tablero { padding: 0 16px; }
     .calendario-wrap { padding: 0 16px; }
     .tabs-wrap { padding: 0 16px; }
+    .kpis { padding: 0 16px; }
+    .kpi-card { padding: 14px 16px 16px; }
     .tabs { overflow-x: auto; }
     .tab { white-space: nowrap; }
     .modal-grid { grid-template-columns: 1fr; }
@@ -1589,9 +1613,8 @@
     .cal-header { flex-wrap: wrap; gap: 10px; }
     .cal-titulo { font-size: 18px; }
     .cal-dia-cab { font-size: 9px; padding: 6px 2px; }
-    .kpis-fila { gap: 8px; }
-    .kpi { min-width: 60px; }
-    .kpi-valor { width: 48px; height: 48px; font-size: 18px; }
+    .kpis-fila { gap: 14px; }
+    .kpi-valor { width: 60px; height: 60px; font-size: 22px; }
   }
 </style>
 </head>
@@ -1684,54 +1707,52 @@
 
   <div class="subheader">
     <div class="subheader-inner">
-      <div class="subheader-titulo">
-        <div class="breadcrumb">ATTRAPI / Dirección de Procesos Administrativos de Construcción</div>
-        <h1>Tablero de Tareas</h1>
-        <p class="subheader-desc" id="bienvenida">Bienvenido. Desde esta pantalla puede consultar y validar las tareas reportadas por las tres subdirecciones.</p>
-      </div>
+      <div class="breadcrumb">ATTRAPI / Dirección de Procesos Administrativos de Construcción</div>
+      <h1>Tablero de Tareas</h1>
+      <p class="subheader-desc" id="bienvenida">Bienvenido. Desde esta pantalla puede consultar y validar las tareas reportadas por las tres subdirecciones.</p>
+    </div>
+  </div>
 
-      <div class="kpis" id="kpisPanel">
-        <div>
-          <div class="kpis-grupo-titulo" id="kpisGrupoTitulo">Resumen general</div>
-          <div class="kpis-fila">
-            <div class="kpi kpi-azul">
-              <div class="kpi-label">Activas</div>
-              <div class="kpi-valor" id="kpiActivas">0</div>
-            </div>
-            <div class="kpi kpi-ambar">
-              <div class="kpi-label">Por validar</div>
-              <div class="kpi-valor" id="kpiPendientes">0</div>
-            </div>
-            <div class="kpi kpi-verde">
-              <div class="kpi-label">Hoy</div>
-              <div class="kpi-valor" id="kpiHoy">0</div>
-            </div>
-            <div class="kpi kpi-grafito">
-              <div class="kpi-label">Semana</div>
-              <div class="kpi-valor" id="kpiSemana">0</div>
-            </div>
-          </div>
+  <div class="kpis" id="kpisPanel">
+    <div class="kpi-card">
+      <div class="kpis-grupo-titulo" id="kpisGrupoTitulo">Resumen general</div>
+      <div class="kpis-fila">
+        <div class="kpi kpi-azul">
+          <div class="kpi-valor" id="kpiActivas">0</div>
+          <div class="kpi-label">Activas</div>
         </div>
+        <div class="kpi kpi-ambar">
+          <div class="kpi-valor" id="kpiPendientes">0</div>
+          <div class="kpi-label">Por validar</div>
+        </div>
+        <div class="kpi kpi-verde">
+          <div class="kpi-valor" id="kpiHoy">0</div>
+          <div class="kpi-label">Hoy</div>
+        </div>
+        <div class="kpi kpi-grafito">
+          <div class="kpi-valor" id="kpiSemana">0</div>
+          <div class="kpi-label">Liberadas</div>
+        </div>
+      </div>
+    </div>
 
-        <div id="kpisSubGrupo">
-          <div class="kpis-grupo-titulo">Pendientes por subdirección</div>
-          <div class="kpis-fila">
-            <div class="kpi kpi-sub" data-sub="SA" onclick="cambiarTab('SA')" style="cursor:pointer">
-              <div class="kpi-label">Archivo</div>
-              <div class="kpi-valor" id="kpiPendSA">0</div>
-              <div class="kpi-clave">SA</div>
-            </div>
-            <div class="kpi kpi-sub" data-sub="SGOI" onclick="cambiarTab('SGOI')" style="cursor:pointer">
-              <div class="kpi-label">Obras Inducidas</div>
-              <div class="kpi-valor" id="kpiPendSGOI">0</div>
-              <div class="kpi-clave">SGOI</div>
-            </div>
-            <div class="kpi kpi-sub" data-sub="SPAC" onclick="cambiarTab('SPAC')" style="cursor:pointer">
-              <div class="kpi-label">Procesos Construcción</div>
-              <div class="kpi-valor" id="kpiPendSPAC">0</div>
-              <div class="kpi-clave">SPAC</div>
-            </div>
-          </div>
+    <div class="kpi-card sub-card" id="kpisSubGrupo">
+      <div class="kpis-grupo-titulo">Pendientes por subdirección</div>
+      <div class="kpis-fila">
+        <div class="kpi kpi-sub" data-sub="SA" onclick="cambiarTab('SA')">
+          <div class="kpi-valor" id="kpiPendSA">0</div>
+          <div class="kpi-clave">SA</div>
+          <div class="kpi-label">Archivo</div>
+        </div>
+        <div class="kpi kpi-sub" data-sub="SGOI" onclick="cambiarTab('SGOI')">
+          <div class="kpi-valor" id="kpiPendSGOI">0</div>
+          <div class="kpi-clave">SGOI</div>
+          <div class="kpi-label">Obras Inducidas</div>
+        </div>
+        <div class="kpi kpi-sub" data-sub="SPAC" onclick="cambiarTab('SPAC')">
+          <div class="kpi-valor" id="kpiPendSPAC">0</div>
+          <div class="kpi-clave">SPAC</div>
+          <div class="kpi-label">Procesos Construcción</div>
         </div>
       </div>
     </div>
@@ -2074,36 +2095,21 @@ function actualizarKPIs() {
     if (lbl) lbl.textContent = texto;
   };
 
-  // Reset del círculo de "Semana/Vencidas" a su clase base por si se cambió de rol
-  const kpiSemanaParent = document.getElementById('kpiSemana').parentElement;
-  kpiSemanaParent.classList.remove('kpi-rojo');
-  if (!kpiSemanaParent.classList.contains('kpi-grafito')) {
-    kpiSemanaParent.classList.add('kpi-grafito');
-  }
-
   if (usuarioActual.rol === 'Capturista') {
     const activas = visible.filter(t => t.estatus !== 'Liberada').length;
     const enRevision = visible.filter(t => t.estatus === 'En revisión').length;
     const validadas = visible.filter(t => t.estatus === 'Validada').length;
-    const vencidas = visible.filter(t =>
-      esVencida(t.fecha_limite) && t.estatus !== 'Validada' && t.estatus !== 'Liberada'
-    ).length;
+    const liberadas = visible.filter(t => t.estatus === 'Liberada').length;
 
     setLabel('kpiActivas', 'Activas');
     setLabel('kpiPendientes', 'Por validar');
     setLabel('kpiHoy', 'Validadas');
-    setLabel('kpiSemana', 'Vencidas');
+    setLabel('kpiSemana', 'Liberadas');
 
     document.getElementById('kpiActivas').textContent = activas;
     document.getElementById('kpiPendientes').textContent = enRevision;
     document.getElementById('kpiHoy').textContent = validadas;
-    document.getElementById('kpiSemana').textContent = vencidas;
-
-    // Resaltar el círculo de vencidas en rojo si hay alguna
-    const kpiVenc = document.getElementById('kpiSemana').parentElement;
-    kpiVenc.classList.remove('kpi-grafito');
-    kpiVenc.classList.toggle('kpi-rojo', vencidas > 0);
-    if (vencidas === 0) kpiVenc.classList.add('kpi-grafito');
+    document.getElementById('kpiSemana').textContent = liberadas;
     return;
   }
 
@@ -2111,20 +2117,17 @@ function actualizarKPIs() {
   setLabel('kpiActivas', 'Activas');
   setLabel('kpiPendientes', 'Por validar');
   setLabel('kpiHoy', 'Hoy');
-  setLabel('kpiSemana', 'Semana');
+  setLabel('kpiSemana', 'Liberadas');
 
   const activas = visible.filter(t => t.estatus !== 'Liberada').length;
   const pendientes = visible.filter(t => t.estatus === 'En revisión').length;
   const validadasHoy = visible.filter(t => t.fecha_validacion && t.fecha_validacion.startsWith(hoy)).length;
-  const validadasSemana = visible.filter(t => {
-    if (!t.fecha_validacion) return false;
-    return new Date(t.fecha_validacion.replace(' ', 'T')) >= hace7;
-  }).length;
+  const liberadas = visible.filter(t => t.estatus === 'Liberada').length;
 
   document.getElementById('kpiActivas').textContent = activas;
   document.getElementById('kpiPendientes').textContent = pendientes;
   document.getElementById('kpiHoy').textContent = validadasHoy;
-  document.getElementById('kpiSemana').textContent = validadasSemana;
+  document.getElementById('kpiSemana').textContent = liberadas;
 
   // Pendientes "En revisión" por subdirección (siempre sobre el universo total, ignorando filtros)
   const pendSA   = TAREAS.filter(t => t.subdireccion === 'SA'   && t.estatus === 'En revisión').length;
