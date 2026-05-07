@@ -653,8 +653,15 @@
     font-size: 20px;
     font-weight: 600;
     color: var(--tinta);
-    margin-bottom: 14px;
+    margin-bottom: 6px;
   }
+  .reportes-subtitulo {
+    font-size: 12px;
+    color: var(--tinta-suave);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .reportes-subtitulo em { color: var(--guinda); font-style: normal; font-weight: 600; }
   .reportes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -2206,6 +2213,30 @@
 
   <div class="app-body">
     <aside class="sidebar" id="sidebar">
+      <div class="sidebar-grupo" id="sidebarGrupoSubs">
+        <div class="sidebar-grupo-titulo">Subdirecciones</div>
+        <button class="sidebar-item sidebar-sub activa" data-sub="TODAS" onclick="cambiarTab('TODAS')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          Vista Consolidada
+          <span class="sidebar-conteo" id="contTODAS">0</span>
+        </button>
+        <button class="sidebar-item sidebar-sub" data-sub="SA" onclick="cambiarTab('SA')">
+          <span class="sub-dot" style="background: var(--sub-sa)"></span>
+          Subdirección de Archivo
+          <span class="sidebar-conteo" id="contSA">0</span>
+        </button>
+        <button class="sidebar-item sidebar-sub" data-sub="SGOI" onclick="cambiarTab('SGOI')">
+          <span class="sub-dot" style="background: var(--sub-sgoi)"></span>
+          Gestión de Obras Inducidas
+          <span class="sidebar-conteo" id="contSGOI">0</span>
+        </button>
+        <button class="sidebar-item sidebar-sub" data-sub="SPAC" onclick="cambiarTab('SPAC')">
+          <span class="sub-dot" style="background: var(--sub-spac)"></span>
+          Procesos Adm. de Construcción
+          <span class="sidebar-conteo" id="contSPAC">0</span>
+        </button>
+      </div>
+
       <div class="sidebar-grupo">
         <div class="sidebar-grupo-titulo">Vistas</div>
         <button class="sidebar-item activa" data-vista="tablero" onclick="cambiarVista('tablero')">
@@ -2232,30 +2263,6 @@
         <button class="sidebar-item" data-vista="reportes" onclick="cambiarVista('reportes')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8"  y2="13"/><line x1="16" y1="17" x2="8"  y2="17"/><line x1="10" y1="9"  x2="8"  y2="9"/></svg>
           Reportes
-        </button>
-      </div>
-
-      <div class="sidebar-grupo" id="sidebarGrupoSubs">
-        <div class="sidebar-grupo-titulo">Subdirecciones</div>
-        <button class="sidebar-item sidebar-sub activa" data-sub="TODAS" onclick="cambiarTab('TODAS')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-          Vista Consolidada
-          <span class="sidebar-conteo" id="contTODAS">0</span>
-        </button>
-        <button class="sidebar-item sidebar-sub" data-sub="SA" onclick="cambiarTab('SA')">
-          <span class="sub-dot" style="background: var(--sub-sa)"></span>
-          Subdirección de Archivo
-          <span class="sidebar-conteo" id="contSA">0</span>
-        </button>
-        <button class="sidebar-item sidebar-sub" data-sub="SGOI" onclick="cambiarTab('SGOI')">
-          <span class="sub-dot" style="background: var(--sub-sgoi)"></span>
-          Gestión de Obras Inducidas
-          <span class="sidebar-conteo" id="contSGOI">0</span>
-        </button>
-        <button class="sidebar-item sidebar-sub" data-sub="SPAC" onclick="cambiarTab('SPAC')">
-          <span class="sub-dot" style="background: var(--sub-spac)"></span>
-          Procesos Adm. de Construcción
-          <span class="sidebar-conteo" id="contSPAC">0</span>
         </button>
       </div>
     </aside>
@@ -2359,27 +2366,35 @@
   <!-- Vista: Reportes -->
   <div class="reportes-wrap" id="reportesWrap">
     <div class="reportes-titulo">Reportes</div>
+    <div class="reportes-subtitulo">Cada reporte abre una vista imprimible. Desde el diálogo de impresión, elige <em>"Guardar como PDF"</em> en el destino.</div>
     <div class="reportes-grid">
-      <div class="reporte-card" onclick="modoPresentacion()">
+      <div class="reporte-card" onclick="exportarPDF('TODAS')">
         <div class="reporte-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
         </div>
-        <div class="reporte-titulo">Modo presentación</div>
-        <div class="reporte-desc">Vista limpia para reunión con Director General. KPIs y tareas críticas en pantalla completa.</div>
+        <div class="reporte-titulo">Vista Consolidada</div>
+        <div class="reporte-desc">Reporte de todas las tareas de las tres subdirecciones, en una sola hoja imprimible.</div>
       </div>
-      <div class="reporte-card" onclick="exportarPDF()">
-        <div class="reporte-icon">
+      <div class="reporte-card" data-sub="SA" onclick="exportarPDF('SA')">
+        <div class="reporte-icon" style="background: var(--sub-sa-tenue); color: var(--sub-sa);">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
         </div>
-        <div class="reporte-titulo">Exportar a PDF</div>
-        <div class="reporte-desc">Reporte imprimible del estado actual de tareas, agrupado por subdirección.</div>
+        <div class="reporte-titulo">Subdirección de Archivo</div>
+        <div class="reporte-desc">Solo las tareas reportadas por la Subdirección de Archivo (SA).</div>
       </div>
-      <div class="reporte-card" onclick="exportarExcel()">
-        <div class="reporte-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <div class="reporte-card" data-sub="SGOI" onclick="exportarPDF('SGOI')">
+        <div class="reporte-icon" style="background: var(--sub-sgoi-tenue); color: var(--sub-sgoi);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
         </div>
-        <div class="reporte-titulo">Exportar a Excel</div>
-        <div class="reporte-desc">Descarga la matriz completa de tareas con todos los campos para análisis externo.</div>
+        <div class="reporte-titulo">Gestión de Obras Inducidas</div>
+        <div class="reporte-desc">Solo las tareas reportadas por la Subdirección de Gestión de Obras Inducidas (SGOI).</div>
+      </div>
+      <div class="reporte-card" data-sub="SPAC" onclick="exportarPDF('SPAC')">
+        <div class="reporte-icon" style="background: var(--sub-spac-tenue); color: var(--sub-spac);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="reporte-titulo">Procesos Adm. de Construcción</div>
+        <div class="reporte-desc">Solo las tareas reportadas por la Subdirección de Procesos Administrativos de Construcción (SPAC).</div>
       </div>
     </div>
   </div>
@@ -3537,16 +3552,203 @@ function renderizarCarga() {
   }).join('');
 }
 
-// ============== VISTA: REPORTES (placeholders) ==============
+// ============== VISTA: REPORTES ==============
 
-function modoPresentacion() {
-  toast('Próximamente: vista limpia para reuniones con Director General.', 'ok');
+const NOMBRE_SUB = {
+  TODAS: 'Vista Consolidada · Tres Subdirecciones',
+  SA:    'Subdirección de Archivo',
+  SGOI:  'Subdirección de Gestión de Obras Inducidas',
+  SPAC:  'Subdirección de Procesos Administrativos de Construcción'
+};
+
+const COLOR_SUB = {
+  SA:   { bg: '#EFEBE9', fg: '#5D4037' },
+  SGOI: { bg: '#D1FAE5', fg: '#166534' },
+  SPAC: { bg: '#DBEAFE', fg: '#1E3A8A' }
+};
+
+/**
+ * Abre una ventana nueva con el reporte imprimible y dispara el diálogo de
+ * impresión. El usuario elige "Guardar como PDF" desde el destino del
+ * diálogo. No depende de librerías externas.
+ *
+ * @param {'TODAS'|'SA'|'SGOI'|'SPAC'} sub
+ */
+function exportarPDF(sub) {
+  const lista = (sub === 'TODAS') ? TAREAS : TAREAS.filter(t => t.subdireccion === sub);
+  const ahora = new Date();
+  const fechaTxt = ahora.getFullYear() + '-' + String(ahora.getMonth()+1).padStart(2,'0') + '-' + String(ahora.getDate()).padStart(2,'0');
+  const horaTxt = String(ahora.getHours()).padStart(2,'0') + ':' + String(ahora.getMinutes()).padStart(2,'0');
+
+  const total = lista.length;
+  const enProceso = lista.filter(t => t.estatus === 'En Proceso').length;
+  const atendidas = lista.filter(t => t.estatus === 'Atendida').length;
+  const vencidas  = lista.filter(t => t.estatus === 'En Proceso' && esVencida(t.fecha_limite)).length;
+
+  const mostrarSub = (sub === 'TODAS');
+
+  // Filas, ordenadas por subdirección y luego por fecha límite
+  const ordenadas = [...lista].sort((a, b) => {
+    if (a.subdireccion !== b.subdireccion) return a.subdireccion.localeCompare(b.subdireccion);
+    return (a.fecha_limite || '').localeCompare(b.fecha_limite || '');
+  });
+
+  const filas = ordenadas.map(t => {
+    const vencida = t.estatus === 'En Proceso' && esVencida(t.fecha_limite);
+    const c = COLOR_SUB[t.subdireccion] || { bg: '#F3F4F6', fg: '#374151' };
+    const subPill = `<span class="sub-pill" style="background:${c.bg};color:${c.fg};">${t.subdireccion}</span>`;
+    const estatusClase = t.estatus === 'Atendida' ? 'estatus-atendida' : (vencida ? 'estatus-vencida' : 'estatus-proceso');
+    return `
+      <tr>
+        <td class="col-id">${t.id}</td>
+        ${mostrarSub ? `<td>${subPill}</td>` : ''}
+        <td>${escapeHtml(t.responsable)}</td>
+        <td class="col-titulo">${escapeHtml(t.titulo)}</td>
+        <td><span class="prio prio-${t.prioridad.toLowerCase()}">${t.prioridad}</span></td>
+        <td><span class="estatus ${estatusClase}">${t.estatus}${vencida ? ' (vencida)' : ''}</span></td>
+        <td class="col-fecha">${t.fecha_limite || '—'}</td>
+        <td class="col-avance">${t.avance}%</td>
+      </tr>
+    `;
+  }).join('');
+
+  const headerSub = (sub === 'TODAS') ? '' : `<span class="rep-sub-pill" style="background:${(COLOR_SUB[sub]||{}).bg};color:${(COLOR_SUB[sub]||{}).fg};">${sub}</span>`;
+
+  const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Reporte TT — ${NOMBRE_SUB[sub]}</title>
+<style>
+  @page { size: letter landscape; margin: 14mm 12mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, Segoe UI, sans-serif; color: #1A1A1A; font-size: 11px; line-height: 1.4; }
+
+  .rep-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #691C32; padding-bottom: 10px; margin-bottom: 14px; }
+  .rep-marca { display: flex; align-items: center; gap: 12px; }
+  .rep-mark-svg { width: 38px; height: 38px; }
+  .rep-marca-info { display: flex; flex-direction: column; }
+  .rep-marca-titulo { font-family: Georgia, serif; font-size: 17px; font-weight: 700; color: #691C32; line-height: 1.1; }
+  .rep-marca-sub { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #6A6A6A; margin-top: 2px; }
+  .rep-info { text-align: right; }
+  .rep-info-titulo { font-family: Georgia, serif; font-size: 14px; font-weight: 600; color: #1A1A1A; }
+  .rep-info-sub { font-size: 10px; color: #6A6A6A; margin-top: 3px; }
+  .rep-sub-pill { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
+
+  .rep-resumen { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+  .rep-kpi { border: 1px solid #E5DFD7; border-radius: 4px; padding: 8px 12px; }
+  .rep-kpi-valor { font-family: Georgia, serif; font-size: 22px; font-weight: 700; line-height: 1; }
+  .rep-kpi-label { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: #6A6A6A; margin-top: 4px; }
+  .rep-kpi.proceso .rep-kpi-valor { color: #B45309; }
+  .rep-kpi.atendida .rep-kpi-valor { color: #15803D; }
+  .rep-kpi.vencida .rep-kpi-valor { color: #B91C1C; }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead { display: table-header-group; }
+  thead th { background: #691C32; color: white; padding: 7px 8px; text-align: left; font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  thead th.col-fecha, thead th.col-avance { text-align: center; }
+  tbody td { padding: 7px 8px; border-bottom: 1px solid #ECEAE5; vertical-align: top; }
+  tbody tr:nth-child(even) td { background: #FAF7F2; }
+  td.col-id { font-family: 'SF Mono', Consolas, monospace; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+  td.col-titulo { line-height: 1.35; }
+  td.col-fecha { font-family: 'SF Mono', Consolas, monospace; font-size: 10.5px; white-space: nowrap; text-align: center; }
+  td.col-avance { font-weight: 700; text-align: center; white-space: nowrap; }
+  .sub-pill { display: inline-block; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 3px; }
+
+  .prio { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .prio-alta { background: #FEE2E2; color: #B91C1C; }
+  .prio-media { background: #FEF3C7; color: #B45309; }
+  .prio-baja { background: #DCFCE7; color: #15803D; }
+
+  .estatus { display: inline-block; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+  .estatus-proceso { background: #FEF3C7; color: #B45309; }
+  .estatus-atendida { background: #DCFCE7; color: #15803D; }
+  .estatus-vencida { background: #FEE2E2; color: #B91C1C; }
+
+  .rep-vacio { padding: 40px 20px; text-align: center; color: #6A6A6A; font-style: italic; }
+
+  .rep-pie { margin-top: 18px; padding-top: 10px; border-top: 1px solid #E5DFD7; display: flex; justify-content: space-between; font-size: 9px; color: #6A6A6A; }
+
+  /* Botón de imprimir solo visible en pantalla */
+  .rep-toolbar { position: sticky; top: 0; background: white; padding: 8px 0; margin-bottom: 6px; display: flex; gap: 8px; }
+  .rep-btn { background: #691C32; color: white; border: none; padding: 8px 16px; border-radius: 3px; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .rep-btn-sec { background: white; color: #1A1A1A; border: 1px solid #E5DFD7; }
+  @media print { .rep-toolbar { display: none; } body { font-size: 10px; } }
+</style>
+</head>
+<body>
+  <div class="rep-toolbar">
+    <button class="rep-btn" onclick="window.print()">Imprimir / Guardar como PDF</button>
+    <button class="rep-btn rep-btn-sec" onclick="window.close()">Cerrar</button>
+  </div>
+
+  <div class="rep-header">
+    <div class="rep-marca">
+      <svg class="rep-mark-svg" viewBox="0 0 52 52">
+        <rect x="2" y="2" width="48" height="48" rx="10" fill="#691C32"/>
+        <path d="M9 14 H43" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M19 14 V42" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M33 14 V42" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
+      </svg>
+      <div class="rep-marca-info">
+        <div class="rep-marca-titulo">ATTRAPI · TT</div>
+        <div class="rep-marca-sub">Sistema de Gestión y Validación de Tareas</div>
+      </div>
+    </div>
+    <div class="rep-info">
+      <div class="rep-info-titulo">Reporte de Tareas ${headerSub}</div>
+      <div class="rep-info-sub">${NOMBRE_SUB[sub]} · Generado ${fechaTxt} ${horaTxt}</div>
+    </div>
+  </div>
+
+  <div class="rep-resumen">
+    <div class="rep-kpi"><div class="rep-kpi-valor">${total}</div><div class="rep-kpi-label">Total</div></div>
+    <div class="rep-kpi proceso"><div class="rep-kpi-valor">${enProceso}</div><div class="rep-kpi-label">En Proceso</div></div>
+    <div class="rep-kpi atendida"><div class="rep-kpi-valor">${atendidas}</div><div class="rep-kpi-label">Atendidas</div></div>
+    <div class="rep-kpi vencida"><div class="rep-kpi-valor">${vencidas}</div><div class="rep-kpi-label">Vencidas</div></div>
+  </div>
+
+  ${total === 0 ? '<div class="rep-vacio">No hay tareas que mostrar para este filtro.</div>' : `
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          ${mostrarSub ? '<th>Sub</th>' : ''}
+          <th>Responsable</th>
+          <th>Tarea</th>
+          <th>Prioridad</th>
+          <th>Estatus</th>
+          <th class="col-fecha">Fecha límite</th>
+          <th class="col-avance">Avance</th>
+        </tr>
+      </thead>
+      <tbody>${filas}</tbody>
+    </table>
+  `}
+
+  <div class="rep-pie">
+    <div>ATTRAPI · Agencia de Trenes y Transporte Público Integrado</div>
+    <div>${NOMBRE_SUB[sub]} · ${fechaTxt}</div>
+  </div>
+</body>
+</html>`;
+
+  const w = window.open('', '_blank');
+  if (!w) {
+    toast('No se pudo abrir la ventana del reporte. Habilita los pop-ups para este sitio.', 'error');
+    return;
+  }
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
 }
-function exportarPDF() {
-  toast('Próximamente: exportar el estado actual a PDF.', 'ok');
-}
-function exportarExcel() {
-  toast('Próximamente: descargar la matriz completa de tareas en Excel.', 'ok');
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 // Cerrar modal con ESC
