@@ -4142,6 +4142,7 @@ function exportarPDF(sub) {
 <head>
 <meta charset="UTF-8">
 <title>Reporte TT — ${NOMBRE_SUB[sub]}</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'%3E%3Crect x='2' y='2' width='48' height='48' rx='10' fill='%23691C32'/%3E%3Cpath d='M9 14 H43' stroke='white' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpath d='M19 14 V42' stroke='white' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpath d='M33 14 V42' stroke='white' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
   /* Carta vertical con márgenes amplios. Defensa en profundidad:
      1) @page margin (los navegadores Chrome/Edge respetan esto)
@@ -4218,16 +4219,54 @@ function exportarPDF(sub) {
 
   /* Botón de imprimir solo visible en pantalla */
   .rep-toolbar { position: sticky; top: 0; background: white; padding: 10px 26px; display: flex; gap: 8px; max-width: 760px; margin: 0 auto; border-bottom: 1px solid #E5DFD7; z-index: 10; }
-  .rep-btn { background: #691C32; color: white; border: none; padding: 8px 16px; border-radius: 3px; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .rep-btn { background: #691C32; color: white; border: none; padding: 8px 16px; border-radius: 3px; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
   .rep-btn-sec { background: white; color: #1A1A1A; border: 1px solid #E5DFD7; }
+  .rep-btn-wa  { background: #25D366; color: white; }
+  .rep-btn-wa:hover { background: #1FAE54; }
+  .rep-btn svg { width: 14px; height: 14px; }
   @media print { .rep-toolbar { display: none; } }
 </style>
 </head>
 <body>
   <div class="rep-toolbar">
     <button class="rep-btn" onclick="window.print()">Imprimir / Guardar como PDF</button>
+    <button class="rep-btn rep-btn-wa" onclick="compartirWhatsApp()" title="Abre WhatsApp con un mensaje precargado. Adjunta el PDF guardado manualmente.">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.02zm-7.01 15.24h-.01a8.21 8.21 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.23 8.23zm4.52-6.16c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.56.12s-.64.8-.78.97c-.14.16-.29.18-.54.06-.25-.12-1.05-.39-2-1.23a7.5 7.5 0 0 1-1.39-1.72c-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.42l-.48-.01c-.16 0-.43.06-.66.31-.23.25-.86.84-.86 2.04 0 1.2.88 2.36 1 2.52.12.16 1.73 2.65 4.2 3.71.59.25 1.05.4 1.41.51.59.19 1.13.16 1.55.1.47-.07 1.46-.6 1.66-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"/></svg>
+      Compartir por WhatsApp
+    </button>
     <button class="rep-btn rep-btn-sec" onclick="window.close()">Cerrar</button>
   </div>
+  <script>
+    // Abre WhatsApp Web con un mensaje precargado invitando al destinatario a
+    // revisar el reporte. WhatsApp wa.me solo acepta texto; el PDF se adjunta
+    // manualmente desde el adjuntar (📎) del chat después de guardar el PDF.
+    function compartirWhatsApp() {
+      const sep = '━━━━━━━━━━━━━━━━━━━';
+      const total = ${total};
+      const enProc = ${enProceso};
+      const atend = ${atendidas};
+      const venc = ${vencidas};
+      const lineas = [
+        '📊 *Reporte de Tareas TT*',
+        sep,
+        '_${NOMBRE_SUB[sub]}_',
+        '_Generado el ${fechaTxt} ${horaTxt}_',
+        '',
+        '*Resumen*',
+        '• Total: ' + total,
+        '• 🟠 En Proceso: ' + enProc,
+        '• 🔴 Vencidas: ' + venc,
+        '• ✅ Atendidas: ' + atend,
+        '',
+        sep,
+        '_Adjunto el PDF con el detalle completo de cada tarea._',
+        '',
+        '_Sistema TT · ATTRAPI_'
+      ];
+      const url = 'https://wa.me/?text=' + encodeURIComponent(lineas.join('\\n'));
+      window.open(url, '_blank');
+    }
+  </script>
 
   <div class="rep-pagina">
 
