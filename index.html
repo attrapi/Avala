@@ -2973,7 +2973,13 @@ function ingresar(rol) {
 
   document.getElementById('userAvatar').textContent = usuarioActual.iniciales;
   document.getElementById('userNombre').textContent = usuarioActual.nombre;
-  document.getElementById('userRol').textContent = usuarioActual.rol;
+  // Etiqueta visual del rol que ve el usuario en el header. La lógica
+  // interna sigue usando usuarioActual.rol = 'Director' / 'Capturista',
+  // pero aquí mostramos un cargo más representativo.
+  const rolDisplay = usuarioActual.rol === 'Director'
+    ? 'Director'
+    : (usuarioActual.subdireccion === 'ENLACE' ? 'Enlace' : 'Subdirector');
+  document.getElementById('userRol').textContent = rolDisplay;
 
   // === CONTROL DE VISTAS POR ROL ===
   // El Director ve TODO. Los Capturistas SOLO ven su subdirección.
