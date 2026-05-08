@@ -4118,6 +4118,9 @@ function exportarPDF(sub) {
     const c = COLOR_SUB[t.subdireccion] || { bg: '#F3F4F6', fg: '#374151' };
     const subPill = `<span class="sub-pill" style="background:${c.bg};color:${c.fg};">${t.subdireccion}</span>`;
     const estatusClase = t.estatus === 'Atendida' ? 'estatus-atendida' : (vencida ? 'estatus-vencida' : 'estatus-proceso');
+    // Cuando vence, mostramos sólo "Vencida" (rojo) en lugar de
+    // "En Proceso (vencida)" — más corto, no se encima con la fecha.
+    const estatusTexto = t.estatus === 'Atendida' ? 'Atendida' : (vencida ? 'Vencida' : 'En Proceso');
     return `
       <tr>
         <td class="col-id">${t.id}</td>
@@ -4125,7 +4128,7 @@ function exportarPDF(sub) {
         <td>${escapeHtml(t.responsable)}</td>
         <td class="col-titulo">${escapeHtml(t.titulo)}</td>
         <td><span class="prio prio-${prioridadDe(t).toLowerCase()}">${prioridadDe(t)}</span></td>
-        <td><span class="estatus ${estatusClase}">${t.estatus}${vencida ? ' (vencida)' : ''}</span></td>
+        <td><span class="estatus ${estatusClase}">${estatusTexto}</span></td>
         <td class="col-fecha">${formatearFechaCorta(t.fecha_atencion || t.fecha_limite) || '—'}</td>
         <td class="col-avance">${t.avance}%</td>
       </tr>
