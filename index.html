@@ -4239,7 +4239,7 @@ function exportarPDF(sub) {
   <script>
     // Abre WhatsApp Web con un mensaje precargado invitando al destinatario a
     // revisar el reporte. WhatsApp wa.me solo acepta texto; el PDF se adjunta
-    // manualmente desde el adjuntar (📎) del chat después de guardar el PDF.
+    // manualmente desde el adjuntar del chat después de guardar el PDF.
     function compartirWhatsApp() {
       const sep = '━━━━━━━━━━━━━━━━━━━';
       const total = ${total};
@@ -4247,15 +4247,15 @@ function exportarPDF(sub) {
       const atend = ${atendidas};
       const venc = ${vencidas};
       const lineas = [
-        '📊 *Reporte de Tareas TT*',
+        '\u{1F4CA} *Reporte de Tareas TT*',
         sep,
         '_${NOMBRE_SUB[sub]}_',
         '_Generado el ${fechaTxt} ${horaTxt}_',
         '',
         '*Resumen*',
         '• Total: ' + total,
-        '• 🟠 En Proceso: ' + enProc,
-        '• 🔴 Vencidas: ' + venc,
+        '• \u{1F7E0} En Proceso: ' + enProc,
+        '• \u{1F534} Vencidas: ' + venc,
         '• ✅ Atendidas: ' + atend,
         '',
         sep,
@@ -4266,7 +4266,7 @@ function exportarPDF(sub) {
       const url = 'https://wa.me/?text=' + encodeURIComponent(lineas.join('\\n'));
       window.open(url, '_blank');
     }
-  </script>
+  <\/script>
 
   <div class="rep-pagina">
 
