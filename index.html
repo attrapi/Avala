@@ -4224,40 +4224,8 @@ function exportarPDF(sub) {
   .rep-btn-back { display: inline-flex; align-items: center; gap: 4px; }
   .rep-btn-back:hover { border-color: #691C32; color: #691C32; }
 
-  /* Header repetido en cada página impresa.
-     En pantalla: oculto (la toolbar y el rep-header de la primera página
-     ya cubren su rol). En print: se vuelve fixed y aparece arriba de cada
-     hoja del PDF gracias al comportamiento de Chromium con position: fixed
-     dentro del flujo paginado. */
-  .rep-page-header { display: none; }
   @media print {
     .rep-toolbar { display: none; }
-    .rep-page-header {
-      display: flex;
-      align-items: center;
-      gap: 6mm;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 14mm;
-      padding: 0 8mm;
-      border-bottom: 0.5mm solid #691C32;
-      background: white;
-      font-size: 9pt;
-      letter-spacing: 0.05em;
-    }
-    .rep-page-mark { width: 9mm; height: 9mm; flex-shrink: 0; }
-    .rep-page-marca-txt {
-      font-family: Georgia, serif;
-      font-size: 11pt;
-      font-weight: 700;
-      color: #691C32;
-      letter-spacing: 0.04em;
-    }
-    /* La primera página tiene su propio rep-header grande, así que dejamos
-       espacio arriba de TODAS las hojas para no encimar con el header
-       repetido. El @page margin de 22mm ya considera esto. */
   }
 </style>
 </head>
@@ -4266,18 +4234,6 @@ function exportarPDF(sub) {
     <button class="rep-btn rep-btn-sec rep-btn-back" onclick="window.close()">← Regresar al Dashboard</button>
     <div style="flex:1"></div>
     <button class="rep-btn" onclick="window.print()">Imprimir / Guardar como PDF</button>
-  </div>
-
-  <!-- Header que se imprime en cada página del PDF (position: fixed top).
-       Contiene el logo TT + nombre del sistema, estilo discreto. -->
-  <div class="rep-page-header" aria-hidden="true">
-    <svg class="rep-page-mark" viewBox="0 0 52 52">
-      <rect x="2" y="2" width="48" height="48" rx="10" fill="#691C32"/>
-      <path d="M9 14 H43" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
-      <path d="M19 14 V42" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
-      <path d="M33 14 V42" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
-    </svg>
-    <span class="rep-page-marca-txt">ATTRAPI · TT</span>
   </div>
 
   <div class="rep-pagina">
@@ -4345,14 +4301,20 @@ function exportarPDF(sub) {
 </body>
 </html>`;
 
-  const w = window.open('', '_blank');
+  // Usamos un Blob URL en lugar de about:blank + document.write — así la
+  // ventana tiene una URL real (blob:...) y los navegadores cargan el
+  // favicon SVG declarado en <head>. Con about:blank Chrome no muestra
+  // favicon en la pestaña porque considera la URL "vacía".
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const w = window.open(url, '_blank');
   if (!w) {
+    URL.revokeObjectURL(url);
     toast('No se pudo abrir la ventana del reporte. Habilita los pop-ups para este sitio.', 'error');
     return;
   }
-  w.document.open();
-  w.document.write(html);
-  w.document.close();
+  // Liberamos el blob después de un rato (el navegador ya lo cargó).
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
 function escapeHtml(s) {
