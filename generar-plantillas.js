@@ -19,24 +19,24 @@ const NOMBRE = {
 
 const FILAS = {
   SA: [
-    ['SA-001', 'M. Hernández', 'Transferencia primaria expediente 2024 obras inducidas', 'Subdirección de Archivo, Subdirección de Gestión de Obras Inducidas', 'Programa de transferencia con cronograma semanal y formato de inventario aprobado', 'Confirmar bodega de resguardo intermedio con Recursos Materiales', new Date(2026, 4, 15), 'En Proceso'],
-    ['SA-002', 'M. Hernández', 'Inventario bodega central abril 2026', 'Subdirección de Archivo', 'Inventario físico verificado contra HSC', 'Subir reporte de cierre y archivar', new Date(2026, 4, 5), 'Atendida'],
-    ['SA-003', 'P. Martínez', 'Solicitud de baja documental ejercicios 2018-2019', 'Subdirección de Archivo, Coordinación Jurídica', 'Dictamen de valoración elaborado conforme LGA', 'Enviar dictamen a revisión jurídica', new Date(2026, 5, 30), 'En Proceso'],
+    ['SA-001', 'Amanda', 'Transferencia primaria expediente 2024 obras inducidas', 'Subdirección de Archivo, Subdirección de Gestión de Obras Inducidas', 'Programa de transferencia con cronograma semanal y formato de inventario aprobado', 'Confirmar bodega de resguardo intermedio con Recursos Materiales', new Date(2026, 4, 15), 'En Proceso'],
+    ['SA-002', 'Amanda', 'Inventario bodega central abril 2026', 'Subdirección de Archivo', 'Inventario físico verificado contra HSC', 'Subir reporte de cierre y archivar', new Date(2026, 4, 5), 'Atendida'],
+    ['SA-003', 'Amanda', 'Solicitud de baja documental ejercicios 2018-2019', 'Subdirección de Archivo, Coordinación Jurídica', 'Dictamen de valoración elaborado conforme LGA', 'Enviar dictamen a revisión jurídica', new Date(2026, 5, 30), 'En Proceso'],
   ],
   SGOI: [
-    ['SGOI-001', 'J. López', 'Reubicación líneas CFE km 42+300 Tramo II Querétaro-Irapuato', 'Subdirección de Gestión de Obras Inducidas, CFE, Coordinación Técnica', 'Convenio de coordinación firmado y proyecto ejecutivo aprobado', 'Liberar permisos municipales y ejecutar obra civil', new Date(2026, 5, 30), 'En Proceso'],
-    ['SGOI-002', 'R. Domínguez', 'Liberación derecho de vía Salinas Victoria NL', 'Subdirección de Gestión de Obras Inducidas, Coordinación Jurídica, Municipio Salinas Victoria', 'Avalúos de SAGARPA y INDAABIN concluidos', 'Notificar a propietarios y firmar convenios de pago', new Date(2026, 4, 30), 'En Proceso'],
-    ['SGOI-006', 'A. Ortiz', 'Reporte mensual obras inducidas abril 2026', 'Subdirección de Gestión de Obras Inducidas', 'Indicadores cerrados al 30 de abril', 'Entregar al Director y publicar en sitio interno', new Date(2026, 4, 7), 'Atendida'],
+    ['SGOI-001', 'Fabiola', 'Reubicación líneas CFE km 42+300 Tramo II Querétaro-Irapuato', 'Subdirección de Gestión de Obras Inducidas, CFE, Coordinación Técnica', 'Convenio de coordinación firmado y proyecto ejecutivo aprobado', 'Liberar permisos municipales y ejecutar obra civil', new Date(2026, 5, 30), 'En Proceso'],
+    ['SGOI-002', 'Fabiola', 'Liberación derecho de vía Salinas Victoria NL', 'Subdirección de Gestión de Obras Inducidas, Coordinación Jurídica, Municipio Salinas Victoria', 'Avalúos de SAGARPA y INDAABIN concluidos', 'Notificar a propietarios y firmar convenios de pago', new Date(2026, 4, 30), 'En Proceso'],
+    ['SGOI-006', 'Fabiola', 'Reporte mensual obras inducidas abril 2026', 'Subdirección de Gestión de Obras Inducidas', 'Indicadores cerrados al 30 de abril', 'Entregar al Director y publicar en sitio interno', new Date(2026, 4, 7), 'Atendida'],
   ],
   SPAC: [
-    ['SPAC-001', 'R. Sánchez', 'Formalización contrato segmento 15A1 Saltillo-N. Laredo', 'Subdirección de Procesos Adm. de Construcción, Coordinación Jurídica', 'Anexos técnicos y económicos del contrato LO-09-D00-009D00999-I-3-2026 completos', 'Recabar firma del contratista y registrar en CompraNet', new Date(2026, 4, 10), 'En Proceso'],
-    ['SPAC-002', 'J. R. García', 'Acto de fallo segmento 15A2 Saltillo-N. Laredo', 'Subdirección de Procesos Adm. de Construcción, Comité de Adquisiciones, Notario Público', 'Evaluación técnica y económica concluidas; ganador identificado', 'Celebrar acto de fallo y publicar en CompraNet', new Date(2026, 3, 17), 'Atendida'],
-    ['SPAC-007', 'R. Sánchez', 'Informe semanal procedimientos en proceso', 'Subdirección de Procesos Adm. de Construcción', 'Reporte ejecutivo cerrado a las 17:00 del viernes', 'Entregar informe al Director Adrián Tavares', new Date(2026, 4, 7), 'En Proceso'],
+    ['SPAC-001', 'Mario', 'Formalización contrato segmento 15A1 Saltillo-N. Laredo', 'Subdirección de Procesos Adm. de Construcción, Coordinación Jurídica', 'Anexos técnicos y económicos del contrato LO-09-D00-009D00999-I-3-2026 completos', 'Recabar firma del contratista y registrar en CompraNet', new Date(2026, 4, 10), 'En Proceso'],
+    ['SPAC-002', 'Mario', 'Acto de fallo segmento 15A2 Saltillo-N. Laredo', 'Subdirección de Procesos Adm. de Construcción, Comité de Adquisiciones, Notario Público', 'Evaluación técnica y económica concluidas; ganador identificado', 'Celebrar acto de fallo y publicar en CompraNet', new Date(2026, 3, 17), 'Atendida'],
+    ['SPAC-007', 'Mario', 'Informe semanal procedimientos en proceso', 'Subdirección de Procesos Adm. de Construcción', 'Reporte ejecutivo cerrado a las 17:00 del viernes', 'Entregar informe al Director Adrián Tavares', new Date(2026, 4, 7), 'En Proceso'],
   ],
   ENLACE: [
-    ['ENLACE-001', 'Lic. C. Méndez', 'Compilación de acuerdos del Comité Directivo abril 2026', 'Enlace Director, Tres subdirecciones', 'Minuta circulada y validada por las tres subdirecciones', 'Dar seguimiento semanal a compromisos pendientes', new Date(2026, 4, 15), 'En Proceso'],
-    ['ENLACE-002', 'Lic. C. Méndez', 'Agenda de Director General mayo 2026', 'Enlace Director, Oficina del DG', 'Agenda confirmada con asistentes y materiales preparados', 'Coordinar logística de cada reunión', new Date(2026, 4, 7), 'En Proceso'],
-    ['ENLACE-003', 'Lic. C. Méndez', 'Reporte ejecutivo cierre de abril 2026', 'Enlace Director, Tres subdirecciones', 'KPIs y pendientes consolidados de las tres subdirecciones', 'Presentar al Director Tavares en sesión semanal', new Date(2026, 3, 30), 'Atendida'],
+    ['ENLACE-001', 'Samanta', 'Compilación de acuerdos del Comité Directivo abril 2026', 'Enlace Director, Tres subdirecciones', 'Minuta circulada y validada por las tres subdirecciones', 'Dar seguimiento semanal a compromisos pendientes', new Date(2026, 4, 15), 'En Proceso'],
+    ['ENLACE-002', 'Samanta', 'Agenda de Director General mayo 2026', 'Enlace Director, Oficina del DG', 'Agenda confirmada con asistentes y materiales preparados', 'Coordinar logística de cada reunión', new Date(2026, 4, 7), 'En Proceso'],
+    ['ENLACE-003', 'Samanta', 'Reporte ejecutivo cierre de abril 2026', 'Enlace Director, Tres subdirecciones', 'KPIs y pendientes consolidados de las tres subdirecciones', 'Presentar al Director Tavares en sesión semanal', new Date(2026, 3, 30), 'Atendida'],
   ],
 };
 
