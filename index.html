@@ -2591,10 +2591,6 @@
             <div class="kpi-valor" id="kpiActivas">0</div>
             <div class="kpi-label">En Proceso</div>
           </div>
-          <div class="kpi kpi-verde">
-            <div class="kpi-valor" id="kpiPendientes">0</div>
-            <div class="kpi-label">Atendidas hoy</div>
-          </div>
           <div class="kpi kpi-rojo">
             <div class="kpi-valor" id="kpiHoy">0</div>
             <div class="kpi-label">Vencidas</div>
@@ -3040,16 +3036,14 @@ function actualizarKPIs() {
     const enProcesos = visible.filter(t => t.estatus === 'En Proceso').length;
     const atendidas = visible.filter(t => t.estatus === 'Atendida').length;
     const total = visible.length;
-    const atendidasHoy = visible.filter(t => t.estatus === 'Atendida' && t.fecha_validacion && t.fecha_validacion.startsWith(hoy)).length;
+    const vencidasCap = visible.filter(t => t.estatus === 'En Proceso' && esVencida(t.fecha_limite)).length;
 
-    setLabel('kpiActivas', 'Total');
-    setLabel('kpiPendientes', 'En Proceso');
-    setLabel('kpiHoy', 'Atendidas hoy');
+    setLabel('kpiActivas', 'En Proceso');
+    setLabel('kpiHoy', 'Vencidas');
     setLabel('kpiSemana', 'Atendidas');
 
-    document.getElementById('kpiActivas').textContent = total;
-    document.getElementById('kpiPendientes').textContent = enProcesos;
-    document.getElementById('kpiHoy').textContent = atendidasHoy;
+    document.getElementById('kpiActivas').textContent = enProcesos;
+    document.getElementById('kpiHoy').textContent = vencidasCap;
     document.getElementById('kpiSemana').textContent = atendidas;
     if (pieWrap) pieWrap.style.display = 'none'; // pie solo para Director
     return;
@@ -3057,17 +3051,14 @@ function actualizarKPIs() {
 
   // KPIs del Director
   setLabel('kpiActivas', 'En Proceso');
-  setLabel('kpiPendientes', 'Atendidas hoy');
   setLabel('kpiHoy', 'Vencidas');
   setLabel('kpiSemana', 'Atendidas');
 
   const enProcesos = visible.filter(t => t.estatus === 'En Proceso').length;
-  const atendidasHoy = visible.filter(t => t.estatus === 'Atendida' && t.fecha_validacion && t.fecha_validacion.startsWith(hoy)).length;
   const vencidas = visible.filter(t => t.estatus === 'En Proceso' && esVencida(t.fecha_limite)).length;
   const atendidas = visible.filter(t => t.estatus === 'Atendida').length;
 
   document.getElementById('kpiActivas').textContent = enProcesos;
-  document.getElementById('kpiPendientes').textContent = atendidasHoy;
   document.getElementById('kpiHoy').textContent = vencidas;
   document.getElementById('kpiSemana').textContent = atendidas;
 
