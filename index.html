@@ -3622,19 +3622,47 @@ function enviarRecordatorio(idTarea, canal) {
   const accion = t.accion_a_tomar || (t.descripcion ? t.descripcion.split('.').slice(0, 1).join('.') + '.' : '');
 
   if (canal === 'whatsapp') {
-    // WhatsApp acepta Markdown ligero (*negritas*).
+    // WhatsApp Web acepta Markdown ligero: *negrita*, _cursiva_, ~tachado~,
+    // ```mono```. No acepta HTML ni "cards" verdaderas — eso solo lo trae la
+    // WhatsApp Business API (Meta) con plantillas aprobadas. Lo que sí hacemos
+    // es estructurar el mensaje con emojis, separadores y negritas para que se
+    // lea como una ficha visual aún siendo texto plano.
+    const sep = '━━━━━━━━━━━━━━━━━━━';
+    const prio = prioridadDe(t);
+    const prioEmoji = prio === 'Alta' ? '🔴' : (prio === 'Media' ? '🟡' : '🟢');
+    const estatusEmoji = t.estatus === 'Atendida' ? '✅' : '🟠';
+    const venceEsteDia = venceHoy(t.fecha_atencion || t.fecha_limite) && t.estatus !== 'Atendida';
+
     const lineas = [
-      'Recordatorio · ' + t.id,
+      '📌 *RECORDATORIO TT · ' + t.id + '*',
+      sep,
+      '_' + t.subdireccion + '_',
       '',
       '*' + tema + '*',
-      '',
-      'Responsable: ' + t.responsable,
-      'Áreas involucradas: ' + areas,
-      'Fecha de atención: ' + fechaTxt,
-      'Estatus: ' + t.estatus
+      ''
     ];
-    if (acuerdos && acuerdos !== '—') lineas.push('', 'Acuerdos: ' + acuerdos);
-    if (accion && accion !== '—') lineas.push('Acción a tomar: ' + accion);
+    if (venceEsteDia) lineas.push('⏰ *Ocurriendo hoy*', '');
+    lineas.push(
+      '👤 *Responsable*',
+      '   ' + t.responsable,
+      '',
+      '🏛️ *Áreas involucradas*',
+      '   ' + areas,
+      '',
+      '📅 *Fecha de atención*',
+      '   ' + fechaTxt,
+      '',
+      prioEmoji + ' *Prioridad:* ' + prio,
+      estatusEmoji + ' *Estatus:* ' + t.estatus
+    );
+    if (acuerdos && acuerdos !== '—') {
+      lineas.push('', sep, '🤝 *Acuerdos realizados*', acuerdos);
+    }
+    if (accion && accion !== '—') {
+      lineas.push('', '➡️ *Acción a tomar*', accion);
+    }
+    lineas.push('', sep, '_Sistema TT · ATTRAPI_');
+
     const url = 'https://wa.me/?text=' + encodeURIComponent(lineas.join('\n'));
     window.open(url, '_blank');
     toast('Abriendo WhatsApp con el recordatorio…', 'ok');
