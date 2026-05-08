@@ -43,6 +43,8 @@
     --sub-sgoi-tenue: #D1FAE5;
     --sub-spac: #1E3A8A;        /* Azul navy */
     --sub-spac-tenue: #DBEAFE;
+    --sub-enlace: #6D28D9;      /* Morado — Enlace del Director */
+    --sub-enlace-tenue: #EDE9FE;
 
     --serif: 'Fraunces', Georgia, serif;
     --sans: 'Inter', -apple-system, sans-serif;
@@ -426,15 +428,18 @@
   }
   /* En items de subdirección activos, el dot conserva su color y agregamos
      una franja izquierda con el color de la sub en lugar del guinda genérico. */
-  .sidebar-sub.activa[data-sub="SA"]::before   { background: var(--sub-sa); }
-  .sidebar-sub.activa[data-sub="SGOI"]::before { background: var(--sub-sgoi); }
-  .sidebar-sub.activa[data-sub="SPAC"]::before { background: var(--sub-spac); }
-  .sidebar-sub.activa[data-sub="SA"]   { background: var(--sub-sa-tenue);   color: var(--sub-sa); }
-  .sidebar-sub.activa[data-sub="SGOI"] { background: var(--sub-sgoi-tenue); color: var(--sub-sgoi); }
-  .sidebar-sub.activa[data-sub="SPAC"] { background: var(--sub-spac-tenue); color: var(--sub-spac); }
-  .sidebar-sub.activa[data-sub="SA"]   .sidebar-conteo { background: rgba(93,64,55,0.15);  color: var(--sub-sa); }
-  .sidebar-sub.activa[data-sub="SGOI"] .sidebar-conteo { background: rgba(22,101,52,0.15); color: var(--sub-sgoi); }
-  .sidebar-sub.activa[data-sub="SPAC"] .sidebar-conteo { background: rgba(30,58,138,0.15); color: var(--sub-spac); }
+  .sidebar-sub.activa[data-sub="SA"]::before     { background: var(--sub-sa); }
+  .sidebar-sub.activa[data-sub="SGOI"]::before   { background: var(--sub-sgoi); }
+  .sidebar-sub.activa[data-sub="SPAC"]::before   { background: var(--sub-spac); }
+  .sidebar-sub.activa[data-sub="ENLACE"]::before { background: var(--sub-enlace); }
+  .sidebar-sub.activa[data-sub="SA"]     { background: var(--sub-sa-tenue);     color: var(--sub-sa); }
+  .sidebar-sub.activa[data-sub="SGOI"]   { background: var(--sub-sgoi-tenue);   color: var(--sub-sgoi); }
+  .sidebar-sub.activa[data-sub="SPAC"]   { background: var(--sub-spac-tenue);   color: var(--sub-spac); }
+  .sidebar-sub.activa[data-sub="ENLACE"] { background: var(--sub-enlace-tenue); color: var(--sub-enlace); }
+  .sidebar-sub.activa[data-sub="SA"]     .sidebar-conteo { background: rgba(93,64,55,0.15);   color: var(--sub-sa); }
+  .sidebar-sub.activa[data-sub="SGOI"]   .sidebar-conteo { background: rgba(22,101,52,0.15);  color: var(--sub-sgoi); }
+  .sidebar-sub.activa[data-sub="SPAC"]   .sidebar-conteo { background: rgba(30,58,138,0.15);  color: var(--sub-spac); }
+  .sidebar-sub.activa[data-sub="ENLACE"] .sidebar-conteo { background: rgba(109,40,217,0.15); color: var(--sub-enlace); }
 
   /* === CONTROL DE VISIBILIDAD POR VISTA ===
      Cada vista alterna oculta/muestra los bloques que le corresponden. */
@@ -560,9 +565,10 @@
     color: var(--tinta-suave);
     flex-shrink: 0;
   }
-  .bitacora-tarea[data-sub="SA"]   .bitacora-tarea-id { background: var(--sub-sa-tenue);   color: var(--sub-sa); }
-  .bitacora-tarea[data-sub="SGOI"] .bitacora-tarea-id { background: var(--sub-sgoi-tenue); color: var(--sub-sgoi); }
-  .bitacora-tarea[data-sub="SPAC"] .bitacora-tarea-id { background: var(--sub-spac-tenue); color: var(--sub-spac); }
+  .bitacora-tarea[data-sub="SA"]     .bitacora-tarea-id { background: var(--sub-sa-tenue);     color: var(--sub-sa); }
+  .bitacora-tarea[data-sub="SGOI"]   .bitacora-tarea-id { background: var(--sub-sgoi-tenue);   color: var(--sub-sgoi); }
+  .bitacora-tarea[data-sub="SPAC"]   .bitacora-tarea-id { background: var(--sub-spac-tenue);   color: var(--sub-spac); }
+  .bitacora-tarea[data-sub="ENLACE"] .bitacora-tarea-id { background: var(--sub-enlace-tenue); color: var(--sub-enlace); }
   .bitacora-tarea-titulo {
     color: var(--tinta);
     font-size: 12px;
@@ -617,9 +623,10 @@
     border-radius: 6px;
     padding: 18px;
   }
-  .carga-card[data-sub="SA"]   { border-top: 3px solid var(--sub-sa); }
-  .carga-card[data-sub="SGOI"] { border-top: 3px solid var(--sub-sgoi); }
-  .carga-card[data-sub="SPAC"] { border-top: 3px solid var(--sub-spac); }
+  .carga-card[data-sub="SA"]     { border-top: 3px solid var(--sub-sa); }
+  .carga-card[data-sub="SGOI"]   { border-top: 3px solid var(--sub-sgoi); }
+  .carga-card[data-sub="SPAC"]   { border-top: 3px solid var(--sub-spac); }
+  .carga-card[data-sub="ENLACE"] { border-top: 3px solid var(--sub-enlace); }
   .carga-resp {
     display: flex;
     align-items: center;
@@ -639,9 +646,10 @@
     font-size: 13px;
     flex-shrink: 0;
   }
-  .carga-card[data-sub="SA"]   .carga-resp-avatar { background: var(--sub-sa); }
-  .carga-card[data-sub="SGOI"] .carga-resp-avatar { background: var(--sub-sgoi); }
-  .carga-card[data-sub="SPAC"] .carga-resp-avatar { background: var(--sub-spac); }
+  .carga-card[data-sub="SA"]     .carga-resp-avatar { background: var(--sub-sa); }
+  .carga-card[data-sub="SGOI"]   .carga-resp-avatar { background: var(--sub-sgoi); }
+  .carga-card[data-sub="SPAC"]   .carga-resp-avatar { background: var(--sub-spac); }
+  .carga-card[data-sub="ENLACE"] .carga-resp-avatar { background: var(--sub-enlace); }
   .carga-resp-info { display: flex; flex-direction: column; min-width: 0; flex: 1; }
   .carga-resp-nombre { font-weight: 600; font-size: 14px; color: var(--tinta); }
   .carga-resp-sub { font-size: 10px; color: var(--tinta-tenue); text-transform: uppercase; letter-spacing: 0.08em; }
@@ -1156,12 +1164,14 @@
     display: inline-block;
   }
 
-  .kpi-sub[data-sub="SA"]   .kpi-valor { border-color: var(--sub-sa);   color: var(--sub-sa);   background: linear-gradient(135deg, white 0%, var(--sub-sa-tenue) 100%);   box-shadow: 0 4px 14px rgba(93,64,55,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
-  .kpi-sub[data-sub="SGOI"] .kpi-valor { border-color: var(--sub-sgoi); color: var(--sub-sgoi); background: linear-gradient(135deg, white 0%, var(--sub-sgoi-tenue) 100%); box-shadow: 0 4px 14px rgba(22,101,52,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
-  .kpi-sub[data-sub="SPAC"] .kpi-valor { border-color: var(--sub-spac); color: var(--sub-spac); background: linear-gradient(135deg, white 0%, var(--sub-spac-tenue) 100%); box-shadow: 0 4px 14px rgba(30,58,138,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
-  .kpi-sub[data-sub="SA"]   .kpi-clave { background: rgba(93,64,55,0.16); color: var(--sub-sa); }
-  .kpi-sub[data-sub="SGOI"] .kpi-clave { background: rgba(22,101,52,0.16); color: var(--sub-sgoi); }
-  .kpi-sub[data-sub="SPAC"] .kpi-clave { background: rgba(30,58,138,0.16);  color: var(--sub-spac); }
+  .kpi-sub[data-sub="SA"]     .kpi-valor { border-color: var(--sub-sa);     color: var(--sub-sa);     background: linear-gradient(135deg, white 0%, var(--sub-sa-tenue) 100%);     box-shadow: 0 4px 14px rgba(93,64,55,0.18),   inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SGOI"]   .kpi-valor { border-color: var(--sub-sgoi);   color: var(--sub-sgoi);   background: linear-gradient(135deg, white 0%, var(--sub-sgoi-tenue) 100%);   box-shadow: 0 4px 14px rgba(22,101,52,0.18),  inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SPAC"]   .kpi-valor { border-color: var(--sub-spac);   color: var(--sub-spac);   background: linear-gradient(135deg, white 0%, var(--sub-spac-tenue) 100%);   box-shadow: 0 4px 14px rgba(30,58,138,0.18),  inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="ENLACE"] .kpi-valor { border-color: var(--sub-enlace); color: var(--sub-enlace); background: linear-gradient(135deg, white 0%, var(--sub-enlace-tenue) 100%); box-shadow: 0 4px 14px rgba(109,40,217,0.18), inset 0 -3px 6px rgba(0,0,0,0.04); }
+  .kpi-sub[data-sub="SA"]     .kpi-clave { background: rgba(93,64,55,0.16);   color: var(--sub-sa); }
+  .kpi-sub[data-sub="SGOI"]   .kpi-clave { background: rgba(22,101,52,0.16);  color: var(--sub-sgoi); }
+  .kpi-sub[data-sub="SPAC"]   .kpi-clave { background: rgba(30,58,138,0.16);  color: var(--sub-spac); }
+  .kpi-sub[data-sub="ENLACE"] .kpi-clave { background: rgba(109,40,217,0.16); color: var(--sub-enlace); }
   .kpi-sub .kpi-label { font-size: 11px; color: var(--tinta-suave); font-weight: 600; }
 
   /* === TABS SUBDIRECCIONES (PÍLDORAS) === */
@@ -1576,9 +1586,10 @@
     background: var(--grafito-tenue);
     color: var(--tinta-suave);
   }
-  .tarjeta[data-sub="SA"]   .tarjeta-id { background: var(--sub-sa-tenue);   color: var(--sub-sa); }
-  .tarjeta[data-sub="SGOI"] .tarjeta-id { background: var(--sub-sgoi-tenue); color: var(--sub-sgoi); }
-  .tarjeta[data-sub="SPAC"] .tarjeta-id { background: var(--sub-spac-tenue); color: var(--sub-spac); }
+  .tarjeta[data-sub="SA"]     .tarjeta-id { background: var(--sub-sa-tenue);     color: var(--sub-sa); }
+  .tarjeta[data-sub="SGOI"]   .tarjeta-id { background: var(--sub-sgoi-tenue);   color: var(--sub-sgoi); }
+  .tarjeta[data-sub="SPAC"]   .tarjeta-id { background: var(--sub-spac-tenue);   color: var(--sub-spac); }
+  .tarjeta[data-sub="ENLACE"] .tarjeta-id { background: var(--sub-enlace-tenue); color: var(--sub-enlace); }
 
   .tarjeta-titulo {
     font-size: 14px;
@@ -2440,6 +2451,13 @@
             <div class="acceso-rol-cargo">Director · DPAC</div>
           </div>
         </button>
+        <button class="acceso-rol" onclick="ingresar('enlace')">
+          <div class="acceso-rol-icon" style="background: var(--sub-enlace-tenue); color: var(--sub-enlace);">EN</div>
+          <div class="acceso-rol-info">
+            <div class="acceso-rol-nombre">Enlace</div>
+            <div class="acceso-rol-cargo">Enlace administrativo del Director</div>
+          </div>
+        </button>
         <button class="acceso-rol" onclick="ingresar('cap_sa')">
           <div class="acceso-rol-icon">SA</div>
           <div class="acceso-rol-info">
@@ -2524,6 +2542,11 @@
           <span class="sub-dot" style="background: var(--sub-spac)"></span>
           <span class="sidebar-label">Subdirección de Procesos Administrativos de Construcción</span>
           <span class="sidebar-conteo" id="contSPAC">0</span>
+        </button>
+        <button class="sidebar-item sidebar-sub" data-sub="ENLACE" onclick="cambiarTab('ENLACE')">
+          <span class="sub-dot" style="background: var(--sub-enlace)"></span>
+          <span class="sidebar-label">Enlace del Director</span>
+          <span class="sidebar-conteo" id="contENLACE">0</span>
         </button>
       </div>
 
@@ -2617,6 +2640,11 @@
           <div class="kpi-clave">SPAC</div>
           <div class="kpi-label">Procesos Construcción</div>
         </div>
+        <div class="kpi kpi-sub" data-sub="ENLACE" onclick="cambiarTab('ENLACE')">
+          <div class="kpi-valor" id="kpiPendENLACE">0</div>
+          <div class="kpi-clave">ENLACE</div>
+          <div class="kpi-label">Enlace Director</div>
+        </div>
       </div>
     </div>
   </div>
@@ -2703,6 +2731,13 @@
         <div class="reporte-titulo">Procesos Adm. de Construcción</div>
         <div class="reporte-desc">Solo las tareas reportadas por la Subdirección de Procesos Administrativos de Construcción (SPAC).</div>
       </div>
+      <div class="reporte-card" data-sub="ENLACE" onclick="exportarPDF('ENLACE')">
+        <div class="reporte-icon" style="background: var(--sub-enlace-tenue); color: var(--sub-enlace);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="reporte-titulo">Enlace del Director</div>
+        <div class="reporte-desc">Tareas de seguimiento y coordinación capturadas por el Enlace administrativo del Director.</div>
+      </div>
     </div>
   </div>
 
@@ -2723,6 +2758,7 @@
 
 const USUARIOS = {
   director: { email: 'adrian.tavares@attrapi.gob.mx', nombre: 'Ing. Adrián Tavares', rol: 'Director', subdireccion: 'TODAS', iniciales: 'AT' },
+  enlace:   { email: 'enlace.dpac@attrapi.gob.mx', nombre: 'Lic. C. Méndez', rol: 'Capturista', subdireccion: 'ENLACE', iniciales: 'CM' },
   cap_sa:   { email: 'capturista.sa@attrapi.gob.mx', nombre: 'M. Hernández', rol: 'Capturista', subdireccion: 'SA', iniciales: 'MH' },
   cap_sgoi: { email: 'capturista.sgoi@attrapi.gob.mx', nombre: 'J. López', rol: 'Capturista', subdireccion: 'SGOI', iniciales: 'JL' },
   cap_spac: { email: 'capturista.spac@attrapi.gob.mx', nombre: 'R. Sánchez', rol: 'Capturista', subdireccion: 'SPAC', iniciales: 'RS' }
@@ -2839,6 +2875,37 @@ let TAREAS = [
     tipo:'Documento', proyecto:'Otro', prioridad:'Baja',
     fecha_reporte:'2026-05-06', fecha_limite:'2026-05-07', avance:95, estatus:'En Proceso',
     observaciones:'Listo para entrega.', validado_por:'', fecha_validacion:'', comentarios_director:'' },
+
+  // ENLACE — Enlace administrativo del Director
+  { id:'ENLACE-001', subdireccion:'ENLACE', responsable:'Lic. C. Méndez', titulo:'Compilación de acuerdos del Comité Directivo abril 2026',
+    descripcion:'Compilar y dar seguimiento a los acuerdos generados en el Comité Directivo del mes de abril, validados por las tres subdirecciones.',
+    tipo:'Reunión', proyecto:'Coordinación interna', prioridad:'Alta',
+    fecha_reporte:'2026-04-30', fecha_limite:'2026-05-15', avance:50, estatus:'En Proceso',
+    observaciones:'Minuta circulada. Pendiente confirmación de seguimiento por SGOI.',
+    areas_involucradas:'Enlace Director, Tres subdirecciones',
+    acuerdos_realizados:'Minuta circulada y validada por las tres subdirecciones',
+    accion_a_tomar:'Dar seguimiento semanal a compromisos pendientes',
+    validado_por:'', fecha_validacion:'', comentarios_director:'' },
+
+  { id:'ENLACE-002', subdireccion:'ENLACE', responsable:'Lic. C. Méndez', titulo:'Agenda de Director General mayo 2026',
+    descripcion:'Coordinación de agenda mensual del Director General con asistentes, materiales y logística.',
+    tipo:'Reunión', proyecto:'Coordinación interna', prioridad:'Alta',
+    fecha_reporte:'2026-05-01', fecha_limite:'2026-05-07', avance:80, estatus:'En Proceso',
+    observaciones:'Agenda lista, faltan dos confirmaciones.',
+    areas_involucradas:'Enlace Director, Oficina del DG',
+    acuerdos_realizados:'Agenda confirmada con asistentes y materiales preparados',
+    accion_a_tomar:'Coordinar logística de cada reunión',
+    validado_por:'', fecha_validacion:'', comentarios_director:'' },
+
+  { id:'ENLACE-003', subdireccion:'ENLACE', responsable:'Lic. C. Méndez', titulo:'Reporte ejecutivo cierre de abril 2026',
+    descripcion:'Consolidar KPIs y pendientes de las tres subdirecciones para presentación ejecutiva al Director Tavares.',
+    tipo:'Documento', proyecto:'Coordinación interna', prioridad:'Media',
+    fecha_reporte:'2026-04-25', fecha_limite:'2026-04-30', avance:100, estatus:'Atendida',
+    observaciones:'Entregado en sesión semanal del 30 de abril.',
+    areas_involucradas:'Enlace Director, Tres subdirecciones',
+    acuerdos_realizados:'KPIs y pendientes consolidados de las tres subdirecciones',
+    accion_a_tomar:'Presentar al Director Tavares en sesión semanal',
+    validado_por:'Ing. Adrián Tavares', fecha_validacion:'2026-04-30 18:15', comentarios_director:'Excelente trabajo, mantener formato.' },
 ];
 
 const BITACORA = [
@@ -2895,7 +2962,8 @@ function ingresar(rol) {
     const nombresSubs = {
       'SA': 'Subdirección de Archivo',
       'SGOI': 'Subdirección de Gestión de Obras Inducidas',
-      'SPAC': 'Subdirección de Procesos Administrativos de Construcción'
+      'SPAC': 'Subdirección de Procesos Administrativos de Construcción',
+      'ENLACE': 'Enlace administrativo del Director'
     };
     document.getElementById('navTitulo').textContent = nombresSubs[usuarioActual.subdireccion];
 
@@ -3030,12 +3098,14 @@ function actualizarKPIs() {
   }
 
   // Pendientes "En Proceso" por subdirección (siempre sobre el universo total, ignorando filtros)
-  const pendSA   = TAREAS.filter(t => t.subdireccion === 'SA'   && t.estatus === 'En Proceso').length;
-  const pendSGOI = TAREAS.filter(t => t.subdireccion === 'SGOI' && t.estatus === 'En Proceso').length;
-  const pendSPAC = TAREAS.filter(t => t.subdireccion === 'SPAC' && t.estatus === 'En Proceso').length;
+  const pendSA     = TAREAS.filter(t => t.subdireccion === 'SA'     && t.estatus === 'En Proceso').length;
+  const pendSGOI   = TAREAS.filter(t => t.subdireccion === 'SGOI'   && t.estatus === 'En Proceso').length;
+  const pendSPAC   = TAREAS.filter(t => t.subdireccion === 'SPAC'   && t.estatus === 'En Proceso').length;
+  const pendENLACE = TAREAS.filter(t => t.subdireccion === 'ENLACE' && t.estatus === 'En Proceso').length;
   document.getElementById('kpiPendSA').textContent = pendSA;
   document.getElementById('kpiPendSGOI').textContent = pendSGOI;
   document.getElementById('kpiPendSPAC').textContent = pendSPAC;
+  document.getElementById('kpiPendENLACE').textContent = pendENLACE;
 }
 
 function actualizarConteosTabs() {
@@ -3051,6 +3121,7 @@ function actualizarConteosTabs() {
     document.getElementById('contSA').textContent = subPropia === 'SA' ? enProc('SA') : '';
     document.getElementById('contSGOI').textContent = subPropia === 'SGOI' ? enProc('SGOI') : '';
     document.getElementById('contSPAC').textContent = subPropia === 'SPAC' ? enProc('SPAC') : '';
+    document.getElementById('contENLACE').textContent = subPropia === 'ENLACE' ? enProc('ENLACE') : '';
     return;
   }
 
@@ -3059,6 +3130,7 @@ function actualizarConteosTabs() {
   document.getElementById('contSA').textContent = enProc('SA');
   document.getElementById('contSGOI').textContent = enProc('SGOI');
   document.getElementById('contSPAC').textContent = enProc('SPAC');
+  document.getElementById('contENLACE').textContent = enProc('ENLACE');
 }
 
 function renderizarTablero() {
@@ -3435,7 +3507,8 @@ function tituloCapturista() {
   const nombres = {
     'SA': 'Subdirección de Archivo',
     'SGOI': 'Subdirección de Gestión de Obras Inducidas',
-    'SPAC': 'Subdirección de Procesos Administrativos de Construcción'
+    'SPAC': 'Subdirección de Procesos Administrativos de Construcción',
+    'ENLACE': 'Enlace administrativo del Director'
   };
   return nombres[usuarioActual.subdireccion] || 'Tablero de Tareas';
 }
@@ -3980,16 +4053,18 @@ function renderizarCarga() {
 // ============== VISTA: REPORTES ==============
 
 const NOMBRE_SUB = {
-  TODAS: 'Vista Consolidada · Tres Subdirecciones',
-  SA:    'Subdirección de Archivo',
-  SGOI:  'Subdirección de Gestión de Obras Inducidas',
-  SPAC:  'Subdirección de Procesos Administrativos de Construcción'
+  TODAS:  'Vista Consolidada · Tres Subdirecciones + Enlace',
+  SA:     'Subdirección de Archivo',
+  SGOI:   'Subdirección de Gestión de Obras Inducidas',
+  SPAC:   'Subdirección de Procesos Administrativos de Construcción',
+  ENLACE: 'Enlace administrativo del Director'
 };
 
 const COLOR_SUB = {
-  SA:   { bg: '#EFEBE9', fg: '#5D4037' },
-  SGOI: { bg: '#D1FAE5', fg: '#166534' },
-  SPAC: { bg: '#DBEAFE', fg: '#1E3A8A' }
+  SA:     { bg: '#EFEBE9', fg: '#5D4037' },
+  SGOI:   { bg: '#D1FAE5', fg: '#166534' },
+  SPAC:   { bg: '#DBEAFE', fg: '#1E3A8A' },
+  ENLACE: { bg: '#EDE9FE', fg: '#6D28D9' }
 };
 
 /**
