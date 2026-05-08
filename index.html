@@ -1571,6 +1571,50 @@
     font-weight: 600;
   }
 
+  /* Botón Ver adjunto en la tarjeta — link al archivo/carpeta de Drive
+     que el capturista pegue en la columna URL del Excel. */
+  .tarjeta-adjunto {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    padding: 5px 10px;
+    background: var(--guinda-tenue);
+    color: var(--guinda);
+    border: 1px solid var(--guinda);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.14s;
+  }
+  .tarjeta-adjunto:hover {
+    background: var(--guinda);
+    color: white;
+  }
+  .tarjeta-adjunto svg { width: 12px; height: 12px; }
+
+  /* Versión modal: misma idea, más holgada */
+  .modal-adjunto-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: var(--guinda-tenue);
+    color: var(--guinda);
+    border: 1px solid var(--guinda);
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.14s;
+  }
+  .modal-adjunto-link:hover {
+    background: var(--guinda);
+    color: white;
+  }
+  .modal-adjunto-link svg { width: 14px; height: 14px; }
+
   /* ID de tarjeta como pastilla coloreada por subdirección — así en la
      vista consolidada (TODAS) Adrián distingue de un vistazo de qué
      subdirección viene cada tarea, no solo por el prefijo del ID. */
@@ -2881,6 +2925,7 @@ let TAREAS = [
     areas_involucradas:'Enlace Director, Tres subdirecciones',
     acuerdos_realizados:'Minuta circulada y validada por las tres subdirecciones',
     accion_a_tomar:'Dar seguimiento semanal a compromisos pendientes',
+    url:'https://drive.google.com/drive/folders/EJEMPLO',
     validado_por:'', fecha_validacion:'', comentarios_director:'' },
 
   { id:'ENLACE-002', subdireccion:'ENLACE', responsable:'Samanta', titulo:'Agenda de Director General mayo 2026',
@@ -3198,6 +3243,12 @@ function crearTarjeta(t) {
         <span class="tarjeta-prioridad prioridad-${prioridadDe(t).toLowerCase()}" style="margin-left: 6px;">${prioridadDe(t)}</span>
       </dd>
     </dl>
+    ${t.url ? `
+      <a href="${escapeHtml(t.url)}" class="tarjeta-adjunto" target="_blank" rel="noopener" onclick="event.stopPropagation();">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.49"/></svg>
+        Ver adjunto
+      </a>
+    ` : ''}
   `;
 
   if (t.estatus === 'Atendida' && t.fecha_validacion) {
@@ -3349,6 +3400,15 @@ function abrirDetalle(t) {
           ${formatearFechaLarga(fechaAt)}${vencida ? ' · vencida' : ''}
           <span class="tarjeta-prioridad prioridad-${prioridadDe(t).toLowerCase()}" style="margin-left: 8px;">${prioridadDe(t)}</span>
         </dd>
+        ${t.url ? `
+          <dt>Adjunto</dt>
+          <dd>
+            <a href="${escapeHtml(t.url)}" class="modal-adjunto-link" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.49"/></svg>
+              Abrir en Drive
+            </a>
+          </dd>
+        ` : ''}
       </dl>
 
       ${t.validado_por ? `
@@ -3786,6 +3846,12 @@ function abrirNuevaTarea() {
             <label>Observaciones iniciales</label>
             <textarea id="nt_observaciones" maxlength="500" placeholder="Información adicional para el Director (opcional)."></textarea>
           </div>
+
+          <div class="form-campo full">
+            <label>URL de adjunto (Drive)</label>
+            <input type="url" id="nt_url" maxlength="500" placeholder="https://drive.google.com/... — pega aquí el link de la carpeta o archivo (opcional)">
+            <div class="form-hint">Pega el link de la carpeta de Drive donde están los oficios, contratos o evidencias de esta tarea.</div>
+          </div>
         </div>
       </form>
     </div>
@@ -3818,6 +3884,7 @@ function guardarNuevaTarea() {
   const fecha = document.getElementById('nt_fecha').value;
   const descripcion = document.getElementById('nt_descripcion').value.trim();
   const observaciones = document.getElementById('nt_observaciones').value.trim();
+  const url = document.getElementById('nt_url').value.trim();
 
   if (!titulo || !sub || !responsable || !tipo || !prioridad || !fecha || !descripcion) {
     toast('Complete los campos obligatorios marcados con *', 'error');
@@ -3838,6 +3905,7 @@ function guardarNuevaTarea() {
     avance: 0,
     estatus: 'En Proceso',
     observaciones,
+    url,
     validado_por: '',
     fecha_validacion: '',
     comentarios_director: ''
